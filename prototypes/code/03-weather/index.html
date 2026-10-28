@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>03 — Weather in print vs. memory (low-fi)</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="data.js"></script>
+</head>
+<body>
+<h1>03 — Weather in print (newspapers, at the time) vs. in memory (pension testimony, 1818–1850s)</h1>
+
+<h2>A. Newspapers: share of pages mentioning each kind of weather, by month</h2>
+<p>Bar height = % of that month's digitized pages. Grey = fewer than 50 pages that month (treat with caution). Same y scale in every row.</p>
+<div id="news"></div>
+
+<h2>B. Pension files: the year veterans and widows attached to the weather</h2>
+<p>Files whose weather passage names a year 1760–1799 (many passages name none). Same x axis as A; y = number of files, same scale in every row.</p>
+<div id="pension"></div>
+
+<h2>C. What the weather did — impact categories</h2>
+<p>Share of sampled passages in each category (a passage can be in several). ○ newspaper ● pension. Click a row to read passages.</p>
+<div id="impact"></div>
+
+<h2>D. Tone — simple lexicon sentiment</h2>
+<p>Each dot = one passage: (relief words − distress words) per 100 words. Weather words themselves are not counted. Vertical tick = median.</p>
+<div id="sentiment"></div>
+
+<h2>E. Passages</h2>
+<p id="filter-label">All passages (first 40).</p>
+<ol id="passages"></ol>
+
+<script>
+// ---------------- rules (tune these after reading passages) ----------------
+const IMPACT_RULES = {
+  "body & health":        /suffer|frost.?bit|barefoot|bare foot|perish|died|death|sick|hunger|starv|wounded|feet|toes|limbs/i,
+  "travel & terrain":     /march|crossed|cross the|roads?\b|impassable|detained|delayed|navigation|sleigh|snow ?shoes|on the ice|through the snow/i,
+  "property & livelihood":/crop|harvest|corn|wheat|flour|price|scarcity|garden|cattle|destroyed|damage|washed away|carried away|debt|poverty/i,
+  "ships & trade":        /vessel|ship\b|brig\b|schooner|sloop|dismasted|wreck|cargo|harbou?r|captain/i,
+  "war & military":       /army|enemy|battle|camp|regiment|soldier|troops|attack|retreat|militia/i,
+};
+
+function isTimeAnchor(text) {
+  // a life event + a "dated by" phrase pointing at the weather, within ~120 characters of each other
+  const lifeEvent = /married|marriage|wedding|born|birth|baptiz|christen|died|death of/i;
+  const anchor = /(before|after|during|since|in|at the time of|about the time of|the (year|winter|spring|summer|fall) of)\s+(what is (commonly )?call'?e?d\s+)?the\s+(dark day|hard winter|cold winter|great storm|great freshet|great flood)|(dark day|hard winter|cold winter|great storm|freshet|flood)[^.]{0,120}(married|born|birth|died)|(married|born|birth|died)[^.]{0,120}(dark day|hard winter|cold winter|great storm|freshet|flood)/i;
+  return lifeEvent.test(text) && anchor.test(text);
+}
+
+const DISTRESS = ["suffer","suffered","suffering","sufferings","distress","distressed","perish","perished","dreadful","terrible","misery","miserable",
+  "hunger","starving","starved","died","death","dead","loss","lost","destroyed","damage","damaged","calamity","melancholy","unfortunate","ruin","ruined",
+  "poverty","sick","sickness","hardship","hardships","wretched","dismasted","wreck","wrecked","drowned","killed","danger","fatigue","fatiguing","injury"];
+const RELIEF = ["relief","relieved","pleasant","plentiful","abundant","favourable","favorable","safe","safely","recovered","fortunate","happy",
+  "blessing","plenty","thankful","providential","comfortable","fine","healthy","prosperous"];
+const D = new Set(DISTRESS), R = new Set(RELIEF);
+
+function sentiment(text) {
+  const words = text.toLowerCase().match(/[a-z]+/g) || [];
+  let d = 0, r = 0;
+  for (const w of words) { if (D.has(w)) d++; if (R.has(w)) r++; }
+  return words.length ? (r - d) / words.length * 100 : 0;
+}
+function categories(text) {
+  const cats = Object.entries(IMPACT_RULES).filter(([, re]) => re.test(text)).map(([k]) => k);
+  if (isTimeAnchor(text)) cats.push("time anchor (dating a life event)");
+  return cats;
+}
+
+// ---------------- data ----------------
+const TYPES = ["cold", "storm", "flood", "drought", "heat", "dark day"];
+const ex = out_excerpts.map(e => ({...e, cats: categories(e.ctx), s: sentiment(e.ctx)}));
+const W = 900, L = 70;
+const x = d3.scaleTime().domain([new Date(1770, 0, 1), new Date(1811, 0, 1)]).range([L, W - 10]);
+
+// A. newspaper monthly share
+const parseYM = d3.timeParse("%Y-%m");
+const nm = out_news_month.map(d => ({...d, date: parseYM(d.ym), pct: 100 * d.hits / d.pages}));
+const yA = d3.scaleLinear().domain([0, d3.max(nm, d => d.pct)]).range([50, 4]);
+for (const t of TYPES) {
+  const s = d3.select("#news").append("svg").attr("width", W).attr("height", 54);
+  s.append("text").attr("y", 30).attr("font-size", 12).text(t);
+  s.selectAll("rect").data(nm.filter(d => d.wtype === t)).join("rect")
+    .attr("x", d => x(d.date)).attr("width", 1.5).attr("y", d => yA(d.pct)).attr("height", d => 50 - yA(d.pct))
+    .attr("fill", d => d.pages < 50 ? "#bbb" : "black")
+    .append("title").text(d => `${d.ym} ${t}: ${d.hits} of ${d.pages} pages (${d.pct.toFixed(1)}%)`);
+}
+d3.select("#news").append("svg").attr("width", W).attr("height", 22).append("g").call(d3.axisBottom(x).ticks(d3.timeYear.every(5)));
+d3.select("#news").append("p").text(`Tallest bar = ${yA.domain()[1].toFixed(1)}% of a month's pages.`);
+
+// B. pension remembered year
+const yB = d3.scaleLinear().domain([0, d3.max(out_pension_year, d => d.files)]).range([50, 4]);
+for (const t of TYPES) {
+  const s = d3.select("#pension").append("svg").attr("width", W).attr("height", 54);
+  s.append("text").attr("y", 30).attr("font-size", 12).text(t);
+  s.selectAll("rect").data(out_pension_year.filter(d => d.wtype === t)).join("rect")
+    .attr("x", d => x(new Date(d.yr, 0, 1))).attr("width", x(new Date(1771, 0, 1)) - x(new Date(1770, 0, 1)) - 2)
+    .attr("y", d => yB(d.files)).attr("height", d => 50 - yB(d.files))
+    .append("title").text(d => `${d.yr} ${t}: ${d.files} files`);
+}
+d3.select("#pension").append("svg").attr("width", W).attr("height", 22).append("g").call(d3.axisBottom(x).ticks(d3.timeYear.every(5)));
+d3.select("#pension").append("p").text(`Tallest bar = ${yB.domain()[1]} files.`);
+
+// C. impact dumbbell
+const cats = [...Object.keys(IMPACT_RULES), "time anchor (dating a life event)"];
+const share = (src, c) => { const rows = ex.filter(e => e.source === src); return 100 * rows.filter(e => e.cats.includes(c)).length / rows.length; };
+const xC = d3.scaleLinear().domain([0, 100]).range([260, W - 20]);
+const svgC = d3.select("#impact").append("svg").attr("width", W).attr("height", cats.length * 24 + 30);
+svgC.append("g").attr("transform", `translate(0,${cats.length * 24 + 4})`).call(d3.axisBottom(xC).tickFormat(d => d + "%"));
+const rowC = svgC.selectAll("g.r").data(cats).join("g").attr("transform", (c, i) => `translate(0,${i * 24 + 12})`)
+  .style("cursor", "pointer").on("click", (e, c) => showPassages(p => p.cats.includes(c), `category: ${c}`));
+rowC.append("text").attr("dy", "0.35em").attr("font-size", 12).text(c => c);
+rowC.append("line").attr("x1", c => xC(share("newspaper", c))).attr("x2", c => xC(share("pension", c))).attr("stroke", "#999");
+rowC.append("circle").attr("cx", c => xC(share("newspaper", c))).attr("r", 4).attr("fill", "white").attr("stroke", "black");
+rowC.append("circle").attr("cx", c => xC(share("pension", c))).attr("r", 4).attr("fill", "black");
+
+// D. sentiment strip plot
+const groups = [];
+for (const src of ["newspaper", "pension"]) for (const t of TYPES) groups.push({src, t, rows: ex.filter(e => e.source === src && e.wtype === t)});
+const xD = d3.scaleLinear().domain(d3.extent(ex, e => e.s)).nice().range([200, W - 20]);
+const svgD = d3.select("#sentiment").append("svg").attr("width", W).attr("height", groups.length * 22 + 30);
+svgD.append("g").attr("transform", `translate(0,${groups.length * 22 + 4})`).call(d3.axisBottom(xD));
+svgD.append("line").attr("x1", xD(0)).attr("x2", xD(0)).attr("y1", 0).attr("y2", groups.length * 22).attr("stroke", "#ccc");
+const rowD = svgD.selectAll("g.r").data(groups).join("g").attr("transform", (g, i) => `translate(0,${i * 22 + 11})`);
+rowD.append("text").attr("dy", "0.35em").attr("font-size", 11).text(g => `${g.src} · ${g.t} (n=${g.rows.length})`);
+rowD.selectAll("circle").data(g => g.rows).join("circle")
+  .attr("cx", e => xD(e.s)).attr("cy", () => (Math.random() - 0.5) * 12).attr("r", 1.5).attr("fill-opacity", 0.3)
+  .on("click", (ev, e) => showPassages(p => p === e, "one passage"));
+rowD.append("line").attr("x1", g => xD(d3.median(g.rows, e => e.s) ?? 0)).attr("x2", g => xD(d3.median(g.rows, e => e.s) ?? 0))
+  .attr("y1", -8).attr("y2", 8).attr("stroke", "red").attr("stroke-width", 2);
+
+// E. passages
+function showPassages(pred, label) {
+  const rows = ex.filter(pred).slice(0, 40);
+  d3.select("#filter-label").text(`${label} — showing ${rows.length}`);
+  d3.select("#passages").html(rows.map(e =>
+    `<li><b>${e.source} · ${e.wtype} · ${e.dt ?? (e.yr ? "names " + e.yr : "no year")} · ${e.who}${e.place ? " (" + e.place + ")" : ""}</b>` +
+    ` · sentiment ${e.s.toFixed(1)} · [${e.cats.join(", ")}]<br>${e.ctx}</li>`).join(""));
+}
+showPassages(() => true, "All passages");
+</script>
+</body>
+</html>

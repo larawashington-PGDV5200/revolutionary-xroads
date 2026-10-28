@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>01 — Reprinted news (low-fi)</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="data.js"></script>
+</head>
+<body>
+<h1>01 — How reprinted news spread, 1770–1810</h1>
+<p id="summary"></p>
+<p>Show: <select id="kind"><option value="all">all stories</option></select>
+   minimum papers: <input type="number" id="minP" value="3" min="3" max="10" style="width:3em"></p>
+
+<h2>A. Spread curves (first 120 days)</h2>
+<p>Faint lines = individual stories (cumulative papers over days since first printing; hover / click). Red = median days to reach the 2nd, 3rd … paper; pale red bar = middle 50% of stories.</p>
+<div id="curves"></div>
+
+<h2>B. When stories started, and how far they got</h2>
+<p>One dot per story at its first printing (y = papers reached, jittered). Grey bars = pages digitized that year: the denominator for everything above.</p>
+<div id="timeline"></div>
+
+<h2>C. Selected story</h2>
+<p id="detail-meta">Click a line or dot.</p>
+<div id="detail"></div>
+<p id="detail-text"></p>
+
+<script>
+const parse = d3.timeParse("%Y-%m-%d");
+const papers = new Map(out_papers.map(p => [p.pid, p]));
+const all = out_story.map(s => {
+  // rows: [paperId, lag, lag, ...] per paper, sorted by first appearance
+  const firstLags = s.rows.map(r => d3.min(r.slice(1))).sort(d3.ascending);
+  return {...s, first: parse(s.first_d), curve: firstLags.map((lag, i) => ({lag, n: i + 1}))};
+});
+for (const k of Array.from(new Set(all.map(s => s.kind))).sort())
+  d3.select("#kind").append("option").attr("value", k).text(k);
+
+const W = 900, M = {t: 10, r: 20, b: 30, l: 45};
+const xA = d3.scaleLinear().domain([0, 120]).range([M.l, W - M.r]);
+const yA = d3.scaleLinear().domain([0, 10]).range([300 - M.b, M.t]);
+const svgA = d3.select("#curves").append("svg").attr("width", W).attr("height", 300);
+svgA.append("g").attr("transform", `translate(0,${300 - M.b})`).call(d3.axisBottom(xA).tickValues([0, 7, 14, 30, 60, 90, 120]).tickFormat(d => d + " d"));
+svgA.append("g").attr("transform", `translate(${M.l},0)`).call(d3.axisLeft(yA).ticks(10));
+const gA = svgA.append("g");
+const line = d3.line().x(c => xA(c.lag)).y(c => yA(c.n)).curve(d3.curveStepAfter);
+
+const xB = d3.scaleTime().domain([new Date(1770, 0, 1), new Date(1811, 0, 1)]).range([M.l, W - M.r]);
+const yB = d3.scaleLinear().domain([2.5, 10.5]).range([220, M.t]);
+const yPages = d3.scaleLinear().domain([0, d3.max(out_year, d => d.pages)]).range([0, 50]);
+const svgB = d3.select("#timeline").append("svg").attr("width", W).attr("height", 300);
+svgB.append("g").selectAll("rect").data(out_year).join("rect")
+  .attr("x", d => xB(new Date(d.y, 0, 1))).attr("width", d => xB(new Date(d.y + 1, 0, 1)) - xB(new Date(d.y, 0, 1)) - 1)
+  .attr("y", d => 290 - M.b - yPages(d.pages)).attr("height", d => yPages(d.pages)).attr("fill", "#ccc")
+  .append("title").text(d => `${d.y}: ${d.pages} pages from ${d.papers} papers`);
+svgB.append("g").attr("transform", `translate(0,${290 - M.b})`).call(d3.axisBottom(xB).ticks(d3.timeYear.every(5)));
+svgB.append("g").attr("transform", `translate(${M.l},0)`).call(d3.axisLeft(yB).ticks(8));
+svgB.append("text").attr("x", M.l + 4).attr("y", M.t + 8).attr("font-size", 11).text("papers reached");
+const gB = svgB.append("g");
+
+function render() {
+  const kind = document.getElementById("kind").value, minP = +document.getElementById("minP").value;
+  const stories = all.filter(s => (kind === "all" || s.kind === kind) && s.n_papers >= minP);
+  d3.select("#summary").text(
+    `${stories.length.toLocaleString()} stories printed in ${minP}+ papers within 120 days · ${d3.sum(stories, d => d.n_prints).toLocaleString()} printings · ` +
+    `median ${d3.median(stories, d => d.n_papers)} papers · median spread ${d3.median(stories, d => d.span_days)} days · ` +
+    `${stories.filter(s => s.n_later > 0).length.toLocaleString()} reappeared after 120 days`);
+  gA.selectAll("path.story").data(stories, s => s.id).join("path").attr("class", "story")
+    .attr("d", s => line(s.curve)).attr("fill", "none").attr("stroke", "black").attr("stroke-opacity", 0.03)
+    .on("mouseover", function () { d3.select(this).attr("stroke-opacity", 1).raise(); })
+    .on("mouseout", function () { d3.select(this).attr("stroke-opacity", 0.03); })
+    .on("click", (e, s) => showStory(s));
+  // summary: median (and 25–75%) days to reach the k-th paper, among stories that reached k papers
+  const med = d3.range(1, 11).map(k => {
+    const lags = stories.filter(s => s.curve.length >= k).map(s => s.curve[k - 1].lag);
+    return {k, n: lags.length, med: d3.median(lags), q1: d3.quantile(lags.sort(d3.ascending), 0.25), q3: d3.quantile(lags, 0.75)};
+  }).filter(d => d.n >= 5);
+  gA.selectAll("line.iqr").data(med).join("line").attr("class", "iqr")
+    .attr("x1", d => xA(d.q1)).attr("x2", d => xA(d.q3)).attr("y1", d => yA(d.k)).attr("y2", d => yA(d.k)).attr("stroke", "red").attr("stroke-width", 6).attr("stroke-opacity", 0.3);
+  gA.selectAll("path.med").data([med]).join("path").attr("class", "med")
+    .attr("d", d3.line().x(d => xA(d.med)).y(d => yA(d.k)).curve(d3.curveStepBefore)).attr("fill", "none").attr("stroke", "red").attr("stroke-width", 2);
+  gA.selectAll("text.med").data(med).join("text").attr("class", "med").attr("font-size", 10).attr("fill", "red")
+    .attr("x", d => xA(d.q3) + 4).attr("y", d => yA(d.k) + 3).text(d => `paper #${d.k}: median ${d.med} d (n=${d.n})`);
+  gB.selectAll("circle").data(stories, s => s.id).join("circle")
+    .attr("cx", s => xB(s.first)).attr("cy", s => yB(s.n_papers + (Math.random() - 0.5) * 0.6)).attr("r", 1.8).attr("fill-opacity", 0.4)
+    .on("click", (e, s) => showStory(s));
+}
+
+function showStory(s) {
+  d3.select("#detail-meta").text(`[${s.kind}] first printed ${s.first_d} in ${s.first_paper} (${s.first_place}) · ` +
+    `${s.n_papers} papers · ${s.n_prints} printings in ${s.span_days} days · ${s.n_later} later re-runs`);
+  d3.select("#detail-text").text(s.text + " …");
+  const rows = s.rows.map(r => ({p: papers.get(r[0]), lags: r.slice(1)}));
+  const H = rows.length * 18 + M.b + M.t;
+  const x = d3.scaleLinear().domain([0, 120]).range([300, W - M.r]);
+  const y = d3.scaleBand().domain(d3.range(rows.length)).range([M.t, H - M.b]);
+  d3.select("#detail").selectAll("*").remove();
+  const svg = d3.select("#detail").append("svg").attr("width", W).attr("height", H);
+  svg.append("g").attr("transform", `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickValues([0, 7, 14, 30, 60, 90, 120]).tickFormat(d => "+" + d + " d"));
+  const g = svg.append("g").selectAll("g").data(rows).join("g").attr("transform", (r, i) => `translate(0,${y(i) + y.bandwidth() / 2})`);
+  g.append("text").attr("dy", "0.35em").attr("font-size", 11).text(r => `${r.p.title.slice(0, 30)} — ${r.p.place}`);
+  g.selectAll("circle").data(r => r.lags.filter(l => l <= 120)).join("circle").attr("cx", l => x(l)).attr("r", 3);
+}
+d3.select("#kind").on("change", render);
+d3.select("#minP").on("input", render);
+render();
+</script>
+</body>
+</html>
