@@ -1,0 +1,14 @@
+flowchart LR
+  datasets([datasets]) --> D001
+  exploration([exploration]) --> D001
+  D001{{D-001 three directions}} --> directions([directions])
+  directions --> D002{{D-002 quick prototypes}} --> prototypes([prototypes])
+  prototypes --> D003{{D-003 prototypes in repo}} --> readme([repo README])
+  brief([course brief]) --> D004{{D-004 agent sandbox}} --> sandbox([sandbox])
+  prototypes --> D005{{D-005 Native land focus}}
+  datanotes([data notes]) --> D005
+  D005 --> plan([plan]) & research([research R1/R2])
+  sandbox --> D006{{D-006 move into repo}}
+  plan --> D006 --> repo([repo])
+  brief --> D007{{D-007 approval gates}}
+  research --> D007 --> rules([orchestrator rules])
