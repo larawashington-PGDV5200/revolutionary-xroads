@@ -64,6 +64,68 @@ Rules:
 Report back: what you got, what needs manual steps from the user, and which cession layer you recommend.
 ```
 
+### B-003 R3 Native voices + Gwynne mapping · historian · 2026-11-04
+**Status:** approved by Lara, sent · output reviewed by Lara: ☐
+**Output:** `research/R3-native-voices.md`, `research/sources_R3.csv`
+```text
+Goal: a source list of Native-authored perspectives on land cession and settler arrival, 1763–1840, east of the Mississippi, plus Gwynne's bibliography mapped to eastern equivalents.
+Context: docs/PLAN.md §3 D (candidate list); research/R1-treaties.md + treaties_R1.csv (treaties to anchor to). Gwynne's book covers the Comanche and Texas, 1836–75.
+Do: for each source give its type (speech, memorial, diary, oral history, pension file), the nation(s), the years, which R1 treaty or cession it speaks to, its access (digitised? URL, licence) and a Chicago author-date citation. Flag which ones were reprinted in 1770–1810 newspapers (they could link to our news corpus). For Gwynne, take his source *types* and name the eastern equivalent for each.
+Don't: download anything; write outside research/; invent citations or URLs (mark "unverified" instead); speak for nations: quote and cite, don't paraphrase as their view.
+Output: research/R3-native-voices.md (a short table + caveats) and research/sources_R3.csv.
+Report back: count by nation and type, the top 10 sources for the Nov 10 side panel, and gaps.
+```
+
+**Follow-up 2026-11-04:** the agent wrote the .md but not the CSV (its rules forbade data files). Lara updated the historian's agent.md and asked for the CSV; a new historian run builds it from Table 1 (B-005).
+
+### B-005 R3 CSV from Table 1 · historian · 2026-11-04
+**Status:** requested by Lara, sent · output reviewed by Lara: ☐
+**Output:** `research/sources_R3.csv`
+```text
+Goal: write research/sources_R3.csv from Table 1 of research/R3-native-voices.md.
+Context: B-003 brief in log/PROMPTS.md (column intent); the .md is the source of truth.
+Do: one row per source, same columns as Table 1; keep "unverified" flags and blanks as they are.
+Don't: add, drop or re-research sources; edit the .md; write anything else.
+Output: research/sources_R3.csv (UTF-8, header row).
+Report back: row count and any row that didn't map cleanly.
+```
+
+### B-006 R4a reservations: dates + boundary text · historian · 2026-11-04
+**Status:** approved by Lara, sent · **pause after R4a for Lara's review before R4b** · output reviewed by Lara: ☐
+**Output:** `research/R4-reservations.md`, `research/reservations_R4.csv`
+```text
+Goal: table of reservations/reserves east of the Mississippi, 1763–1840, with nation, date established, dates inhabited/ended, and the boundary description as written.
+Context: research/R1-treaties.md, treaties_R1.csv; PLAN §3 D.
+Do: cover colonial/state reservations (e.g. VA, NY, New England), treaty reserves, individual reserves/allotments; link each to its R1 treaty if any; quote boundary language with a cite.
+Don't: download; write outside research/; invent dates ("unverified" instead).
+Output: research/R4-reservations.md + research/reservations_R4.csv (Chicago author-date).
+Report back: count, how many have usable boundary text, gaps.
+```
+
+### B-007 R4b reservation GIS outlines · researcher · 2026-11-04
+**Status:** approved by Lara; **on hold until Lara reviews R4a**
+**Output:** `data/raw/gis/<source>/`, `research/R4-reservation-gis.md`
+```text
+Goal: find and download any existing GIS outlines for those reservations (historical, not modern).
+Context: research/R2-gis-sources.md (don't repeat sources already checked).
+Do: check USFS Royce layer for reserve polygons, state historic GIS, Newberry, academic sets; licence + CRS + attributes.
+Don't: convert or extrapolate (that's an S3 coder task later); run anything from downloads.
+Output: data/raw/gis/<source>/, research/R4-reservation-gis.md.
+Report back: which reservations have polygons vs. need extrapolation.
+```
+
+### B-004 S2 profile news + NER-chronam · data-analyst · 2026-11-04 · T-001
+**Status:** approved by Lara (throwaway venv in the scratchpad, not `.venv`), sent · output reviewed by Lara: ☐
+**Output:** `rx-pipeline/notebooks/S2_profile_news.ipynb`, `rx-pipeline/notebooks/S2_profile_ner_chronam.ipynb`
+```text
+Goal: two read-only profiling notebooks so Lara can see what the news and NER-chronam data look like before B starts.
+Context: tasks/T-001-s2-profile-news.md; docs/DATA.md; data/raw/MANIFEST.md.
+Do: per tasks/T-001.
+Don't: edit data/raw; write to data/; touch any A* notebook, config.py or rx/; use any ML/LLM model; commit.
+Output: rx-pipeline/notebooks/S2_profile_news.ipynb, S2_profile_ner_chronam.ipynb (executed, with outputs).
+Report back: 5–8 headline findings and anything that contradicts docs/DATA.md.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

@@ -67,8 +67,8 @@ use human transcriptions (~39% of files) where precision matters.
 ## 3. Other workstreams (same pipeline, later)
 - **B Land ads (Native lens)**: NER chronam blocks → widen Native terms (nation names, "old fields", "Indian boundary", treaty names, "secure from the Indians") → code ad descriptions (soil, water, timber, prior clearing, safety, price, warrants) → link destination to Royce cession → years since cession. Reprinted Native speeches via prototype 1 reprint clusters. Out: `processed/land_ads.parquet`.
 - **C Testimony text analysis** (feeds prototype 3's tone panel): strip boilerplate → word/bigram frequency + keyness vs. newspapers → TF-IDF; embeddings, topic clusters, UMAP "vector view" and emotion scores **after the model gate** → emotion validated on 100 hand-labelled passages → cross with A9 flag. Out: `processed/passages.parquet`.
-- **D Research (agents)**: treaties 1763–1840 (Kappler; NARA RG 11; LoC *Century of Lawmaking* — American State Papers Indian Affairs, Royce 1899); GIS layers (Royce cessions polygons, Newberry county/territory boundaries, NHGIS 1790–1810, Tanner atlas, Native Land Digital as caveated reference, Rumsey/LoC period maps); Native voices (ASP speeches, Founders Online, War Dept Papers, Aupaumut, Cherokee memorials, *Cherokee Phoenix*, Zeisberger diaries, Indian-Pioneer Papers, Doris Duke oral histories, Yale Indian Papers, NYPL Schuyler papers, DPLA; Native veterans' own pension files); Gwynne's bibliography mapped to eastern equivalents (his book is Comanche/Texas 1836–75). Out: `processed/treaties.csv`, `processed/cessions.geojson`, `sources.md` (Chicago author-date via historian agent).
-- **E Map design**: historical borders base, cession layer by treaty year, veteran destinations, land ads, A9 points; time slider; lag cession → ad → veteran arrival; paired ad/Native-speech panel. Final build in JS (D3, or MapLibre if raster base map).
+- **D Research (agents)**: treaties 1763–1840 (Kappler; NARA RG 11; LoC *Century of Lawmaking* — American State Papers Indian Affairs, Royce 1899); GIS layers (Royce cessions polygons, Newberry county/territory boundaries, NHGIS 1790–1810, Tanner atlas, Native Land Digital as caveated reference, Rumsey/LoC period maps); Native voices (ASP speeches, Founders Online, War Dept Papers, Aupaumut, Cherokee memorials, *Cherokee Phoenix*, Zeisberger diaries, Indian-Pioneer Papers, Doris Duke oral histories, Yale Indian Papers, NYPL Schuyler papers, DPLA; Native veterans' own pension files); Gwynne's bibliography mapped to eastern equivalents (his book is Comanche/Texas 1836–75). **Reservations (R4, added 2026-11-04)**: reserves and reservations east of the Mississippi 1763–1840 (colonial/state reservations, treaty reserves, individual reserves and allotments) with date established, date(s) inhabited and nation; boundaries from GIS where they exist, otherwise **extrapolated** from treaty and survey descriptions and flagged by `boundary_method` (surveyed / described / extrapolated). Out: `processed/treaties.csv`, `processed/cessions.geojson`, `processed/reservations.csv` + `reservations.geojson`, `sources.md` (Chicago author-date via historian agent).
+- **E Map design**: historical borders base, Native territories overlay + reservations by year established (same layer group; extrapolated borders drawn dashed), cession layer by treaty year, veteran destinations, land ads, A9 points; time slider; lag cession → ad → veteran arrival; paired ad/Native-speech panel. Final build in JS (D3, or MapLibre if raster base map).
 
 ## 4. HF data vs. external
 | Need | In HF | Outside |
@@ -88,7 +88,7 @@ it for B, C and D from approved tasks (same `config.py`, `rx/` module, stage fol
 **Scope cut for A (to fit the week):** signals A1 served, A2 declaration state+county, A3 1832-Act
 residence chain, A8 NER places, A9 Native-campaign flag. Defer A4–A7. Validate 20 files per signal, not 50.
 
-**Prototype content (overlaps):** historical state/territory base (1790–1810) + Royce cessions by
+**Prototype content (overlaps):** historical state/territory base (1790–1810) + Native territories + reservations (dated; extrapolated outlines marked) + Royce cessions by
 treaty year + veteran moves from A (state level, county where A2/A3 have it) + Native-flagged land
 ads from B + side panel: ad excerpt / pension excerpt (A9) / Native speech for the same place.
 C shows as one small panel: top distinctive words in testimony, A9-flagged vs. not.
@@ -98,17 +98,17 @@ your own JS build comes later. *(Flip this if you'd rather type it.)*
 ### Day plan
 | Day | Lara (coached) | Agents in parallel | Check-in |
 |---|---|---|---|
-| Mon 3 | A00 setup, A01 download pension + NER-pension | ✅ **R1** treaties table (47 rows, some unverified) · ✅ **R2** GIS sources (USFS Royce layer CC BY 4.0, Newberry boundaries; NHGIS manual) · ✅ **S1** news, NER-chronam, GIS in `data/raw/` · *R1/R2 ran before the gates; Lara reviews outputs* | end of day: setup works, raw files listed |
-| Tue 4 | A02 profile — read the data | **R3** Native-voices source list + Gwynne mapping (historian) · **S2** profile notebooks for news/NER-chronam (read-only, for your review) · *briefs approved first* | ✅ **#1**: what the pension data looks like; settle pandas-only vs. DuckDB filter |
-| Wed 5 | A03 clean + title parse → **template locked**; write + approve `tasks/` for B, C, S3 | **S3** GIS prep: reproject, simplify, date-stamp cessions → `cessions.geojson`, `borders_1790/1800/1810.geojson` | ✅ **#2**: review template + brief before agents copy it |
-| Thu 6 | A04 signals (A1, A2, A3, A8, A9) | **B** clean + Native flag + cession link (coder, approved task) · **C** clean + boilerplate strip + word frequency, no models (coder, approved task) | — |
-| Fri 7 | A05 validate (20/signal) + A06 outputs + data dictionary | B/C finish; agent runs assertion cells on all `processed/` tables | ✅ **#3**: all processed tables, coverage + precision numbers |
-| Sat–Sun 8–9 | review prototype; pick 3 overlap stories | prototype sketch from `processed/` | ✅ **#4**: rough prototype review |
-| Mon 10 | **milestone** | — | — |
+| Tue 3 | A00 setup, A01 download pension + NER-pension | ✅ **R1** treaties table (47 rows, some unverified) · ✅ **R2** GIS sources (USFS Royce layer CC BY 4.0, Newberry boundaries; NHGIS manual) · ✅ **S1** news, NER-chronam, GIS in `data/raw/` · *R1/R2 ran before the gates; Lara reviews outputs* | end of day: setup works, raw files listed |
+| Wed 4 | A02 profile — read the data | **R3** Native-voices source list + Gwynne mapping (historian) · **S2** profile notebooks for news/NER-chronam (read-only, for your review) · *briefs approved first* | ✅ **#1**: what the pension data looks like; settle pandas-only vs. DuckDB filter |
+| Thu 5 | A03 clean + title parse → **template locked**; write + approve `tasks/` for B, C, S3 | **S3** GIS prep: reproject, simplify, date-stamp cessions → `cessions.geojson`, `borders_1790/1800/1810.geojson` · **R4** reservations: dates + boundaries (historian + researcher; brief approved first) | ✅ **#2**: review template + brief before agents copy it |
+| Fri 6 | A04 signals (A1, A2, A3, A8, A9) | **B** clean + Native flag + cession link (coder, approved task) · **C** clean + boilerplate strip + word frequency, no models (coder, approved task) | — |
+| Sat-Sun 7-8 | A05 validate (20/signal) + A06 outputs + data dictionary | B/C finish; agent runs assertion cells on all `processed/` tables | ✅ **#3**: all processed tables, coverage + precision numbers |
+| Mon 9 | review prototype; pick 3 overlap stories | prototype sketch from `processed/` | ✅ **#4**: rough prototype review |
+| Tue 10 | **milestone** | — | — |
 
 **Risks:** A04 regex work is the longest step (slip → cut A8 or A9); A3 coverage unknown until A02;
 Royce layer found (R2, USFS, CC BY 4.0) but it starts in 1784 — pre-1784 cessions need points by date or hand-drawn shapes;
-pension download ~2.4 GB with columns kept, so start A01 early.
+pension download ~2.4 GB with columns kept, so start A01 early; reservation outlines may be mostly extrapolated — show method on the map, never as surveyed fact.
 
 ## 6. After the milestone: full sequence, tools, rough time
 Estimates assume coached data work (you type, Claude reviews via `coach-me` / `code-tutor`) and

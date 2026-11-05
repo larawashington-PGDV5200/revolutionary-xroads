@@ -15,4 +15,4 @@ model: opus
 ## Avoid
 - Inventing dates, Royce numbers or citations. Leave a field blank if unsure.
 - Treating Native Land Digital or other modern maps as historical evidence.
-- Writing code or data files.
+- Writing code.

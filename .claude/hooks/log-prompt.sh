@@ -2,6 +2,9 @@
 # UserPromptSubmit hook: append every prompt to log/raw/<date>_<session>.md.
 # Raw log only — never edited by hand. The scribe agent curates from it.
 # Must print nothing: stdout from this hook is injected into Claude's context.
+# Off unless the local flag file exists (toggle with /log; see .claude/local/).
+
+[ -f "${CLAUDE_PROJECT_DIR:-.}/.claude/local/prompt-log.on" ] || exit 0
 
 input=$(cat)
 session=$(echo "$input" | jq -r '.session_id // "unknown"' | cut -c1-8)
