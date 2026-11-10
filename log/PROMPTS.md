@@ -103,7 +103,7 @@ Report back: count, how many have usable boundary text, gaps.
 ```
 
 ### B-007 R4b reservation GIS outlines · researcher · 2026-11-04
-**Status:** approved by Lara; **on hold until Lara reviews R4a**
+**Status:** approved by Lara; released after R4a review 2026-11-05, sent · output reviewed by Lara: ☐
 **Output:** `data/raw/gis/<source>/`, `research/R4-reservation-gis.md`
 ```text
 Goal: find and download any existing GIS outlines for those reservations (historical, not modern).
@@ -126,6 +126,18 @@ Output: rx-pipeline/notebooks/S2_profile_news.ipynb, S2_profile_ner_chronam.ipyn
 Report back: 5–8 headline findings and anything that contradicts docs/DATA.md.
 ```
 
+### B-008 End-of-session log · scribe · 2026-11-10
+**Status:** approved by Lara, sent
+**Output:** `log/DECISIONS.md`, `log/PROMPTS.md`
+```text
+Goal: record this session (2026-11-04/05) in the project logs.
+Context: log/PROMPTS.md (briefs B-003…B-007 already logged), docs/PLAN.md, docs/DATA.md, research/R3*, R4*.
+Do: add to log/DECISIONS.md: (1) HF data queried remotely with DuckDB, only filtered tables saved to interim/, local news/NER-chronam copies deleted; DuckDB = fetch/filter, pandas = logic; (2) A00 code given by Claude at Lara's request; A01+ coached; (3) reservations added to D/E at the territories stage, extrapolated outlines flagged by boundary_method; (4) historian may write data files (agent.md updated). Add P-003 sample prompt (the "add reservations to plan" request) to log/PROMPTS.md; tick nothing as reviewed.
+Don't: edit any file other than log/DECISIONS.md and log/PROMPTS.md; change briefs already logged.
+Output: those two files, same format as existing entries.
+Report back: decision IDs added.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004
@@ -137,3 +149,8 @@ Report back: 5–8 headline findings and anything that contradicts docs/DATA.md.
 > changed my mind- want to port everything into the repo- some clean up and more guardrails to be defined before we move over. … before any workstreams are handed off to agent, their tasks must be defined beforehand and for any additional data processing, all models that will be used for processing must be reviewed and approved by me … ask clarifying qs.
 
 **Result:** one round of questions, then the repo layout, orchestrator rules, Do/Avoid agent files and a revised plan.
+
+### P-003 Add reservations to the plan · 2026-11-04 · D-010
+> add to plan and fit into workflow at same stage as map overlay of native tribe terrories, also research into reservations with timings on when they were established and inhabited, and outlines of the reservation land borders- may need to be extrapolated based on findings.
+
+**Result:** plan updated (reservations at the territories stage), then briefs B-006 (dates + boundary text) and B-007 (GIS outlines), the second released after Lara's review of the first.

@@ -9,7 +9,7 @@ model: sonnet
 - Read today's files in `log/raw/`.
 - Add each real decision to `log/DECISIONS.md` in its existing format, and its node to `diagram/decisions.mmd`.
 - Check that every dispatched brief in `log/raw/*_agent-briefs.md` is in `log/PROMPTS.md`; flag any that weren't approved.
-- Add a sample prompt only if it's a good example.
+- Add a sample prompt only if it's a good example. Exclude questions asked during coached sessions. 
 - Show Lara the changes before saving.
 
 ## Avoid

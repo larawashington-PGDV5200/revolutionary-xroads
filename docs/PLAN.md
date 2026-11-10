@@ -1,140 +1,103 @@
-# Plan — Prototype 2 → "Veterans West, Native Land" (working plan, D-005)
+# Plan — "Veterans West" (rescoped 2026-11-10, replaces the D-005 plan)
 
-## Context
-Prototype 2 shows served-state → applied-from-state flows plus land ads, but it uses only two text
-signals, modern state outlines, and a thin Native flag (99 of 22,435 land ads). New focus: **Native
-land sold to veterans** — how it was advertised, which treaties opened it, Native perspectives — on a
-**historical map** with **territory/cession layers**, plus topline text analysis of veterans' testimony.
-All data processing moves to **Python notebooks** (pandas), porting the prototype SQL, with Lara
-coached through writing it. Research runs via agents in parallel. Window 1763–1840, east of the Mississippi.
+## Focus
+Map how Revolutionary War veterans **and their widows** moved west, using the HF pension files, on a
+**historical map of the East with period borders**, overlaid with **reservations** (when established,
+who lived there, outline). Read motive from two text sources: **newspaper land ads** (how often,
+how prominent, how long they ran, what language sold the land) and **pension testimony** (keywords,
+themes, sentiment). Window 1763–1840, east of the Mississippi.
 
-## Gates (D-007) — apply to every step below
-- **Brief:** no subagent runs until Lara approves its brief (logged in `log/PROMPTS.md`).
-- **Task:** no workstream goes to an agent until its `tasks/T-NNN-*.md` is approved.
-- **Model:** no ML/LLM model processes project data until the researcher has compared options
-  (Hugging Face / Ollama: size, speed, accuracy, licence, local) and Lara approves. Choices TBD when reached.
+**Native voices:** is missing from these datasets. R3 stays as a reading list and a limitations note, not a workstream.
+
+## Gates (D-007, unchanged)
+Brief approved before any subagent runs · `tasks/T-NNN` approved before any agent workstream ·
+no ML/LLM model on project data until the researcher compares options and Lara approves.
 
 ---
 
-## 1. Pipeline architecture (all workstreams share it)
+## 1. Data we actually need
 
-```
-rx-pipeline/                      ← in repo, code only
-  config.py                       paths, HF dataset names + pinned commits, column lists
-  rx/                             small shared module (DRY across notebooks)
-    text.py                       coalesce_text(), normalise whitespace, boilerplate strip (later)
-    places.py                     normalise_state()  ← port of normst() macro in prototypes/02/query.sql
-    io.py                         read/write parquet by stage
-  notebooks/
-    A00_setup.ipynb … A06_outputs.ipynb   (B*, C*, D*, E* added later, same pattern)
-  data_dictionary.md              one table per output: column, type, meaning, source signal
+### HF (primary): Revolution Crossroads
+| Dataset | Size | What we use | Value | Extra work | Verdict |
+|---|---|---|---|---|---|
+| `nara_revolutionary_war_pension_files` | 2.2M pages, ~78.7k files | title (served state, S/W/R/BLW, name), declaration-page residence, 1832 residence chain, widow marriage/residence, full text for C | **core** | in plan | **use** |
+| `loc_chronicling_america_1770-1810` | 77.8k pages, 19.4k issues, 110 papers | `lccn`, date, page no., paper, place: ad metadata | core for B | low | **use** |
+| `RevX_OCR_results` (`block_level`) | 19.0M blocks (all collections) | ad blocks: `block_type`, `block_text`, `block_bbox` → ad area as % of page | core for B (prominence) | medium: check `block_type` values + page size first | **use** |
+| `RevX_NER_Entity_Occurrences` | 24M mentions | pension: place names (A8); chronam: place names in ads (ad destination) | medium; regex covers ~50k files without it | medium | **later** (B destinations; A8 optional) |
+| `loc_chronicling_america_1770-1810_issues` | 19.4k issues | `page_count` per issue | low (pages table already has it) | low | skip unless needed |
+| `si_us_revolutionary_era_collections`, `…pension_files_PDFs` | 12.7k objects; PDFs | — | none for this focus | — | **cut** |
 
-data/                             ← in project; git-ignored in the repo — data only
-  raw/        downloaded parquet, never edited (column-projected, pinned commit)
-  interim/    cleaned per-stage tables (re-creatable)
-  processed/  final tables other workstreams read
-```
-
-Principles
-- **Stages are one-way**: raw → interim → processed. Each notebook reads the previous stage's
-  parquet and writes its own; any notebook can be re-run alone. No notebook edits raw.
-- **Parquet between stages**, not CSV (keeps dtypes, lists, fast). CSV only for hand-label sheets.
-- **Stable join keys** so workstreams combine later: `NAID` (pension file), `lccn`+`date`+`block_id`
-  (news ad), `state`/`county` codes + `year` (map), `cession_id` (Royce number, from D).
-- **pandas where it fits, chunked where it doesn't**: per-file tables (~78.7k rows) fit pandas
-  easily; the 2.2M-page text table (~2.4 GB) doesn't fit comfortably. Process **one shard at a time**
-  (12 shards), filter to relevant pages/columns, then concat the small results. Optional: DuckDB
-  inside Python as a fast filter step (`duckdb.sql(...).df()` → pandas) — decide in A00.
-- **Download only what's needed**: `pd.read_parquet(url, columns=[...])` via `huggingface_hub`
-  pinned to the commits in `prototypes/02-migration-land/SOURCES.md` (pension `90f9086…`).
-- Every extracted signal carries `method` + `snippet` columns so any value can be traced to text.
-
-## 2. Workstream A — notebook sequence (coached)
-
-| NB | Does | Output (stage) | You learn |
-|---|---|---|---|
-| A00_setup | venv, Jupyter, `config.py`, `rx/` stubs, folder layout | — | project structure, imports |
-| A01_download | fetch pension shards (6 cols) + NER `collection=pension` + titles; size/row checks | `raw/` | HF hub, parquet, column projection |
-| A02_profile | rows, nulls, pages/file, text-source mix (human / Chandra / FamilySearch), file types S/W/R/BLW, title patterns, sample pages read side-by-side | notes in NB | **knowing the data** — the core of this phase |
-| A03_clean | coalesce text, normalise whitespace, OCR-source flag; parse `title` → type, number, name, served state (A1) | `interim/pages_*.parquet`, `interim/files.parquet` | `.str.extract`, regex, dtypes |
-| A04_signals | one function per signal → long table `place_mentions` (NAID, page, signal, place_raw, state, county, year, method, snippet): A2 declaration state+**county**; **A3 1832-Act residence chain** (born / living at enlistment / lived since / now); A4 "removed to"; A5 agency transfers; A6 widow marriage place; A7 BLW warrant/acres/Act; A8 NER pension places; A9 campaigns vs. Native nations | `interim/place_mentions.parquet` | chunked processing, `groupby`, long vs. wide data |
-| A05_validate | draw 50 files/signal, label by hand (CSV), compute precision + coverage | `interim/validation.csv` | why precision ≠ coverage |
-| A06_outputs | resolve per veteran: served, origin, ordered moves, final residence, confidence, Native-campaign flag | `processed/veterans.parquet`, `processed/moves.parquet` + data dictionary | one-row-per-entity tables, joins |
-
-Watch: 1832 Act only covers S/R files filed after 1832; Maine ⊂ MA until 1820; "Continental" line;
-use human transcriptions (~39% of files) where precision matters.
-
-## 3. Other workstreams (same pipeline, later)
-- **B Land ads (Native lens)**: NER chronam blocks → widen Native terms (nation names, "old fields", "Indian boundary", treaty names, "secure from the Indians") → code ad descriptions (soil, water, timber, prior clearing, safety, price, warrants) → link destination to Royce cession → years since cession. Reprinted Native speeches via prototype 1 reprint clusters. Out: `processed/land_ads.parquet`.
-- **C Testimony text analysis** (feeds prototype 3's tone panel): strip boilerplate → word/bigram frequency + keyness vs. newspapers → TF-IDF; embeddings, topic clusters, UMAP "vector view" and emotion scores **after the model gate** → emotion validated on 100 hand-labelled passages → cross with A9 flag. Out: `processed/passages.parquet`.
-- **D Research (agents)**: treaties 1763–1840 (Kappler; NARA RG 11; LoC *Century of Lawmaking* — American State Papers Indian Affairs, Royce 1899); GIS layers (Royce cessions polygons, Newberry county/territory boundaries, NHGIS 1790–1810, Tanner atlas, Native Land Digital as caveated reference, Rumsey/LoC period maps); Native voices (ASP speeches, Founders Online, War Dept Papers, Aupaumut, Cherokee memorials, *Cherokee Phoenix*, Zeisberger diaries, Indian-Pioneer Papers, Doris Duke oral histories, Yale Indian Papers, NYPL Schuyler papers, DPLA; Native veterans' own pension files); Gwynne's bibliography mapped to eastern equivalents (his book is Comanche/Texas 1836–75). **Reservations (R4, added 2026-11-04)**: reserves and reservations east of the Mississippi 1763–1840 (colonial/state reservations, treaty reserves, individual reserves and allotments) with date established, date(s) inhabited and nation; boundaries from GIS where they exist, otherwise **extrapolated** from treaty and survey descriptions and flagged by `boundary_method` (surveyed / described / extrapolated). Out: `processed/treaties.csv`, `processed/cessions.geojson`, `processed/reservations.csv` + `reservations.geojson`, `sources.md` (Chicago author-date via historian agent).
-- **E Map design**: historical borders base, Native territories overlay + reservations by year established (same layer group; extrapolated borders drawn dashed), cession layer by treaty year, veteran destinations, land ads, A9 points; time slider; lag cession → ad → veteran arrival; paired ad/Native-speech panel. Final build in JS (D3, or MapLibre if raster base map).
-
-## 4. HF data vs. external
-| Need | In HF | Outside |
-|---|---|---|
-| Service, residence chain, moves | Pension text, NER pension | — |
-| Bounty land location | BLW mentions | BLM GLO patents, VA Military District, KY Land Office, NY Military Tract |
-| Land ads, Native speeches in print | Newspapers | originals in ASP / Founders / War Dept |
-| Treaties, cessions, historical borders | — | Kappler, Royce, NARA, Newberry, NHGIS, Tanner |
-| Native-authored perspective | Native veterans' files, reprinted speeches | Cherokee Phoenix, memorials, oral histories |
-
-## 5. Milestone: rough prototype by Mon Nov 10
-
-**Goal for Nov 10:** most cleaning done; one rough prototype showing where workstreams overlap.
-**Split:** Lara builds Workstream A coached → its notebooks become the template → agents replicate
-it for B, C and D from approved tasks (same `config.py`, `rx/` module, stage folders, assertion cells). Lara reviews.
-
-**Scope cut for A (to fit the week):** signals A1 served, A2 declaration state+county, A3 1832-Act
-residence chain, A8 NER places, A9 Native-campaign flag. Defer A4–A7. Validate 20 files per signal, not 50.
-
-**Prototype content (overlaps):** historical state/territory base (1790–1810) + Native territories + reservations (dated; extrapolated outlines marked) + Royce cessions by
-treaty year + veteran moves from A (state level, county where A2/A3 have it) + Native-flagged land
-ads from B + side panel: ad excerpt / pension excerpt (A9) / Native speech for the same place.
-C shows as one small panel: top distinctive words in testimony, A9-flagged vs. not.
-Build: low-fi agent-built sketch from `processed/` tables (same as Oct 27 prototypes, D-002);
-your own JS build comes later. *(Flip this if you'd rather type it.)*
-
-### Day plan
-| Day | Lara (coached) | Agents in parallel | Check-in |
-|---|---|---|---|
-| Tue 3 | A00 setup, A01 download pension + NER-pension | ✅ **R1** treaties table (47 rows, some unverified) · ✅ **R2** GIS sources (USFS Royce layer CC BY 4.0, Newberry boundaries; NHGIS manual) · ✅ **S1** news, NER-chronam, GIS in `data/raw/` · *R1/R2 ran before the gates; Lara reviews outputs* | end of day: setup works, raw files listed |
-| Wed 4 | A02 profile — read the data | **R3** Native-voices source list + Gwynne mapping (historian) · **S2** profile notebooks for news/NER-chronam (read-only, for your review) · *briefs approved first* | ✅ **#1**: what the pension data looks like; settle pandas-only vs. DuckDB filter |
-| Thu 5 | A03 clean + title parse → **template locked**; write + approve `tasks/` for B, C, S3 | **S3** GIS prep: reproject, simplify, date-stamp cessions → `cessions.geojson`, `borders_1790/1800/1810.geojson` · **R4** reservations: dates + boundaries (historian + researcher; brief approved first) | ✅ **#2**: review template + brief before agents copy it |
-| Fri 6 | A04 signals (A1, A2, A3, A8, A9) | **B** clean + Native flag + cession link (coder, approved task) · **C** clean + boilerplate strip + word frequency, no models (coder, approved task) | — |
-| Sat-Sun 7-8 | A05 validate (20/signal) + A06 outputs + data dictionary | B/C finish; agent runs assertion cells on all `processed/` tables | ✅ **#3**: all processed tables, coverage + precision numbers |
-| Mon 9 | review prototype; pick 3 overlap stories | prototype sketch from `processed/` | ✅ **#4**: rough prototype review |
-| Tue 10 | **milestone** | — | — |
-
-**Risks:** A04 regex work is the longest step (slip → cut A8 or A9); A3 coverage unknown until A02;
-Royce layer found (R2, USFS, CC BY 4.0) but it starts in 1784 — pre-1784 cessions need points by date or hand-drawn shapes;
-pension download ~2.4 GB with columns kept, so start A01 early; reservation outlines may be mostly extrapolated — show method on the map, never as surveyed fact.
-
-## 6. After the milestone: full sequence, tools, rough time
-Estimates assume coached data work (you type, Claude reviews via `coach-me` / `code-tutor`) and
-agent-run research (you review). Hours are focused work; ~6–8 h/week ≈ 6–8 weeks total.
-
-| Step | Work | Tools | Mode | Est. |
+### External (supplement only where HF has nothing)
+| Source | Size | What it gives | Have it? | Verdict |
 |---|---|---|---|---|
-| 1 | A00–A01 setup + download | Python venv, JupyterLab/VS Code, pandas, pyarrow, huggingface_hub | coached | 3–4 h |
-| 2 | A02 profile — know the data | pandas, notebook display | coached | 4–5 h |
-| 2′ | **in parallel**: D treaties table + GIS layer sourcing | historian + general-purpose agents, WebSearch | agent → review | 3–4 h review |
-| 3 | A03 clean + title parse | pandas `.str`, `re` | coached | 3–4 h |
-| 4 | A04 signals A2–A9 | pandas, `re`, chunked loop (opt. duckdb) | coached | 8–10 h |
-| 4′ | **in parallel**: D Native-voices source list + Gwynne mapping | historian agent | agent → review | 3–4 h review |
-| 5 | A05 validate + A06 outputs + data dictionary | pandas, CSV hand-labelling | coached | 5–6 h |
-| — | **Workstream A total** | | | **~23–29 h** |
-| 6 | B land ads (Native lens) + cession link | pandas, geopandas, shapely | coached | 12–16 h |
-| 7 | C text analysis | scikit-learn, nltk; embedding / topic / emotion models TBD via model gate | coached | 15–20 h |
-| 8 | D GIS prep (reproject, simplify, date-stamp) | geopandas, mapshaper | coached | 5–8 h |
-| 9 | E map sketch on historical base | D3 / MapLibre | coached | 8–12 h |
+| Newberry AHCB state/territory boundaries | 101 shapes overlap 1783–1840 | **historical borders** by date | yes, `data/raw/gis/` | **use** (v1) |
+| R4 reservations table (`research/reservations_R4.csv`) | 66 rows | name, nation (source + present-day), date established/ended, who lived there, boundary text | yes | **use** |
+| USFS Royce layer (`data/raw/gis/usfs-tribal-ceded-lands/`) | 718 polygons, 299 dated pre-1841 | reserve outlines (~30 R4 rows) + cessions | yes | **use** |
+| R1 treaties (`research/treaties_R1.csv`) | 47 rows | treaty dates for the timeline | yes | **keep, last** |
+| Newberry counties | 5.8k shapes 1763–1840 | county-level points | yes | later, only if A2/A3 county coverage is good |
+| **Cut:** NHGIS, Rumsey rasters, Native Land, BLM GLO patents, military-district land records, Myaamia Hub, Carleton KML, plat georeferencing, ASP/War Dept/Founders mining, *Cherokee Phoenix*, oral histories, Gwynne mapping | | | | scope creep: high work, off the core question |
 
-Order logic: A first (B, C and E all key on NAID/places); D research starts day one because B3 and E
-need cession geometry; B before C because B reuses A's place normaliser and D's cessions.
+### Reservations layer: what we need
+One row per reservation: `id, name, nation_as_in_source, present_day_nation, date_established,
+established_by, date_ended, inhabited_notes, source_type, confidence, source` + geometry.
+- **Polygon (~30 rows):** confirmed Royce `CESSNUM` (R4b table). Confirm each against Royce's Schedule; flag polygons >1.5× treaty acres as `generalised`. Use R4 dates, not `CESSDATE1`.
+- **Point (~27 rows):** no polygon (VA, New England, Maine, Oneida NY, Brothertown, Cornplanter, Catawba…). Placed at the village/county anchor, drawn as a symbol.
+- **List only (9 rule-only rows):** Choctaw Art. XIV, Creek/Chickasaw allotments, Fort Jackson, Fort Meigs. In the table, not on the map.
+- **No extrapolated outlines in v1–v2.** Later, only Nottawa Sape (PLSS), Penobscot, Passamaquoddy and Nottoway are worth drawing.
+- Caveats kept from R4: Royce shapes are generalised; outlines are locators, not survey lines; Myaamia data needs permission before publishing.
+
+## 2. Workstreams
+**A — Pension → migration (core, coached).** Same pipeline (`rx-pipeline/`, raw → interim → processed, parquet, `method` + `snippet` on every signal).
+| NB | Does | Output |
+|---|---|---|
+| A01_access (finish) | step 1 done (counts). Still to do: files table (NAID, title, page count); page index (no text); declaration pages with text. NER pull moved to later | `interim/files_raw`, `interim/pages_index`, `interim/pages_decl` |
+| A02_profile | profile file types, text sources, sample pages read side by side | notes in NB |
+| A03_clean | coalesce text; parse title → type S/W/R/BLW, name, served state | `interim/files.parquet` |
+| A04_signals | A2 declaration state (+county); A3 1832 residence chain; **A4 "removed to"**; **A6 widow (W files): marriage date + place, veteran's death date, and the veteran's own declaration if he applied before he died**; application year | `interim/place_mentions.parquet` |
+| A05_validate | 20 files per signal, hand-labelled: precision + coverage | `interim/validation.csv` |
+| A06_outputs | one row per file: served, origin, moves, final residence, applicant (veteran/widow), confidence | `processed/veterans.parquet`, `processed/moves.parquet` |
+Cut from A: A5 agency transfers, A9 Native-campaign flag. A7 bounty land and A8 NER places: later, optional.
+
+**B — Land ads.** Step 1, measurable: identify land-sale blocks (prototype rule: acreage + sale wording, 22,435 blocks) → frequency by year/paper → **prominence** (block area ÷ page area, page number) → **run time** (same ad text repeated across issues of one paper: first/last date, issue count). Step 2, language: word/bigram frequency and keyness vs. all ads; code selling points (soil, water, timber, cleared land, safety, price, warrants, Native-land terms); destination named. Step 3: deeper language analysis (model gate).
+
+**C — Pension testimony text.** Strip boilerplate → keywords, TF-IDF, bigrams → themes (topic model) → sentiment (model gate; prototype found lexicon sentiment too crude). Compare movers vs. non-movers, veterans vs. widows.
+
+**D — Map layers.** Historical borders by year (Newberry) → reservations layer (above) → later: Royce cessions + R1 treaties on a timeline against ad frequency and arrivals.
+
+Order: A → map base + reservations → B → C → treaties timeline. B and C cross with A on state and year.
+
+### Agent tasks (`tasks/`, each needs approval + a brief)
+| Task | Agent | Goal | When | Status |
+|---|---|---|---|---|
+| T-001 S2 profile news | data-analyst | profile news + NER-chronam; switch to remote `hf://` queries | before B | addendum pending |
+| **T-002 reservation points** | researcher (historian checks dates) | add `lat, lon, coord_method` (`royce_centroid` / `county_anchor` / `village_anchor`) to ~60 R4 rows → `data/processed/reservations_points.csv` | v1, in parallel with A02–A04 | to draft |
+| T-003 reservation outlines | researcher / coder | confirm Royce matches against the Schedule → `reservations.geojson` | after v1 | later |
+
+## 3. v1 prototype (next milestone)
+**Goal:** pension data cleaned and formatted, plus a first matplotlib version of the prototype 2 view, all in Python notebooks.
+- **Data:** A02 → A03 → A04 (A2 declaration state + application year only) → A06-lite `processed/veterans.parquet` (NAID, type, served state, residence state, year, method, snippet). A3/A4/A6 come after v1.
+- **Viz notebook `V01_migration.ipynb`** (geopandas + matplotlib):
+  1. Flow map: served state → residence state, curved lines, width = files, on **Newberry state/territory borders at 1820 and 1832** (not modern outlines). Veterans and widows in separate colours or small multiples.
+  2. Top-flows table (served, residence, files, S/W/R).
+  3. Bar chart: share of files applying from another state, by type and application decade.
+  4. **Reservations as points** on the flow map: ~60 R4 rows, filtered to those that existed in the snapshot year. Six dispersed allotment classes (Fort Jackson, Cherokee 640-acre, Choctaw ×2, Creek, Chickasaw) are left off. Coordinates come from the Royce candidate polygon's centroid where R4b names one, otherwise from the county or village anchor; a `coord_method` column records which. Agent task **T-002** (see Agent tasks).
+- **Not in v1:** land ads, text analysis, reservation outlines, treaties.
+- Done when: notebooks re-run end to end from HF; assertion cells pass; map uses period borders; counts sit close to prototype 2 (59,757 files with both states, ~52.8% moved) or the difference is explained.
+
+## 4. Rough time (focused hours)
+| Step | Mode | Est. |
+|---|---|---|
+| v1: finish A01, A02–A04 (A2) + A06-lite + V01 | coached | 13–18 h |
+| v1 add-on: reservation points (T-002 coordinates, your review, plot in V01) | agent → review → coached | +3–4 h |
+| A full signals (A3, A4, A6) + A05 | coached | 10–12 h |
+| Reservations layer (confirm Royce matches, points, table) | agent task → review | 4–6 h |
+| B land ads steps 1–2 | coached | 12–16 h |
+| C testimony text (no models) | coached | 8–10 h |
+| Model gate + B3/C sentiment/themes | researcher → Lara → coached | 8–12 h |
+| Treaty timeline + final map | coached | 8–12 h |
 
 ## Verification
-- Each notebook ends with assertion cells: row counts, unique NAIDs, no nulls in keys, value ranges.
-- Each signal: coverage % + hand-checked precision (A05) recorded in the data dictionary.
-- Spot-check 10 A3 residence chains against scanned page images.
-- Re-run A03→A06 from `raw/` end to end; outputs must be identical.
-- Historical claims and treaty dates through the historian agent before they reach a viz.
+Assertion cells end every notebook (row counts, unique NAIDs, no null keys). Each signal reports coverage + precision. Historical claims and dates go through the historian before they reach a viz.
+
+## Risks and caveats
+Residence is where the applicant lived when applying (1818–1850s), not the first move · Maine ⊂ MA until 1820 · widow residence may postdate the veteran's death · news corpus skews to VA/DC/PA and post-1795 · `RevX_OCR_results` block types and page size still need checking before prominence works · in W files the "residence" is the widow's own, at the time she applied (often 1836–1850s, after the veteran died).

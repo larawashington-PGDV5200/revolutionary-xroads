@@ -39,3 +39,23 @@ D-001–D-003 were written after the fact (2026-10-30).
 **Gates:** brief approved before any subagent runs; task defined before any workstream handoff; any ML/LLM processing model compared (HF/Ollama) and approved first.
 **In → out:** course brief, R1/R2 run without approval → orchestrator rules (`CLAUDE.md`)
 **Prompt:** P-002
+
+## D-008 Query HF data remotely; save only filtered tables · 2026-11-04
+**Why:** no need to hold full copies locally; interim tables stay small. DuckDB fetches and filters, pandas does the logic.
+**Rejected:** keeping full local copies of the HF datasets.
+**Done:** local news and NER-chronam copies deleted. Lara approved; pending her run (agents can't write to `data/`).
+**In → out:** HF datasets, `docs/DATA.md` → filtered tables in `data/interim/`
+
+## D-009 A00 code written by Claude; A01+ coached · 2026-11-04
+**Why:** Lara asked Claude to give the A00 setup code; from A01 on she writes the notebooks herself, coached (as in D-005).
+**In → out:** plan, D-005 → A00 setup, A01+ notebooks
+
+## D-010 Reservations added to the territories stage · 2026-11-04
+**Why:** Lara asked for reservations (with dates established and inhabited, and land outlines) alongside the Native territories overlay, at the same stage as D/E. Outlines may be extrapolated from boundary text; those are flagged by `boundary_method`.
+**Rejected:** ? (ask Lara)
+**In → out:** plan, R4a/R4b → plan D/E (reservations layer)
+**Prompt:** P-003
+
+## D-011 Historian may write data files · 2026-11-04
+**Why:** the R3 run wrote the .md but not the CSV because its rules forbade data files; Lara updated its `agent.md` (B-005).
+**In → out:** R3 gap → historian `agent.md`

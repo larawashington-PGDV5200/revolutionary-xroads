@@ -3,21 +3,44 @@
 Dataset facts, caveats and exploratory findings. Read before any data work.
 
 ## Datasets (all CC0 / public domain; queried with DuckDB SQL on parquet)
-| Dataset | Rows | Key fields |
-|---|---|---|
-| `loc_chronicling_america_1770-1810` | 77,793 pages, 19,445 issues, 105 titles, 48 places | lccn, newspaper_title, place_of_publication, issue_date, Page, ca_ocr_text, RevX_OCR_text |
-| `nara_revolutionary_war_pension_files` | 2.2M pages, ~78.7k files | NAID, title (encodes S/W/R/BLW + name + state), pageNumber, transcriptionText (~39% files), RevX_OCR_text, fs_extractedText |
-| `si_us_revolutionary_era_collections` | 12,667 objects | unitCode, title, date, indexed_names/places/topics/object_types, mediaURLs |
-| `RevX_OCR_results` | 11.8M blocks | block_type, block_bbox (raw px, zero-indexed pages) |
-| `RevX_NER_Entity_Occurrences` | 24M mentions | entity_type, entity_text_normalised, block_text, block_bbox, record_id (newspapers: `lccn_date_ed`) |
-| Bucket `RevolutionCrossroads_VLM_OCR` | per-document folders | `.chunks.json` (blocks + page width/height), `.json` (section_hierarchy), `.parse_quality.json`, `images/` (crop of a block; filename = md5(block_id)) — skip `.tex` |
+Use column = scope after the 2026-11-10 rescope (`docs/PLAN.md` §1).
 
-Download: `https://huggingface.co/datasets/RevolutionCrossroads/<name>/resolve/main/data/train-0000N-of-000NN.parquet`
-(pension 12 shards ≈2.4 GB; news 6 shards ≈1.8 GB; NER chronam `parquet/collection=chronam/part-00000.parquet`).
-Data lives in `data/` (raw/interim/processed; Documents is not iCloud-synced, checked 2026-11-03) — git-ignore it in the repo. DuckDB in a venv is fast (full-text regex over 2.2M pages ≈3 s).
+| Dataset | Rows | Key fields | Use |
+|---|---|---|---|
+| `loc_chronicling_america_1770-1810` | 77,793 pages, 19,445 issues (`lccn` + date + `edition_order`), 110 `lccn`s / 105 title strings — join on `lccn`, 48 places | lccn, newspaper_title, place_of_publication, issue_date, Page, ca_ocr_text, RevX_OCR_text | B: ad metadata |
+| `nara_revolutionary_war_pension_files` | 2.2M pages, ~78.7k files | NAID, title (encodes S/W/R/BLW + name + state), pageNumber, transcriptionText (~39% files), RevX_OCR_text, fs_extractedText | **core** (A, C) |
+| `si_us_revolutionary_era_collections` | 12,667 objects | unitCode, title, date, indexed_names/places/topics/object_types, mediaURLs | cut |
+| `RevX_OCR_results` | 3 configs: `block_level` 19,046,610 blocks, `page_level` 2,286,632 pages, `file_level` 101,053 files, all collections (HF info 2026-11-10; the older 11.8M note was likely one subset — check `collection` counts) | filename, collection, page_number, block_id, block_type, block_text, block_markdown, block_bbox (raw px, zero-indexed pages), OCR_run_ID | B: ad blocks, text + area on page |
+| `loc_chronicling_america_1770-1810_issues` | 19,445 issues | lccn, issue_date, edition_order, issue_id, page_count, iiif_manifest, pdf_url | skip unless needed |
+| `nara_revolutionary_war_pension_files_PDFs` | 10k–100k (HF size tag) | file PDFs | cut |
+| `RevX_NER_Entity_Occurrences` | 24M mentions | entity_type, entity_text_normalised, block_text, block_bbox, record_id (newspapers: `lccn_date_ed`); `page` counts from 1, only `block_id`/`block_bbox` count from 0; entity types `geographic_location`, `named_place`, `person`, `organization`, `temporal_event`, `calendar_date`, `named_vessel`, `norp`, `named_event` (no GPE/LOC) | later (ad destinations; A8 optional) |
+| Bucket `RevolutionCrossroads_VLM_OCR` | per-document folders | `.chunks.json` (blocks + page width/height), `.json` (section_hierarchy), `.parse_quality.json`, `images/` (crop of a block; filename = md5(block_id)) — skip `.tex` | B, only if page size isn't in the tables |
+
+Access (2026-11-05): HF data is **queried remotely** with DuckDB over `hf://datasets/RevolutionCrossroads/<name>@<revision>/…`
+(pins + file lists in `rx-pipeline/config.py`); only filtered tables are saved to `data/interim/`. No local raw copy of HF data.
+Remote timings (pension, 12 shards): row/NAID counts 3 s, title table 0.5 s, full-text regex over 2.2M pages 83 s (needs internet).
+`data/` (raw = GIS only, interim, processed) is git-ignored; Documents is not iCloud-synced (checked 2026-11-03).
+
+## External data in scope (2026-11-10)
+| Source | Size | Use |
+|---|---|---|
+| Newberry AHCB state/territory (`data/raw/gis/newberry-ahcb-stateterr/`) | 101 shapes overlap 1783–1840; starts 1783-09-03 | historical borders (v1: 1820, 1832) |
+| R4 reservations (`research/reservations_R4.csv`) | 66 rows: 34 treaty reserves, 17 colonial/state, 13 individual-reserve rows, 2 Native-granted; NY 17, OH 11, IN 6, FL 5 | points (v1, T-002), outlines later (T-003) |
+| USFS Royce layer (`data/raw/gis/usfs-tribal-ceded-lands/`) | 718 polygons, 299 dated pre-1841; EPSG:4269 | reserve centroids/outlines; cessions for the timeline |
+| R1 treaties (`research/treaties_R1.csv`) | 47 rows (a selection) | treaty timeline, last |
+
+R4 mapping: ~60 rows can be points; 6 dispersed allotment classes can't (Fort Jackson, Cherokee 640-acre, Choctaw Art. XIV + chiefs, Creek, Chickasaw). ~30 rows have a probable Royce polygon (inferred, not yet confirmed). 3 rows have no founding date (Mattaponi, Mashpee, Golden Hill).
+
+## Pension file types: what each holds
+- **S** (survivor): veteran's own declaration: residence at application, often the 1832-Act chain (born / lived at enlistment / lived since / now).
+- **W** (widow, 1836/1838/1848 Acts): widow's residence at application (often 1836–1850s, after the veteran died; may be her own later move); marriage date + place (proof of marriage, family Bible pages); veteran's death date, sometimes place; witnesses' residences; children's births. If the veteran applied before he died, his own declaration is in the same file.
+- **R** (rejected): same shape as S or W, claim denied. **BLW**: bounty-land warrant number, acres, Act.
+- Prototype 2 treated a W file's residence as "applied from" without separating widow from veteran.
 
 ## Data realities (always caveat)
-- Newspapers skew to VA / DC / Alexandria / Philadelphia and to post-1795 (only ~2,600 pages 1770–74).
+- Newspapers skew to VA / DC / Alexandria / Philadelphia and to post-1795 (3,720 pages 1770–74; thin 1784–86 gap).
+- News OCR: `RevX_OCR_text` is null/blank on ~1.9% of pages, and its length runs 0.53–1.14× `ca_ocr_text` per page (5th–95th pct), so the two aren't interchangeable (S2, 2026-11-04).
+- Native-term regexes need word boundaries: bare `cession` matches concession/succession/secession. The 1799–1806 "cession" bump is likely Louisiana, not Native land. "indian" and nation names (delaware, creek, miami, seneca) hit 15–51% of pages: candidate filters only (S2).
 - Pension testimony was written 1818–1850s *about* 1775–83 → it is memory, shaped by what each Pension Act required as proof.
 - NER names are strings, not resolved people ("John Smith" → 6 files). Show match confidence; never assert identity.
 - Common false hits: surnames Snow/Frost/Flood/Snowden; "drought" = militia "draught"; Maine ⊂ Massachusetts until 1820.

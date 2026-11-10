@@ -12,3 +12,7 @@ flowchart LR
   plan --> D006 --> repo([repo])
   brief --> D007{{D-007 approval gates}}
   research --> D007 --> rules([orchestrator rules])
+  datasets --> D008{{D-008 remote query, filtered interim}} --> interim([data/interim])
+  plan --> D009{{D-009 A00 given, A01+ coached}} --> notebooks([A00 + A01+ notebooks])
+  plan --> D010{{D-010 reservations at territories stage}} --> planDE([plan D/E])
+  research --> D011{{D-011 historian writes data files}} --> historianmd([historian agent.md])
