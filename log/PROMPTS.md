@@ -138,6 +138,18 @@ Output: those two files, same format as existing entries.
 Report back: decision IDs added.
 ```
 
+### B-009 M804 file-label meanings · historian · 2026-11-10
+**Status:** approved by Lara, sent
+**Output:** reply in chat (no files)
+```text
+Goal: Explain the non-standard file labels in NARA M804 titles so we can document which files to keep or leave out of a Revolutionary War migration study.
+Context: HF pension titles (docs/DATA.md). Labels seen: "N.A. Acc. No. 874" (also "874050014 Not Half Pay"), "Ctf." / "Sur Ctf." / "Wid Ctf.", "Dis.", "Rej. B. L.", "Reg. B. L." / "B. L. Reg.", "Wt." (e.g. "Wt. 2673-300"), "Old War Ind. / Inv. / Rej. / Wid. Rej. File", "O. W. J. F.", "Old Act Navy Ind. Rej.", and titles with no number ("File for Samuel Stocker").
+Do: 1) For each label, say what it means and which pension office series or Act it belongs to. 2) Say whether "Old War" files are Revolutionary War service, and whether M804 deliberately includes them. 3) Say what NARA's "selected / nonselected records" administrative sheets are (M804 vs. M805). 4) Flag anything that changes whether a file holds a veteran's or widow's own declaration.
+Don't: write files; download data; cite anything you can't link; guess. Mark each answer verified (with source) or unverified.
+Output: a reply in chat. A table: label | meaning | series/Act | Rev War? | keep for migration? | source (Chicago author-date).
+Report back: the table, plus 2–3 lines on anything that should change our file-type rules.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

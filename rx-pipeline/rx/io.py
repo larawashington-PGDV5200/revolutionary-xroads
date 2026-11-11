@@ -4,7 +4,7 @@ import config
 def stage_path(stage: str, name: str):
     if stage not in config.STAGES:
         raise ValueError(f"stage must be one of {list(config.STAGES)}, got {stage!r}")
-    return config.STAGES[stage] / f"{name.parquet}"
+    return config.STAGES[stage] / f"{name}.parquet"
 
 def read_stage(stage: str, name: str, columns=None) -> pd.DataFrame:
      return pd.read_parquet(stage_path(stage, name), columns=columns)
