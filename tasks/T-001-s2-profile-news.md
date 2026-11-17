@@ -1,18 +1,28 @@
-# T-001 S2 — profile news + NER-chronam (read-only)
-Approved by Lara 2026-11-04 · agent: data-analyst · brief B-004
+# T-001 S2 — profile news for land ads (read-only, remote) · rev. 2
+Approved by Lara 2026-11-04 (rev. 1, brief B-004) · **rev. 2 drafted 2026-11-17, awaiting approval** · agent: data-analyst
 
-**Goal:** profile `data/raw/news/*.parquet` (6 shards) and `data/raw/ner_chronam/part-00000.parquet`:
-rows, nulls, date range by year, titles and places, OCR source mix (`RevX_OCR_text` vs. `ca_ocr_text`),
-text length, `entity_type` counts, top places (GPE/LOC), how NER `record_id` joins to news
-`lccn` + date + edition, and blocks with Native terms (the prototype list in `prototypes/`) by year.
-End each notebook with assertion cells and a findings cell.
+**What changed (rev. 2):** news now feeds only workstream B (land ads as visual artifacts, by place × period).
+Local raw copies were deleted (D-008), so all queries run remotely over `hf://` at the pinned revisions.
+NER-chronam is cut (PLAN §1) and so is the Native-term section.
 
-**Files:** `rx-pipeline/notebooks/S2_profile_news.ipynb`, `rx-pipeline/notebooks/S2_profile_ner_chronam.ipynb`. Nothing else.
+**Goal:** profile what B needs from two remote sources:
+1. `loc_chronicling_america_1770-1810` pages (pin in `rx-pipeline/config.py`): rows, nulls, pages per year and
+   per place, titles, OCR source mix and text length (keep rev. 1 sections 1–6, now remote); **plus** the
+   image fields B will use (`jpeg2000_url`, `pdf_url`, page no.): present, null, URL pattern.
+2. `RevX_OCR_results` `block_level`, news collection only: block count, `block_type` counts, `block_bbox`
+   format, and how a block joins to a page (filename → `lccn` + date + edition + page; pages zero-indexed).
+   Whether page width/height exist anywhere in the tables (needed for area %).
+3. Land-sale blocks by the prototype rule (`prototypes/code/02-migration-land/query.sql` line 51:
+   acreage + sale wording), run on `block_level` text: count by year, by place, by `block_type`; 10 sample blocks.
 
-**Environment:** a throwaway venv in the session scratchpad (pandas, pyarrow, duckdb, jupyter/nbconvert).
-Don't install anything into the project `.venv` (Lara builds it in A00).
+**Files:** `rx-pipeline/notebooks/S2_profile_news.ipynb` (rewrite in place). Nothing else.
+`S2_profile_ner_chronam.ipynb` is left as is; Lara decides whether to delete it.
 
-**Done when:** both notebooks run top to bottom and are saved with outputs; the assertion cells pass;
-each notebook ends with a findings cell.
+**Environment:** throwaway venv in the session scratchpad (pandas, pyarrow, duckdb, jupyter/nbconvert).
+Nothing installed into the project `.venv`. Nothing written to `data/`. Pin `RevX_OCR_results` to one
+revision and state it in the notebook (don't edit `config.py`; propose the pin in the findings).
 
-**Why an agent:** read-only orientation on data Lara will code herself later in B; frees her for A00–A02.
+**Done when:** the notebook runs top to bottom from HF and is saved with outputs; assertion cells pass;
+it ends with a findings cell that lists anything contradicting `docs/DATA.md`.
+
+**Why an agent:** read-only orientation on data Lara will code herself in B; frees her for A01–A05.

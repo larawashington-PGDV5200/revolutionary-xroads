@@ -1,7 +1,9 @@
-# Revolution Crossroads
+# Revolution Migration
 
-Lara's Parsons data-viz project: Revolutionary War veterans moving west onto ceded Native land,
-1763–1840, using the Revolution Crossroads datasets (https://huggingface.co/RevolutionCrossroads).
+Lara's Parsons data-viz project: when, where and why Revolutionary War veterans and their households
+moved, read from pension applications; land ads as visual artifacts (by place × period); Native
+reservations as a dated layer showing the countermovement. 1763–1840, using the Revolution Crossroads
+datasets (https://huggingface.co/RevolutionCrossroads).
 Plan: `docs/PLAN.md`. Dataset facts and caveats: `docs/DATA.md` (read before any data work).
 AI setup: `AI-USE.md`.
 

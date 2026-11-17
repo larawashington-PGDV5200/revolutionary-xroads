@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="640" viewBox="0 0 1500 640" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#111">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect width="100%" height="100%" fill="#fff"/>
+
+<!-- column titles -->
+<text x="40" y="50" font-size="20">1 · source</text>
+<text x="40" y="72" font-size="14" fill="#666" font-style="italic">remote</text>
+<text x="420" y="50" font-size="20">2 · parquet = storage</text>
+<text x="420" y="72" font-size="14" fill="#666" font-style="italic">files on disk, written by notebooks</text>
+<text x="830" y="50" font-size="20">3 · schema.sql = views</text>
+<text x="830" y="72" font-size="14" fill="#666" font-style="italic">queries DuckDB runs over the parquet</text>
+<text x="1290" y="50" font-size="20">4 · viz</text>
+
+<!-- 1 source -->
+<rect x="40" y="110" width="280" height="150" fill="none" stroke="#888" stroke-dasharray="3 4"/>
+<text x="56" y="140">Hugging Face datasets</text>
+<text x="56" y="168" font-size="14" fill="#555">pension pages</text>
+<text x="56" y="190" font-size="14" fill="#555">newspaper pages</text>
+<text x="56" y="212" font-size="14" fill="#555">OCR blocks</text>
+<text x="56" y="240" font-size="13" fill="#888" font-family="Menlo, monospace">hf://datasets/RevolutionCrossroads/…</text>
+
+<rect x="40" y="300" width="280" height="110" fill="none" stroke="#333"/>
+<text x="56" y="330">notebooks A01–A08, B</text>
+<text x="56" y="356" font-size="14" fill="#555">DuckDB fetches + filters</text>
+<text x="56" y="378" font-size="14" fill="#555">pandas / regex do the logic</text>
+<path d="M180,262 L180,296" stroke="#111" stroke-width="1.8" marker-end="url(#ah)"/>
+
+<!-- 2 parquet files -->
+<g font-size="14">
+  <rect x="420" y="100" width="340" height="40" fill="#dedede" stroke="#333"/>
+  <text x="436" y="125" font-family="Menlo, monospace">data/processed/</text>
+  <rect x="420" y="140" width="340" height="40" fill="none" stroke="#333"/><text x="436" y="165" font-family="Menlo, monospace">households.parquet</text><text x="744" y="165" text-anchor="end" fill="#666" font-style="italic">fact</text>
+  <rect x="420" y="180" width="340" height="40" fill="none" stroke="#333"/><text x="436" y="205" font-family="Menlo, monospace">residences.parquet</text>
+  <rect x="420" y="220" width="340" height="40" fill="none" stroke="#333"/><text x="436" y="245" font-family="Menlo, monospace">reasons.parquet</text>
+  <rect x="420" y="260" width="340" height="40" fill="none" stroke="#333"/><text x="436" y="285" font-family="Menlo, monospace">places.parquet</text><text x="744" y="285" text-anchor="end" fill="#666" font-style="italic">dim</text>
+  <rect x="420" y="300" width="340" height="40" fill="none" stroke="#333"/><text x="436" y="325" font-family="Menlo, monospace">ads.parquet</text>
+  <rect x="420" y="340" width="340" height="40" fill="none" stroke="#333"/><text x="436" y="365" font-family="Menlo, monospace">ad_places.parquet</text><text x="744" y="365" text-anchor="end" fill="#666" font-style="italic">bridge</text>
+</g>
+<text x="420" y="410" font-size="13" fill="#666">columnar, compressed · one file per table</text>
+<text x="420" y="430" font-size="13" fill="#666">rebuilt by re-running the notebooks</text>
+<path d="M322,355 C370,355 370,240 416,240" fill="none" stroke="#111" stroke-width="1.8" marker-end="url(#ah)"/>
+<text x="330" y="300" font-size="13" fill="#666">write</text>
+
+<!-- 3 schema.sql -->
+<rect x="830" y="100" width="400" height="300" fill="#f6f6f6" stroke="#333"/>
+<text x="846" y="126" font-size="13" fill="#666" font-family="Menlo, monospace">rx-pipeline/schema.sql</text>
+<g font-family="Menlo, monospace" font-size="13">
+<text x="846" y="160">CREATE VIEW households AS</text>
+<text x="862" y="180" fill="#555">SELECT * FROM 'households.parquet';</text>
+<text x="846" y="204" fill="#888">-- same for every parquet table</text>
+<text x="846" y="244">CREATE VIEW moves AS</text>
+<text x="862" y="264" fill="#555">SELECT NAID, lag(place_id) …</text>
+<text x="862" y="284" fill="#555">FROM residences;</text>
+<text x="846" y="324">CREATE VIEW place_period AS</text>
+<text x="862" y="344" fill="#555">SELECT place_id, period,</text>
+<text x="862" y="364" fill="#555">  households_in, land_ads …</text>
+<text x="862" y="384" fill="#555">FROM moves, ad_places, ads …;</text>
+</g>
+<path d="M762,220 C795,220 795,200 826,200" fill="none" stroke="#111" stroke-width="1.8" marker-end="url(#ah)"/>
+<text x="770" y="196" font-size="13" fill="#666">read</text>
+<text x="830" y="430" font-size="13" fill="#666">views run on demand · in memory · no .duckdb file</text>
+
+<!-- 4 viz -->
+<rect x="1290" y="160" width="170" height="160" fill="none" stroke="#333"/>
+<text x="1306" y="190">V01 / V02</text>
+<text x="1306" y="216" font-size="14" fill="#555">map, timeline,</text>
+<text x="1306" y="236" font-size="14" fill="#555">ad images</text>
+<text x="1306" y="272" font-size="13" fill="#666" font-family="Menlo, monospace">SELECT * FROM</text>
+<text x="1306" y="290" font-size="13" fill="#666" font-family="Menlo, monospace">place_period</text>
+<path d="M1232,250 L1286,250" stroke="#111" stroke-width="1.8" marker-end="url(#ah)"/>
+
+<!-- comparison strip -->
+<line x1="40" y1="480" x2="1460" y2="480" stroke="#ccc"/>
+<g font-size="14">
+<text x="40" y="512" font-weight="bold">parquet</text>
+<text x="160" y="512">stores the tables · on disk · what notebooks write · fast to read · git-ignored in data/</text>
+<text x="40" y="542" font-weight="bold">schema.sql</text>
+<text x="160" y="542">defines the database · text, in git · names tables, derives moves + place_period · nothing duplicated</text>
+<text x="40" y="572" font-weight="bold">DuckDB</text>
+<text x="160" y="572">the engine that reads both: <tspan font-family="Menlo, monospace" font-size="13">duckdb.sql(open('schema.sql').read())</tspan> then query any view</text>
+</g>
+<text x="40" y="620" font-size="13" fill="#888">Revolution Migration · storage vs. schema. Dotted = remote source.</text>
+</svg>
