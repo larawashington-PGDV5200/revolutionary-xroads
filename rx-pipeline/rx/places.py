@@ -13,6 +13,8 @@ STATE_PATTERNS = [
     (r"^(ill|illinois)", "IL"), (r"^(mo\b|missouri)", "MO"), (r"^(ala|alabama)", "AL"),
     (r"^(miss|mississippi)", "MS"), (r"^(mich|michigan)", "MI"), (r"^(la\b|louisiana)", "LA"),
     (r"^cont", "Cont"),               # Continental line, not a state
+    (r"^(ark|arkansas)", "AR"), (r"^(wis|wisconsin)", "WI"), (r"^iowa", "IA"), 
+    (r"^(fla|florida)", "FL"), (r"^(tex|texas)", "TX"), (r"^(d\.? ?c|district of columbia)", "DC"),
 ]
 _COMPILED = [(re.compile(p), code) for p, code in STATE_PATTERNS]
 

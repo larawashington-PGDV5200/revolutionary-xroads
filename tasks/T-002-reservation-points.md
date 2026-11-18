@@ -1,5 +1,5 @@
 # T-002 Reservation points
-**Drafted 2026-11-17, awaiting approval** · agent: researcher (coordinates) → historian (checks dates) · runs in parallel with A02–A05
+**Approved by Lara 2026-11-17 (agent may write to `data/processed/`)** · briefs B-011 (approved), B-012 (review again after B-011) · agent: researcher (coordinates) → historian (checks dates) · runs in parallel with A02–A05
 
 **Goal:** give each mappable R4 reservation a point location, so the reservation layer (PLAN §3 C, v1 map)
 can be drawn by date established and ended.

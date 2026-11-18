@@ -150,6 +150,33 @@ Output: a reply in chat. A table: label | meaning | series/Act | Rev War? | keep
 Report back: the table, plus 2–3 lines on anything that should change our file-type rules.
 ```
 
+### B-010 S2 profile news for land ads (rev. 2) · data-analyst · 2026-11-17 · T-001
+**Status:** approved by Lara, sent · output reviewed by Lara: ☐
+**Output:** `rx-pipeline/notebooks/S2_profile_news.ipynb`
+```text
+Goal: rewrite the S2 news profile so it runs remotely and answers what workstream B (land ads) needs.
+Context: tasks/T-001-s2-profile-news.md (rev. 2); docs/DATA.md; rx-pipeline/config.py (pins); prototypes/code/02-migration-land/query.sql line 51.
+Do: per T-001 rev. 2: pages profile (rev. 1 §1–6, remote) + image fields; block_level news profile + join to pages; land-sale blocks by year/place/type with 10 samples.
+Don't: download full datasets or write to data/; edit config.py, A* notebooks, rx/ or S2_profile_ner_chronam.ipynb; install into .venv; use any ML/LLM model; commit.
+Output: rx-pipeline/notebooks/S2_profile_news.ipynb, executed with outputs.
+Report back: 5–8 findings, the RevX_OCR_results revision used, query times, anything contradicting docs/DATA.md.
+```
+
+### B-011 T-002 reservation points (coordinates) · researcher · 2026-11-17 · T-002
+**Status:** approved by Lara (may write to `data/processed/`), sent · output reviewed by Lara: ☐
+**Output:** `data/processed/reservations_points.csv`, `research/T-002-notes.md`
+```text
+Goal: add point coordinates to the R4 reservations so they can be mapped by date.
+Context: tasks/T-002-reservation-points.md; research/reservations_R4.csv, R4-reservations.md, R4-reservation-gis.md; data/raw/gis/usfs-tribal-ceded-lands/.
+Do: per T-002: lat/lon + coord_method/source/note for every row; Royce centroid > named place > county centroid > none; check each point falls in present_state.
+Don't: edit reservations_R4.csv or anything in data/raw; guess a point without a source; change dates; download new GIS layers without asking.
+Output: data/processed/reservations_points.csv; research/T-002-notes.md (method, gaps, sources, Chicago author-date).
+Report back: rows with a point by coord_method, rows without one and why, any Royce matches that contradict R4.
+```
+
+### B-012 T-002 reservation points (date check) · historian · 2026-11-17 · T-002
+**Status:** drafted; Lara reviews again after B-011 finishes. Not sent.
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

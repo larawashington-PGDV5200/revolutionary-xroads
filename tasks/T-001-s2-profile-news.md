@@ -1,5 +1,5 @@
 # T-001 S2 — profile news for land ads (read-only, remote) · rev. 2
-Approved by Lara 2026-11-04 (rev. 1, brief B-004) · **rev. 2 drafted 2026-11-17, awaiting approval** · agent: data-analyst
+Approved by Lara 2026-11-04 (rev. 1, brief B-004) · **rev. 2 approved by Lara 2026-11-17, brief B-010** · agent: data-analyst
 
 **What changed (rev. 2):** news now feeds only workstream B (land ads as visual artifacts, by place × period).
 Local raw copies were deleted (D-008), so all queries run remotely over `hf://` at the pinned revisions.
@@ -16,7 +16,7 @@ NER-chronam is cut (PLAN §1) and so is the Native-term section.
    acreage + sale wording), run on `block_level` text: count by year, by place, by `block_type`; 10 sample blocks.
 
 **Files:** `rx-pipeline/notebooks/S2_profile_news.ipynb` (rewrite in place). Nothing else.
-`S2_profile_ner_chronam.ipynb` is left as is; Lara decides whether to delete it.
+`S2_profile_ner_chronam.ipynb` was deleted by Lara (2026-11-17).
 
 **Environment:** throwaway venv in the session scratchpad (pandas, pyarrow, duckdb, jupyter/nbconvert).
 Nothing installed into the project `.venv`. Nothing written to `data/`. Pin `RevX_OCR_results` to one

@@ -37,6 +37,12 @@ R4 mapping: ~60 rows can be points; 6 dispersed allotment classes can't (Fort Ja
 - **R** (rejected): same shape as S or W, claim denied. **BLW**: bounty-land warrant number, acres, Act.
 - Prototype 2 treated a W file's residence as "applied from" without separating widow from veteran.
 
+## File codes (full breakdown: `research/R5-file-codes.md`)
+- Spelling variants are one code: `S.` / `S` / `S2904` = S; `B. L. Wt.` / `B.L.Wt.` / `Bl.Wt.` / `Wt.` = BLWt. Match with `(?![a-z])`, not `\b`: `S2904` has no word boundary between the S and the 2.
+- Drop titles containing "Not Rev" / "Mot Rev" (54 files: mostly Old War, a few BLWt).
+- Dis., N.A. Acc. 874/837, pre-1800 warrant cards and unnumbered titles hold no declaration, so they never feed the residence chain.
+- Unverified: Ctf., S.F., W.F., the Old War sub-letters, Old Act Navy.
+
 ## Data realities (always caveat)
 - Newspapers skew to VA / DC / Alexandria / Philadelphia and to post-1795 (3,720 pages 1770–74; thin 1784–86 gap).
 - News OCR: `RevX_OCR_text` is null/blank on ~1.9% of pages, and its length runs 0.53–1.14× `ca_ocr_text` per page (5th–95th pct), so the two aren't interchangeable (S2, 2026-11-04).
