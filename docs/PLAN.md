@@ -147,8 +147,8 @@ Each needs a `tasks/T-NNN` before an agent writes it.
 | T-004 | time-bin profile + ad price/acre coverage | data-analyst | sent (B-015) |
 | B-013 | verify and fetch L1, L6, NPS sources | researcher | sent |
 | B-014 | L2 wording, pre-1784 lines, ad currency → $, road list | historian | sent |
-| Data | T-005 V00_export, T-006 E01, T-007 C01, T-008 B01, T-009 D01 (§5a) | coder per task (new session), Lara reviews | drafted |
-| B-021 | currency rates check (VA, MD, DE, NC, GA, SC) | historian, in parallel | drafted |
+| Data | T-005 V00_export, T-006 E01, T-007 C01, T-008 B01, T-009 D01 (§5a) | coder per task (new session), Lara reviews | approved |
+| B-021 | currency rates check (VA, MD, DE, NC, GA, SC) | historian, in parallel | approved |
 | **MVP** | deck.gl stack, all six layers with real data; L4 all moves + one veteran's path; L3 circles by number of ads; decade slider for L2/5/6; explode/collapse; plain styling | Lara | next milestone |
 | V1 | detail views, annotations, design pass, T-003 outlines | Lara | last |
 

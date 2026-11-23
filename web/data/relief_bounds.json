@@ -1,0 +1,43 @@
+{
+ "bounds": [
+  -100.0,
+  24.908333333333328,
+  -66.61666666666667,
+  47.44166666666667
+ ],
+ "bounds_order": "[west, south, east, north], degrees, cell edges",
+ "crs": "EPSG:4326",
+ "grid": "equirectangular lon/lat; in deck.gl set _imageCoordinateSystem: COORDINATE_SYSTEM.LNGLAT",
+ "width": 4006,
+ "height": 2704,
+ "cell_deg": 0.008333333333333333,
+ "hillshade": {
+  "azimuth": 315,
+  "altitude": 45,
+  "z_factor": 1
+ },
+ "ocean": "transparent where z <= 0",
+ "elevation_m": [
+  -6070.75,
+  2390.353271484375
+ ],
+ "source": "NOAA NCEI 2022, ETOPO 2022 30 arc-second (ice surface), https://doi.org/10.25921/fd45-gt74",
+ "terrarium": {
+  "file": "relief_terrarium.png",
+  "bounds": [
+   -100.0,
+   24.90833333333334,
+   -66.63333333333333,
+   47.44166666666667
+  ],
+  "width": 1001,
+  "height": 676,
+  "cell_deg": 0.03333333333333333,
+  "decoder": {
+   "rScaler": 256,
+   "gScaler": 1,
+   "bScaler": 0.00390625,
+   "offset": -32768
+  }
+ }
+}

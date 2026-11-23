@@ -1,4 +1,4 @@
-data/
+/data/
 log/raw/
 .claude/settings.local.json
 .venv/

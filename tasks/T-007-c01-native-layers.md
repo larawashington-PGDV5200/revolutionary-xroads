@@ -1,5 +1,5 @@
 # T-007 C01_native: land not yet ceded, cessions, reserves
-**DRAFT, not approved** · brief B-018 (draft) · agent: coder · run in a new session
+**Approved by Lara 2026-11-23** · brief B-018 · agent: coder · run in a new session
 
 **Goal:** layers 2 and 5 for the web, built from Royce, R1, R4/T-002 and R7, per PLAN §2.
 
@@ -23,3 +23,12 @@
 + flag); counts by decade printed.
 
 **Why an agent:** joins and format work on sources already checked by the historian; Lara reviews counts.
+
+**Result (coder, 2026-11-23):** `C01_native.ipynb` written and run top to bottom (revx kernel); it writes the three files.
+- `native_land.topojson` (1.2 MB): `royce_cessions` 299 = Royce table rows with earliest date ≤ 1840 (294 polygons + 5 rows with no USFS polygon,
+  null geometry, `flag = no_geometry`: 47, 65, 128, 129, 130); `state_cessions` 5 points (`not_royce`, NY 1785–89 + Phelps–Gorham, county centroids, 2 inferred);
+  `pre1784_lines` 2 placeholders (`todo`). Royce by decade: 1780s 6, 1790s 36, 1800s 55, 1810s 71, 1820s 47, 1830s 84.
+- `reservations.json`: 66 reserves, 59 with a point; `start_year`/`end_year` + flags parsed from the text dates.
+- `removal_routes.topojson` (4.0 MB): 2,006 NPS segments, `year = null`, `year_flag = undated`.
+- Tested: assertion cell (counts, unique non-null keys, source + year-or-flag on every feature, all source columns kept, geometry round trip within 2 quantization steps).
+- Open: USFS cession dates are one day earlier than R1/Kappler in all 56 comparable cases (kept as stored); scope ≤ 1840 leaves later-ceded western areas blank in L2; `web/data/` is git-ignored by the `data/` rule.

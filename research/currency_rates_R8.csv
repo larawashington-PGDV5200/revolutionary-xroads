@@ -1,0 +1,30 @@
+state,from_year,to_year,shillings_per_dollar,usd_per_pound,status,source
+NH,1770,1810,6,3.3333,verified,Michener 2003 (citing McCusker 1978); Pike 1797 pp. 111-113; Parker 1822 pp. 122-23
+MA,1770,1810,6,3.3333,verified,Michener 2003 (1697 act; citing McCusker 1978); Pike 1797 pp. 111-113; Parker 1822 pp. 122-23
+ME,1770,1810,6,3.3333,verified,Part of Massachusetts to 1820; MA rating applies (Pike 1797 pp. 111-113)
+RI,1770,1810,6,3.3333,verified,Michener 2003 (citing McCusker 1978); Pike 1797 pp. 111-113; Parker 1822 pp. 122-23
+CT,1770,1810,6,3.3333,verified,Michener 2003 (New York Journal 13 July 1775); Pike 1797 pp. 111-113; Parker 1822 pp. 122-23
+VT,1777,1810,6,3.3333,partial,Parker 1822 pp. 122-23 (New England incl. Vermont); not named in Pike 1797; York money also used (Michener via R7)
+NY,1770,1810,8,2.5000,verified,Michener 2003 (Stevens 1867); Pike 1797 p. 115; Parker 1822 pp. 122-23
+NJ,1770,1810,7.5,2.6667,verified,Michener 2003; Pike 1797 p. 114; Parker 1822 pp. 122-23 (East Jersey also kept York money: Michener via R7)
+PA,1770,1810,7.5,2.6667,verified,Michener 2003 (Stevens 1867); Pike 1797 p. 114; Parker 1822 pp. 122-23
+DE,1770,1782,7.5,2.6667,partial,No colonial-era source read; Wikipedia Early American currency list is unsourced
+DE,1783,1810,7.5,2.6667,verified,Pike 1797 p. 114; Daboll 1817; Parker 1822 pp. 122-23
+MD,1770,1810,7.5,2.6667,verified,Michener 2003 note 4 (Baltimore); Pike 1797 p. 114; Parker 1822 pp. 122-23
+VA,1770,1810,6,3.3333,verified,Michener 2003 note 4 (Richmond); Pike 1797 pp. 111-113; Parker 1822 pp. 122-23
+KY,1792,1810,6,3.3333,partial,Daboll 1817 (OCR; Kentucky grouped with Virginia); before 1792 use VA row
+NC,1770,1782,8,2.5000,partial,No colonial-era source read; Wikipedia Early American currency list is unsourced
+NC,1783,1810,8,2.5000,verified,Pike 1797 p. 115; Daboll 1817; Parker 1822 pp. 122-23
+TN,1796,1810,,,unverified,Daboll 1817 OCR is ambiguous between 6s and 8s; R7 assumed NC 8s; before 1796 use NC row
+SC,1770,1775,32.5,0.6154,verified,Michener 2003 (citing McCusker 1978): 32s 6d in Charleston on the eve of the Revolution
+SC,1776,1782,,,unverified,Wartime paper; see flag rows; no par read for these years
+SC,1783,1810,4.6667,4.2857,partial,Rate verified in Pike 1797 p. 116 and Parker 1822; start date (Act No. 1162 of 12 March 1783) from Butler n.d. via search excerpt only
+GA,1770,1785,,,unverified,Sources conflict: 5s (unsourced Wikipedia list; 1778 note caption); McCusker 1978 pp. 227-28 calls Georgia an exception (via Michener 2003)
+GA,1786,1810,4.6667,4.2857,verified,Coleman 1958 ch. 13 (1786 bills act: 4s 8d = 1 dollar); Pike 1797 p. 116; Parker 1822 pp. 122-23
+STERLING,1770,1810,4.5,4.4444,verified,Michener 2003 (British mint); Pike 1797 p. 118 (English money: add one third to get New England)
+PROCLAMATION,1770,1775,6,3.3333,verified,Michener 2003 (Queen Anne's proclamation 1704; Act of 1708)
+CANADA_NOVA_SCOTIA,1770,1810,5,4.0000,verified,Pike 1797 p. 121 (add one fifth to get New England)
+ALL,1776,1781,,,flag,Continental and state paper; JCC 16:264 (18 March 1780: 1 Spanish milled dollar in lieu of 40 dollars of bills)
+GA,1786,1789,,,flag,Georgia paper bills of 1786; 33 1/3 per cent depreciation admitted by January 1789 (Coleman 1958 ch. 13)
+NC,1783,1789,,,flag,North Carolina state paper printed 1783 and 1785 (Fulghum n.d.); depreciation rate not read
+RI,1786,1789,,,flag,Rhode Island paper per R7; not re-verified in R8

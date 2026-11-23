@@ -1,5 +1,5 @@
 # T-008 B01_ads: land ads for the MVP
-**DRAFT, not approved** · brief B-019 (draft) · agent: coder · run in a new session
+**Approved by Lara 2026-11-23** · brief B-019 · agent: coder · run in a new session
 
 **Goal:** layer 3 for the MVP: number of land ads per place named in the ad, 1770–1810.
 
@@ -19,3 +19,11 @@
 10 sample ads with their matched place for Lara to check.
 
 **Why an agent:** rules already set in S2/S3; Lara reviews matches and counts.
+
+**Result (coder, 2026-11-23):**
+- Added `rx-pipeline/notebooks/B01_ads.ipynb`, which writes `data/interim/ads.parquet` (26,117 land-sale blocks × 39 columns, one row per printing, with `run_id`) and `web/data/ads_places.json` (627 rows of place × decade with `n_ads`, `n_runs`, `n_ads_fallback`, `papers`).
+- The pinned revisions are queried remotely and only the filtered table is saved. The block count matches S3.
+- 12,062 ad runs. 55.6% of printings (57.7% of runs) name a place in the text: 49.7% a county, 5.9% only a state. The other 44.4% fall back to the paper's own county and carry the flag `is_fallback`.
+- `usd_per_acre` is null for every ad until B-021 returns. `price_as_stated` and `currency_as_stated` are kept (975 blocks have a price).
+- Testing: ran end to end on the `revx (.venv)` kernel (nbconvert). The assertions pass: unique `ad_id`, no null keys, every `place_id` is in `places`, the JSON totals equal the parquet totals, and `usd_per_acre` is all null. The notebook prints the top 20 places, 10 sample ads and 2 fallback samples.
+- Open: an image crop of each ad isn't built, because the bbox scale to the IIIF image is unknown. Only the page image URL is stored.

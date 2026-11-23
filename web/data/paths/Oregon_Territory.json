@@ -1,0 +1,1 @@
+[{"NAID":"54707351","person":"veteran","name":"David Grant","claim_type":"S","application_year":1820,"act_cohort":"1820-31","stops":[{"seq":1,"place_id":"NC","state":"NC","precision":"state","kind":"served","method":"served_state"},{"seq":2,"place_id":"ors_clatsop","state":"Oregon Territory","precision":"county","kind":"now_resides","date":1820,"page":10}]}]
