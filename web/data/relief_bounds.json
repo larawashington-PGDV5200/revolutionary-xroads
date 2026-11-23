@@ -14,7 +14,18 @@
  "hillshade": {
   "azimuth": 315,
   "altitude": 45,
-  "z_factor": 1
+  "z_factor": 5,
+  "stretch": {
+   "method": "linear, land cells",
+   "percentiles": [
+    1,
+    99
+   ],
+   "shade_range": [
+    0.471,
+    0.858
+   ]
+  }
  },
  "ocean": "transparent where z <= 0",
  "elevation_m": [
