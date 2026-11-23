@@ -301,6 +301,18 @@ Output: those two files, same format as existing entries.
 Report back: decision IDs added.
 ```
 
+### B-023 TopoJSON nesting + hillshade fix · coder · 2026-11-23 · T-010-topojson-hillshade-fix.md
+**Status:** approved by Lara 2026-11-23, sent 2026-11-23 · output reviewed by Lara: ☐
+**Output:** E01_base.ipynb, C01_native.ipynb; web/data/ borders, water, native_land, removal_routes .topojson; relief.png, relief_bounds.json, relief_terrarium.png, reservations.json
+```text
+Goal: make the E01 and C01 TopoJSON outputs decode correctly and give the hillshade visible relief.
+Context: tasks/T-010-topojson-hillshade-fix.md (the bug and where it is); T-006 and T-007 for the original specs and counts. Kernel: revx (.venv). topojson-client is installed in web/node_modules.
+Do: per T-010. Fix to_topojson/read_topojson (E01) and topo_encode/topo_decode (C01), re-run both notebooks top to bottom, add the node topojson-client check, tune the hillshade. Then commit only the T-010 files with a short message, no Claude attribution. If git commit is blocked by permissions, stage those files instead and say so.
+Don't: touch web/src, web/index.html or any other web/ code; edit A*, B01, D01 or V00 notebooks, rx/, config.py, data/raw or data/processed; use any ML/LLM model; push. Markdown only to describe the data.
+Output: the files in T-010 "Files"; the T-010 Result section filled in; hillshade preview PNG in your scratch folder.
+Report back: counts before/after per object, the check result, z_factor and stretch chosen, preview path, commit hash (or "staged, commit blocked").
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

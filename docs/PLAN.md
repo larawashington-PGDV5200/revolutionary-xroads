@@ -87,8 +87,9 @@ documented move from the claims once (every consecutive pair of places in a pers
 a filter by application cohort. The 1,121 moves with a dated "removed to" can be shown as dated detail.
 **Dated layers (2, 5, 6):** keep a year slider (decades), since cessions, reserves and roads have real dates.
 
-**Map extent:** wherever the data has activity (incl. trans-Mississippi states). **Flow grain:** state
-to state on the map; click a state for its counties.
+**Map extent:** residence places + 1°, west edge cut at −100° (ETOPO limit; drops 3 places, 4 rows:
+Clatsop OR, Butte CA, Calaveras CA; Lara, 2026-11-23). **Flow grain:** state to state on the map; click a
+state for its counties.
 
 ## 3a. Land price method (L3)
 Standard unit: **US dollars per acre, nominal** (dollars dominate priced ads from 1802; federal minimums
@@ -100,7 +101,8 @@ are in dollars). Display only where an ad states acres and a price.
    $4.44). The state is the paper's state unless the ad names another currency. Source: McCusker (1978) via R7.
 4. Flag, don't convert: Continental/state paper 1776–81 and depreciated state paper 1785–89.
 5. Benchmarks on the same scale: federal minimums $1 (1785), $2 (1796), $1.25 (1820).
-No inflation adjustment in v1. Rates marked partial in R7 (VA, MD, DE, NC, GA, SC) need a historian check.
+No inflation adjustment in v1. Rates: see R8 (`research/currency_rates_R8.csv`), which adds SC/GA 4s 8d.
+**On hold (Lara, 2026-11-23):** no $/acre for now; ads show acres and price as printed. Only ~800 ads have both.
 
 ## 4. Data model
 Pipeline A tables stay as they are (`households`, `residences`, `reasons`, `places` + views `moves`,
@@ -110,12 +112,14 @@ New, small, one file per layer for the web (GeoJSON/TopoJSON or JSON, in `web/da
 | File | Grain | Key fields |
 |---|---|---|
 | `flows.json` | from × to × Act cohort, over every documented leg (state; county where both known) | from, to, act_cohort, legs, people, claim_types |
-| `paths.json` | person × stop, ordered | NAID, person, seq, place_id, state, kind (born / enlisted / served / removed_to / lived_since / married / now_resides), date, page |
+| `paths.json` + `paths/<state>.json` | person × stop, ordered; split by last stop's state (index + 33 files) | NAID, person, seq, place_id, state, kind (born / enlisted / served / removed_to / lived_since / married / now_resides), date, page |
 | `nodes.json` | place × Act cohort | place_id, lat, lon, people_left, people_arrived |
-| `ads.json` | ad run | ad_id, paper, date, place_id, acres, price_as_stated, currency_as_stated, usd_per_acre, price_flag, image_url, text |
-| `native_land.topojson` | Royce polygon | cessnum, nation_as_named, cession_date |
+| `ads_places.json` (MVP) | place × decade | n_ads, n_runs, n_ads_fallback, papers |
+| `ads.json` (after V1) | ad run | ad_id, paper, date, place_id, acres, price_as_stated, currency_as_stated, usd_per_acre, price_flag, image_url, text |
+| `native_land.topojson` | Royce polygon (every dated row, incl. after 1840) | cessnum, nation_as_named, cession_date |
 | `reservations.json` | reserve | name, nation, start, end, lat, lon, coord_method |
-| `infrastructure.topojson` | line or point | kind (road/canal/rail/route), name, year_open, source |
+| `infrastructure.topojson` | line or point | kind (road/canal/rail/steamboat/route), name, year_open, year_exact, source |
+| `removal_routes.topojson` | NPS segment, undated | all NPS columns |
 | `relief.png`, `water.topojson` | static | — |
 
 ## 5. Build: deck.gl (Lara, 2026-11-22)
@@ -133,9 +137,9 @@ A01–A08 stay as Lara worked them (coached). The remaining data gets its own **
 no learning exercises, markdown only to describe the data (source, grain, counts, caveats).
 | NB | Does | Output → `web/data/` |
 |---|---|---|
-| B01_ads | land-sale blocks → ad runs, place, acres, price, $/acre (§3a), image URL | `ads.json` |
-| C01_native | Royce + R1 + R4/T-002 + pre-1784 lines → cession, line and reserve layers | `native_land.topojson`, `reservations.json` |
-| D01_infrastructure | Atack + NPS + R7 roads (wagon-passable year; other dates in tooltips) → dated lines | `infrastructure.topojson` |
+| B01_ads | land-sale blocks → ad runs, place, acres, price as printed, page image URL | `ads_places.json` (+ `data/interim/ads.parquet`) |
+| C01_native | Royce + R1 + R4/T-002 + pre-1784 lines + NPS Trail of Tears → cession, line, reserve and route layers | `native_land.topojson`, `reservations.json`, `removal_routes.topojson` |
+| D01_infrastructure | Atack + R7 roads (wagon-passable year; other dates in tooltips) → dated lines | `infrastructure.topojson` |
 | E01_base | ETOPO + Natural Earth + Newberry → relief, water, borders | `relief.png`, `water.topojson`, `borders.topojson` |
 | V00_export | `residences` + `households` → every documented leg, flows and nodes by Act cohort, per-person paths | `flows.json`, `nodes.json`, `paths.json` |
 Each needs a `tasks/T-NNN` before an agent writes it.
@@ -144,13 +148,34 @@ Each needs a `tasks/T-NNN` before an agent writes it.
 | Step | What | Who | Status |
 |---|---|---|---|
 | A | pension → households, residences, moves, reasons | Lara (coached) / Claude (D-013) | **done** |
-| T-004 | time-bin profile + ad price/acre coverage | data-analyst | sent (B-015) |
-| B-013 | verify and fetch L1, L6, NPS sources | researcher | sent |
-| B-014 | L2 wording, pre-1784 lines, ad currency → $, road list | historian | sent |
-| Data | T-005 V00_export, T-006 E01, T-007 C01, T-008 B01, T-009 D01 (§5a) | coder per task (new session), Lara reviews | approved |
-| B-021 | currency rates check (VA, MD, DE, NC, GA, SC) | historian, in parallel | approved |
-| **MVP** | deck.gl stack, all six layers with real data; L4 all moves + one veteran's path; L3 circles by number of ads; decade slider for L2/5/6; explode/collapse; plain styling | Lara | next milestone |
-| V1 | detail views, annotations, design pass, T-003 outlines | Lara | last |
+| T-004 | time-bin profile + ad price/acre coverage | data-analyst | done (B-015) |
+| B-013 | verify and fetch L1, L6, NPS sources | researcher | done |
+| B-014 | L2 wording, pre-1784 lines, ad currency → $, road list | historian | done |
+| Data | T-005 V00_export, T-006 E01, T-007 C01, T-008 B01, T-009 D01 (§5a) | coder per task, Lara reviews | **done; data frozen for MVP** (2026-11-23) |
+| B-021 | currency rates check (VA, MD, DE, NC, GA, SC) | historian | done (R8) |
+| **MVP** | deck.gl stack, all six layers with real data; L4 all moves + one veteran's path; L3 circles by number of ads; decade slider for L2/5/6; explode/collapse; plain styling | Lara | **now** |
+| V1 | detail views, annotations, design pass, T-003 outlines | Lara | next |
+| Fixes | data fixes below | agents per task, Lara approves | after V1 |
+
+### MVP: decisions applied as filters in the viz (no data rerun)
+- L4: homes only by default (flows minus `served_legs`; paths skip `served` stops); served legs as a toggle.
+- L3: ads naming no place (`n_ads_fallback`) drawn as an outline ring at the paper's place.
+- L6: rail year = `year_exact` if set and ≤ `year_open`, else `year_open`; hide tidal reaches
+  (`date_quality` placeholder); drop R7 canals that have an `atack_match`.
+- L5: drop the 31 NPS segments with `DATAACCESS = Internal NPS Only`.
+
+### Data fixes after V1 (decided 2026-11-23; each needs a task or brief)
+1. **Historian (one brief):** USFS cession dates vs Royce 1899 (look one day early); the 5 NY state-cession
+   points (2 guessed counties); PA 1784/85 deed points; Wilderness Road wagon year (1795 or 1796).
+2. **C01:** +1 day on shifted USFS dates if confirmed; add PA 1784/85 deeds as `not_royce` points; drop the
+   31 internal NPS segments; trim the web routes file to name, route, segment type, source.
+3. **D01:** clip lines to −100°; rail `year_open` rule above; tidal flag; drop R7 canal duplicates.
+4. **V00:** `served` as a person field, not a stop (residence-only legs).
+5. **B01 matcher:** old spellings (Culpepper, Berkley), plural "counties", "in this State" = paper's state,
+   join OCR blocks that start mid-ad, town → county list (researcher finds a historical gazetteer first);
+   count an ad in **every** place it names (sheriff lists explained on the page). Then choose the circle style.
+6. **B01 later:** per-ad IIIF crops (page sizes from `.chunks.json`), `ads.json`; $/acre from R8 if un-held.
+7. **Lara:** ask Atack about a licence before publishing derived lines.
 
 ## Verification
 Assertion cells end every notebook. Each export states counts per bin. Historical claims, dates and

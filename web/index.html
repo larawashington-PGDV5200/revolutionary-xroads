@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revolution Migration</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <aside id="panel">
+      <h1>Revolution Migration</h1>
+      <button id="explode">Explode</button>
+      <fieldset>
+        <legend>Layers</legend>
+        <div id="toggles"></div>
+      </fieldset>
+      <label>Pension Act cohort <select id="cohort"></select></label>
+    </aside>
+
+    <footer id="timeline">
+      <input id="year" type="range" />
+      <span id="year-label"></span>
+    </footer>
+
+    <p id="hint" hidden></p>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

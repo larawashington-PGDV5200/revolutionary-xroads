@@ -1,0 +1,24 @@
+/* Plain on purpose: white ground, small type. The design pass is V1. */
+html, body { margin: 0; height: 100%; background: #fff; color: #222; font: 13px/1.4 system-ui, sans-serif; }
+#map { position: absolute; inset: 0; }
+
+#panel {
+  position: absolute; top: 12px; left: 12px; width: 210px; padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd;
+  display: flex; flex-direction: column; gap: 8px;
+}
+#panel h1 { font-size: 14px; margin: 0; }
+#panel fieldset { border: 1px solid #eee; margin: 0; padding: 6px 8px; }
+#toggles label { display: block; }
+
+#timeline {
+  position: absolute; left: 12px; right: 12px; bottom: 12px; padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd;
+  display: flex; align-items: center; gap: 12px;
+}
+#year { flex: 1; }
+
+#hint {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0;
+  padding: 10px 14px; background: #fffbe6; border: 1px solid #e6d58a;
+}
