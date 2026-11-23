@@ -177,6 +177,114 @@ Report back: rows with a point by coord_method, rows without one and why, any Ro
 ### B-012 T-002 reservation points (date check) · historian · 2026-11-17 · T-002
 **Status:** drafted; Lara reviews again after B-011 finishes. Not sent.
 
+### B-013 Layer sources L1, L5, L6 · researcher · 2026-11-22
+**Status:** approved by Lara, sent (post offices dropped and map extent added, per Lara's same-message edits) · output reviewed by Lara: ☐
+**Output:** `research/R6-layer-sources.md`; downloads in `data/raw/gis/<name>/`
+```text
+Goal: confirm and fetch the open sources for layers 1, 5 and 6.
+Context: docs/PLAN.md §1 (rows marked verify); research/R2-gis-sources.md. Map extent = wherever the pension data has activity (incl. trans-Mississippi states such as MO/AR/IA).
+Do: for ETOPO 2022, Natural Earth 10m water, Atack transport GIS and NPS trails, report the licence, coverage up to 1840, date fields and size. Download the small open ones to data/raw/gis/<name>/. Also check for an open GIS line for the 1763 Proclamation and Fort Stanwix 1768 lines.
+Don't: download anything over 500 MB or behind a login; convert or clip files; edit the plan.
+Output: research/R6-layer-sources.md (table + Chicago author-date).
+Report back: verdict per source, the licence blockers, and what's left for hand-tracing.
+```
+
+### B-014 Layer history L2, L3, L6 · historian · 2026-11-22
+**Status:** approved by Lara, sent · output reviewed by Lara: ☐
+**Output:** `research/R7-layers-history.md`, `research/roads_R7.csv`
+```text
+Goal: check the history behind layers 2, 3 and 6.
+Context: docs/PLAN.md §2–3; research/R1, R4.
+Do: (a) Is the Royce "not yet ceded" layer defensible for layer 2? Give the caveat wording and better sources if any. (b) Currencies used in land ads 1770–1810 by state, £ to $ rates (McCusker), and federal land prices 1785–1820. (c) Main roads and migration routes 1763–1840: name, opening year, endpoints, source.
+Don't: write data files except research/roads_R7.csv; paraphrase Native views.
+Output: research/R7-layers-history.md + roads_R7.csv.
+Report back: verdicts, unverified items, 3 lines of caveat text for the page.
+```
+
+### B-015 Time bins + ad price coverage · data-analyst · 2026-11-22 · T-004
+**Status:** approved by Lara (approves T-004), sent · output reviewed by Lara: ☐
+**Output:** `rx-pipeline/notebooks/S3_profile_bins_prices.ipynb`
+```text
+Goal: evidence for the slider bins and for $/acre coverage in land ads.
+Context: tasks/T-004-time-bins-ad-prices.md; rx-pipeline/schema.sql; docs/DATA.md.
+Do: per T-004.
+Don't: write to data/; edit A* notebooks or rx/; use any model; commit.
+Output: rx-pipeline/notebooks/S3_profile_bins_prices.ipynb, executed.
+Report back: recommended bins with the counts behind them; how many ads have acres, a price, or both.
+```
+
+### B-016 V00 export: migration flows + paths · coder · 2026-11-23 · T-005-v00-export-migration.md
+**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Output:** rx-pipeline/notebooks/V00_export.ipynb; web/data/flows.json, nodes.json, paths.json
+```text
+Goal: export every documented move in the claims as flows, nodes and per-person paths.
+Context: tasks/T-005-v00-export-migration.md; docs/PLAN.md; docs/DATA.md. Kernel: revx (.venv).
+Do: per T-005.
+Don't: edit A* notebooks, rx/, config.py or anything in data/raw or data/processed; use any ML/LLM model; commit or push. Markdown only to describe the data (source, grain, counts, caveats); no exercises. In DuckDB cast DOUBLE dates to int before `//`.
+Output: rx-pipeline/notebooks/V00_export.ipynb; web/data/flows.json, nodes.json, paths.json
+Report back: counts from the Done-when checks, anything that contradicts the plan, open questions.
+```
+
+### B-017 E01 base layers · coder · 2026-11-23 · T-006-e01-base-layers.md
+**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Output:** rx-pipeline/notebooks/E01_base.ipynb; web/data/relief.png, relief_bounds.json, water.topojson, borders.topojson
+```text
+Goal: build relief, water and period borders for layer 1.
+Context: tasks/T-006-e01-base-layers.md; docs/PLAN.md; docs/DATA.md. Kernel: revx (.venv).
+Do: per T-006.
+Don't: edit A* notebooks, rx/, config.py or anything in data/raw or data/processed; use any ML/LLM model; commit or push. Markdown only to describe the data (source, grain, counts, caveats); no exercises. In DuckDB cast DOUBLE dates to int before `//`.
+Output: rx-pipeline/notebooks/E01_base.ipynb; web/data/relief.png, relief_bounds.json, water.topojson, borders.topojson
+Report back: counts from the Done-when checks, anything that contradicts the plan, open questions.
+```
+
+### B-018 C01 Native land + reserves · coder · 2026-11-23 · T-007-c01-native-layers.md
+**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Output:** rx-pipeline/notebooks/C01_native.ipynb; web/data/native_land.topojson, reservations.json, removal_routes.topojson
+```text
+Goal: build layers 2 and 5 from Royce, R1, R4/T-002 and R7.
+Context: tasks/T-007-c01-native-layers.md; docs/PLAN.md; docs/DATA.md. Kernel: revx (.venv).
+Do: per T-007.
+Don't: edit A* notebooks, rx/, config.py or anything in data/raw or data/processed; use any ML/LLM model; commit or push. Markdown only to describe the data (source, grain, counts, caveats); no exercises. In DuckDB cast DOUBLE dates to int before `//`.
+Output: rx-pipeline/notebooks/C01_native.ipynb; web/data/native_land.topojson, reservations.json, removal_routes.topojson
+Report back: counts from the Done-when checks, anything that contradicts the plan, open questions.
+```
+
+### B-019 B01 land ads (MVP) · coder · 2026-11-23 · T-008-b01-land-ads.md
+**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Output:** rx-pipeline/notebooks/B01_ads.ipynb; data/interim/ads.parquet; web/data/ads_places.json
+```text
+Goal: count land ads per place named, for the MVP circles.
+Context: tasks/T-008-b01-land-ads.md; docs/PLAN.md; docs/DATA.md. Kernel: revx (.venv).
+Do: per T-008.
+Don't: edit A* notebooks, rx/, config.py or anything in data/raw or data/processed; use any ML/LLM model; commit or push. Markdown only to describe the data (source, grain, counts, caveats); no exercises. In DuckDB cast DOUBLE dates to int before `//`.
+Output: rx-pipeline/notebooks/B01_ads.ipynb; data/interim/ads.parquet; web/data/ads_places.json
+Report back: counts from the Done-when checks, anything that contradicts the plan, open questions.
+```
+
+### B-020 D01 infrastructure · coder · 2026-11-23 · T-009-d01-infrastructure.md
+**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Output:** rx-pipeline/notebooks/D01_infrastructure.ipynb; web/data/infrastructure.topojson
+```text
+Goal: build dated transport lines to 1840 for layer 6.
+Context: tasks/T-009-d01-infrastructure.md; docs/PLAN.md; docs/DATA.md. Kernel: revx (.venv).
+Do: per T-009.
+Don't: edit A* notebooks, rx/, config.py or anything in data/raw or data/processed; use any ML/LLM model; commit or push. Markdown only to describe the data (source, grain, counts, caveats); no exercises. In DuckDB cast DOUBLE dates to int before `//`.
+Output: rx-pipeline/notebooks/D01_infrastructure.ipynb; web/data/infrastructure.topojson
+Report back: counts from the Done-when checks, anything that contradicts the plan, open questions.
+```
+
+### B-021 Currency rates check · historian · 2026-11-23
+**Status:** drafted, awaiting Lara's approval; runs in parallel with B-016–B-020 · output reviewed by Lara: ☐
+**Output:** `research/R8-currency-rates.md`, `research/currency_rates_R8.csv`
+```text
+Goal: verify each state's rating of the Spanish dollar (shillings per dollar) for converting land-ad prices to $/acre.
+Context: docs/PLAN.md §3a; research/R7-layers-history.md (rates marked partial).
+Do: confirm rates for VA, MD, DE, NC, GA, SC (and recheck New England, NY, PA, NJ, sterling) by period 1770–1810, from McCusker (1978) or another primary/standard source; note when each state's rating changed and when dollars replaced pounds in practice; how to treat Continental and state paper 1776–81 and 1785–89.
+Don't: write files other than the two outputs; use rates from memory without a cited source; mark anything verified you haven't read.
+Output: research/R8-currency-rates.md (method + Chicago author-date); research/currency_rates_R8.csv (state, from_year, to_year, shillings_per_dollar, usd_per_pound, status, source).
+Report back: the table, unverified rows and why, any change to the PLAN §3a method.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

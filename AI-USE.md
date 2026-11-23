@@ -18,7 +18,7 @@ Models that process project data (not the Claude agents above). Each must be app
 
 | Model | Used for | Approved | Decision |
 |---|---|---|---|
-| — | — | — | — |
+| Claude Opus 5.5 (this session) | hand-label the A07 validation sample (460 snippets) to measure rule precision; not used to label the full data | Lara, 2026-11-22 (one-off) | D-013 |
 
 ## Process
 1. The orchestrator drafts a brief, Lara approves it, then the agent runs. Briefs are logged in `log/PROMPTS.md`.

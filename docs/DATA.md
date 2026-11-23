@@ -67,3 +67,10 @@ R4 mapping: ~60 rows can be points; 6 dispersed allotment classes can't (Fort Ja
 - Land ads: 22,435 land-sale blocks; 519 military/bounty, only 99 Native title/cession. VA papers → OH/TN/KY land dominate; military-land ads cluster 1795–1810.
 - Weather: news peaks 1772-10 storm (40% of pages — 1772 Caribbean hurricane), 1780-01 cold 31%, 1780-12 storm 24%. Pension passages: war & military 56% vs news 19%; travel & terrain 35% vs 13%; news more property/trade. Lexicon sentiment ≈ 0 median for both — too crude.
 - Time anchor rule (isTimeAnchor, life event + "dated by" weather phrase): pension 4.5% of passages (58/1,275; 40 are Dark Day) vs news 0.2%. Some false positives (poems, floods destroying records).
+
+## Pipeline A results (2026-11-22, A06–A08; rules validated in A07)
+- Residences: 111,317 rows in 64,315 files (101,967 regex rows + 9,350 most-frequent-state fallback). Regex finds ≥1 place in 89.5% of files with a declaration.
+- A07 hand labels (20 per kind × precision; labelled by Claude at Lara's request): residence rules 89–97% correct on decided rows, 83% row-weighted strict. Main errors: `now_resides` grabbing the residence at enlistment or a witness's town; windows running into a later place; non-unique county names (Antrim, Ireland → MI). About 1 in 5 state-level rows had a county in the text that wasn't captured.
+- Households: served vs. final = 60,003 files, 53.7% moved (prototype 2: 59,757, 52.8%). Origin vs. final: 60,477, 54.3% moved, 11,176 moved west. Top flows: CT→NY 3,138 · MA→ME 2,671 · MA→NY 2,289 · VA→KY 1,675.
+- Moves view: 18,910 moves in 14,235 files; 5,577 dated at both ends; only 1,040 end by 1810 (964 files), which is why ads join by place × period only.
+- Reasons: "reasons for removing" statements in 2,079 transfer files (1,638 with a coded reason). Statement codes family, age_health, land_work and climate are 90–95% correct; poverty 75%, spouse 53%, pension_admin 15%. Declaration keywords near "moved" are mostly service narrative (conflict 0%, war_damage 11%, health 20%): keep them out of the viz.

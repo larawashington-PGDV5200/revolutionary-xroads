@@ -70,7 +70,7 @@ News column: **yes** = printing in 1770–1810 confirmed; **cand.** = a likely c
 | Ethnography (Wallace and Hoebel 1952) | Heckewelder 1819 (Moravian); Benjamin Hawkins on the Creek country | mediated |
 | 20th-century Native oral testimony | R3-23, R3-24 | oral history |
 | Newspapers | the project's HF news corpus; *Cherokee Phoenix* (R3-17), which Cherokees ran themselves | R3-17 yes |
-| Secondary syntheses (Fehrenbach; Hämäläinen) | Native-authored scholarship: Lisa Brooks (Abenaki), *The Common Pot* (2008) and *Our Beloved Kin* (2018); Jean M. O'Brien (White Earth Ojibwe), *Firsting and Lasting* (2010). Other syntheses: Richard White, *The Middle Ground* (1991) | partly |
+| Secondary syntheses (Fehrenbach; Hämäläinen) | Native-authored scholarship: Jean M. O'Brien (White Earth Ojibwe), *Firsting and Lasting* (2010). Other syntheses: Lisa Brooks, *The Common Pot* (2008) (Abenaki identity disputed by Odanak and Wôlinak leaders, see R7; not labelled Native-authored); Richard White, *The Middle Ground* (1991) | partly |
 | *(no Gwynne equivalent)* Native-written petitions, memorials and a newspaper | R3-13 to R3-21 | yes |
 
 ## Caveats

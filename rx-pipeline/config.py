@@ -46,6 +46,13 @@ DATASETS = {
         "columns": NEWS_COLUMNS,
         "glob": "data/train-*.parquet",
     },
+    "ocr_blocks": {
+        "repo": f"{HF_ORG}/RevX_OCR_results",
+        "revision": "92477706d19db4dcd0c425e01e1ff85a209a8269",
+        "files": [f"block_level/train-{i:05d}-of-00027.parquet" for i in range(27)],
+        "columns": ["filename", "collection", "page_number", "block_id", "block_type", "block_text", "block_bbox"],
+        "glob": "block_level/train-*.parquet",
+    },
     "ner_chronam": {
         "repo": f"{HF_ORG}/RevX_NER_Entity_Occurrences",
         "revision": "54b6ea35ae2eaeacc70988606d9bab689e3e2ec1",

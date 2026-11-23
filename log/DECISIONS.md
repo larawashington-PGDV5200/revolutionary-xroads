@@ -59,3 +59,15 @@ D-001–D-003 were written after the fact (2026-10-30).
 ## D-011 Historian may write data files · 2026-11-04
 **Why:** the R3 run wrote the .md but not the CSV because its rules forbade data files; Lara updated its `agent.md` (B-005).
 **In → out:** R3 gap → historian `agent.md`
+
+## D-012 Rescope to "Revolution Migration" · 2026-11-17
+**Why:** the grain was too fine and the joins too many. Households and their moves (when, where, why) from the pension files are the core. Land ads become visual artifacts joined by place × period only, and reservations become a dated layer showing the countermovement.
+**Rejected:** NER, sentiment, cession joins, witnesses, service table, name links between ads and households; a household-level ad link (only 964 files have a move ending by 1810).
+**In → out:** "Veterans West" plan → `docs/PLAN.md` (6 tables + 2 views, county grain, parquet + DuckDB)
+
+## D-013 A06–A08 written and A07 labelled by Claude · 2026-11-22
+**Why:** Lara asked Claude to finish the A notebooks and do the validation itself, to keep moving. This is an exception to D-009 (coached notebooks) and to the model gate (D-007): Claude, an LLM, read and labelled 460 sampled snippets.
+**Scope:** labels are only for measuring rule precision (`interim/validation.csv`, column `labeller`). They don't feed any table. No model labels the full data.
+**Result:** residence rules 89–97% correct (decided rows); reason-statement codes family / age_health / land_work / climate ≥ 90%; declaration-near-move codes dropped from the viz.
+**Rejected:** Lara hand-labelling (time).
+**In → out:** guide answer keys → `A06_reasons`, `A07_validate`, `A08_outputs`, `rx-pipeline/schema.sql`, `docs/CODEBOOK.md`
