@@ -71,3 +71,55 @@ D-001–D-003 were written after the fact (2026-10-30).
 **Result:** residence rules 89–97% correct (decided rows); reason-statement codes family / age_health / land_work / climate ≥ 90%; declaration-near-move codes dropped from the viz.
 **Rejected:** Lara hand-labelling (time).
 **In → out:** guide answer keys → `A06_reasons`, `A07_validate`, `A08_outputs`, `rx-pipeline/schema.sql`, `docs/CODEBOOK.md`
+
+## D-014 Final output is an exploded axonometric of 6 layers · 2026-11-23
+**Why:** Lara has a clear picture of the final viz (reference images: exploded axonometric urban-systems analyses); the layers tell the narrative of time. She chose deck.gl over D3 + CSS 3D.
+**Decided:** interactive web page, built in deck.gl; one time slider (see `docs/PLAN.md`).
+**Rejected:** the 2026-11-17 notebook-map plan (replaced); D3 + CSS 3D.
+**In → out:** D-012 plan → `docs/PLAN.md` (revised 2026-11-22)
+**Prompt:** P-004
+
+## D-015 Native research back in scope, as layers only · 2026-11-23
+**Why:** layers 2 and 5 need Native territory to show the hypothesis (effect of migration on Native nations).
+**Decided:** relaxes D-012; layers only, no joins. L2 = "land not yet ceded to the US (Royce 1899)" with R7 fixes; empty areas are disclaimed.
+**Rejected:** Whose Land (Canada-focused, built on Native Land, contemporary, no reuse terms) and Native Land.
+**In → out:** D-012, R1/R4/R7 → layers 2 and 5 (T-007)
+
+## D-016 Migration shows every documented move, no decade bins · 2026-11-23
+**Why:** S3 profile: median range is 65 years and 81% of claims end at the application year, so bins would flatten it. Lara: every person should be traceable to every documented place (born, served, interim moves, applied from).
+**Decided:** all claim types at once; Pension Acts as markers/filter; per-person paths. The decade slider applies only to the dated layers 2, 5 and 6.
+**Rejected:** decade bins for migration.
+**In → out:** S3, claims table → T-005 flows, nodes, paths
+
+## D-017 Map extent follows the data; flows are state→state with county drill-down · 2026-11-23
+**Why:** Lara: "wherever there's activity"; state flows stay readable, county-to-county would be too dense.
+**Decided:** extent = wherever the data has activity (including trans-Mississippi, e.g. MO/AR/IA).
+**In → out:** pension data → map footprint, flows
+
+## D-018 Land ads: MVP is circles by number of ads · 2026-11-23
+**Why:** only 3.1% of land-sale blocks state both acres and price (S3); MVP focus.
+**Decided:** $/acre comes later, in nominal USD per PLAN §3a, only where a price is stated. Chart removed.
+**In → out:** land ads → T-008 `ads_places.json`
+
+## D-019 Settlement / post-office layer cut · 2026-11-23
+**Why:** Lara's call, keeping the layer set lean.
+**In → out:** plan → 6 layers
+
+## D-020 Atack transport GIS used with citation · 2026-11-23
+**Why:** Lara: citing it doesn't inhibit using or drawing lines from his data.
+**Decided:** cite him; Lara emails him about the project afterwards.
+**In → out:** R6 → layer 6 (T-009)
+
+## D-021 Agents write the remaining data notebooks · 2026-11-23
+**Why:** A01–A08 were worked through for learning; the remaining notebooks prioritise efficiency.
+**Decided:** T-005 to T-009 are streamlined, with markdown only to describe the data. Exception to D-009 (coached notebooks).
+**In → out:** D-009, tasks T-005–T-009 → V00, E01, C01, B01, D01
+**Prompt:** B-016 to B-020
+
+## D-022 Lisa Brooks not labelled Native-authored · 2026-11-23
+**Why:** her identity is disputed by Odanak and Wôlinak leaders.
+**In → out:** R3 → source labels
+
+## D-023 OCR pin added to config.py; revx (.venv) kernel registered · 2026-11-23
+**Why:** the pin keeps remote queries reproducible; the old kernel launched a pipx Python without duckdb.
+**In → out:** B-010 findings → `rx-pipeline/config.py`, kernels

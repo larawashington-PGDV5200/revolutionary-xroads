@@ -16,3 +16,15 @@ flowchart LR
   plan --> D009{{D-009 A00 given, A01+ coached}} --> notebooks([A00 + A01+ notebooks])
   plan --> D010{{D-010 reservations at territories stage}} --> planDE([plan D/E])
   research --> D011{{D-011 historian writes data files}} --> historianmd([historian agent.md])
+  plan --> D012{{D-012 rescope to Revolution Migration}} --> planv1([plan v1 notebook map])
+  planv1 --> D013{{D-013 A06-A08 written and A07 labelled by Claude}} --> anb([A06-A08, schema, codebook])
+  plan --> D014{{D-014 exploded axonometric, deck.gl}} --> planrev([plan rev. 2026-11-22])
+  planrev --> D015{{D-015 Native layers only}} --> layers25([layers 2 and 5])
+  planrev --> D016{{D-016 every documented move, no bins}} --> migration([migration export])
+  D016 --> D017{{D-017 extent follows data}} --> migration
+  planrev --> D018{{D-018 ads MVP circles}} --> adsmvp([ads_places])
+  planrev --> D019{{D-019 settlement layer cut}}
+  research --> D020{{D-020 Atack cited}} --> layer6([layer 6])
+  notebooks --> D021{{D-021 agents write data notebooks}} --> datanbs([T-005 to T-009 notebooks])
+  research --> D022{{D-022 Brooks not labelled Native}} --> labels([source labels])
+  D021 --> D023{{D-023 OCR pin, revx kernel}} --> configk([config.py, kernel])

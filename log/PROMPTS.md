@@ -177,6 +177,10 @@ Report back: rows with a point by coord_method, rows without one and why, any Ro
 ### B-012 T-002 reservation points (date check) · historian · 2026-11-17 · T-002
 **Status:** drafted; Lara reviews again after B-011 finishes. Not sent.
 
+### B-012a whose.land check · web-fetch · 2026-11-22
+**Status:** sent by the orchestrator without a drafted brief (treated as a page lookup to answer Lara's question)
+**Output:** report in chat only (Canada-focused, built on Native Land, contemporary, no reuse terms → not used, D-015)
+
 ### B-013 Layer sources L1, L5, L6 · researcher · 2026-11-22
 **Status:** approved by Lara, sent (post offices dropped and map extent added, per Lara's same-message edits) · output reviewed by Lara: ☐
 **Output:** `research/R6-layer-sources.md`; downloads in `data/raw/gis/<name>/`
@@ -214,7 +218,7 @@ Report back: recommended bins with the counts behind them; how many ads have acr
 ```
 
 ### B-016 V00 export: migration flows + paths · coder · 2026-11-23 · T-005-v00-export-migration.md
-**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Status:** approved by Lara 2026-11-23, sent 2026-11-23 · output reviewed by Lara: ☐
 **Output:** rx-pipeline/notebooks/V00_export.ipynb; web/data/flows.json, nodes.json, paths.json
 ```text
 Goal: export every documented move in the claims as flows, nodes and per-person paths.
@@ -226,7 +230,7 @@ Report back: counts from the Done-when checks, anything that contradicts the pla
 ```
 
 ### B-017 E01 base layers · coder · 2026-11-23 · T-006-e01-base-layers.md
-**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Status:** approved by Lara 2026-11-23, sent 2026-11-23 · output reviewed by Lara: ☐
 **Output:** rx-pipeline/notebooks/E01_base.ipynb; web/data/relief.png, relief_bounds.json, water.topojson, borders.topojson
 ```text
 Goal: build relief, water and period borders for layer 1.
@@ -238,7 +242,7 @@ Report back: counts from the Done-when checks, anything that contradicts the pla
 ```
 
 ### B-018 C01 Native land + reserves · coder · 2026-11-23 · T-007-c01-native-layers.md
-**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Status:** approved by Lara 2026-11-23, sent 2026-11-23 · output reviewed by Lara: ☐
 **Output:** rx-pipeline/notebooks/C01_native.ipynb; web/data/native_land.topojson, reservations.json, removal_routes.topojson
 ```text
 Goal: build layers 2 and 5 from Royce, R1, R4/T-002 and R7.
@@ -250,7 +254,7 @@ Report back: counts from the Done-when checks, anything that contradicts the pla
 ```
 
 ### B-019 B01 land ads (MVP) · coder · 2026-11-23 · T-008-b01-land-ads.md
-**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Status:** approved by Lara 2026-11-23, sent 2026-11-23 · output reviewed by Lara: ☐
 **Output:** rx-pipeline/notebooks/B01_ads.ipynb; data/interim/ads.parquet; web/data/ads_places.json
 ```text
 Goal: count land ads per place named, for the MVP circles.
@@ -262,7 +266,7 @@ Report back: counts from the Done-when checks, anything that contradicts the pla
 ```
 
 ### B-020 D01 infrastructure · coder · 2026-11-23 · T-009-d01-infrastructure.md
-**Status:** drafted, awaiting Lara's approval; to run in a new session · output reviewed by Lara: ☐
+**Status:** approved by Lara 2026-11-23, sent 2026-11-23 · output reviewed by Lara: ☐
 **Output:** rx-pipeline/notebooks/D01_infrastructure.ipynb; web/data/infrastructure.topojson
 ```text
 Goal: build dated transport lines to 1840 for layer 6.
@@ -274,7 +278,7 @@ Report back: counts from the Done-when checks, anything that contradicts the pla
 ```
 
 ### B-021 Currency rates check · historian · 2026-11-23
-**Status:** drafted, awaiting Lara's approval; runs in parallel with B-016–B-020 · output reviewed by Lara: ☐
+**Status:** approved by Lara 2026-11-23, sent 2026-11-23 · output reviewed by Lara: ☐
 **Output:** `research/R8-currency-rates.md`, `research/currency_rates_R8.csv`
 ```text
 Goal: verify each state's rating of the Spanish dollar (shillings per dollar) for converting land-ad prices to $/acre.
@@ -283,6 +287,18 @@ Do: confirm rates for VA, MD, DE, NC, GA, SC (and recheck New England, NY, PA, N
 Don't: write files other than the two outputs; use rates from memory without a cited source; mark anything verified you haven't read.
 Output: research/R8-currency-rates.md (method + Chicago author-date); research/currency_rates_R8.csv (state, from_year, to_year, shillings_per_dollar, usd_per_pound, status, source).
 Report back: the table, unverified rows and why, any change to the PLAN §3a method.
+```
+
+### B-022 End-of-session log · scribe · 2026-11-23
+**Status:** approved by Lara ("run scribe"), sent
+**Output:** `log/DECISIONS.md`, `log/PROMPTS.md`
+```text
+Goal: record this session (2026-11-22/23, the axonometric pivot) in the project logs.
+Context: docs/PLAN.md (revised); log/raw/2026-11-23_c5bc7514.md (prompts logged since /log on; earlier prompts are summarised below); log/PROMPTS.md (B-013–B-022 already logged); research/R6, R7; tasks/T-004–T-009.
+Do: add decisions to log/DECISIONS.md: (1) final output = exploded axonometric of 6 layers, interactive web, built in deck.gl; (2) Native research back in scope as layers only (relaxes D-012; no joins): L2 = "land not yet ceded to the US (Royce 1899)" with R7 fixes, empty areas disclaimed; Whose Land and Native Land rejected; (3) migration = every documented move in the claims, all claim types, all at once with Pension Acts as markers/filter, per-person paths; no decade bins (S3: median range 65 yrs, 81% end at application year); decade slider only for dated layers 2/5/6; (4) map extent = wherever data has activity; flows state→state with county drill-down; (5) land ads: MVP circles by number of ads; $/acre in nominal USD per PLAN §3a, only where stated, later; (6) settlement/post-office layer cut; (7) Atack used with citation, Lara emails him; (8) agents write the remaining data notebooks (T-005–T-009), streamlined, markdown only to describe data — exception to D-009; (9) Lisa Brooks not labelled Native-authored (identity disputed by Odanak and Wôlinak leaders); (10) OCR pin added to config.py; revx (.venv) kernel registered. Add one sample prompt (the 2026-11-22 axonometric brief, quoted short) as the next P-number.
+Don't: edit any file other than log/DECISIONS.md and log/PROMPTS.md; change briefs already logged; tick anything as reviewed.
+Output: those two files, same format as existing entries.
+Report back: decision IDs added.
 ```
 
 ## Sample prompts
@@ -301,3 +317,8 @@ Report back: the table, unverified rows and why, any change to the PLAN §3a met
 > add to plan and fit into workflow at same stage as map overlay of native tribe terrories, also research into reservations with timings on when they were established and inhabited, and outlines of the reservation land borders- may need to be extrapolated based on findings.
 
 **Result:** plan updated (reservations at the territories stage), then briefs B-006 (dates + boundary text) and B-007 (GIS outlines), the second released after Lara's review of the first.
+
+### P-004 The axonometric pivot · 2026-11-22 · D-014
+> we are creating an isometric urban planning/architecture visualization for this revolution migration project … the different layers should tell the narrative of time, how human migration created urban infrastructure and how it affected native tribes (hypothesis).
+
+**Result:** revised `docs/PLAN.md` (six-layer exploded axonometric), then T-004 to T-009 and briefs B-013 to B-021.
