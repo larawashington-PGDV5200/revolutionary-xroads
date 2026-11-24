@@ -1,114 +1,112 @@
-place,state,pop_1790,pop_1800,pop_1810,pop_1820,pop_1830,pop_1840,place_type,alt_name,gibson_label,gibson_note
-Mobile,AL,,,,,3194,12672,city,,Mobile city,False
-Hartford,CT,2683,3523,3955,4726,7074,9468,city,,Hartford city,True
-Middletown,CT,,,,2618,3123,,city,,Middletown city,True
-New Haven,CT,4487,4049,5772,7147,10180,12960,city,,New Haven city,True
-New London,CT,,5150,3238,3330,4335,5519,city,,New London city,False
-Norwich,CT,,,2976,2983,3135,,city,,Norwich city,False
-Alexandria,DC,,4971,7227,8218,8241,8459,town,,Alexandria town,True
-Georgetown,DC,,2993,4948,7360,8441,7312,town,,Georgetown town,True
-Washington,DC,,3210,8208,13247,18826,23364,city,,Washington city,True
-Wilmington,DE,,,,,,8367,city,,Wilmington city,False
-Augusta,GA,,,,,6710,6403,city,,Augusta city,False
-Savannah,GA,,5146,5215,7523,7303,11214,city,,Savannah city,False
-Chicago,IL,,,,,,4470,city,,Chicago city,False
-New Albany,IN,,,,,,4226,city,,New Albany city,False
-Lexington,KY,,,4326,5279,6026,6997,town; city,,Lexington town; Lexington city,True
-Louisville,KY,,,,4012,10341,21210,town; city,,Louisville town; Louisville city,False
-New Orleans,LA,,,17242,27176,46082,102193,city,,New Orleans city,True
-Andover,MA,,,,,4530,5207,town,,Andover town,False
-Barnstable,MA,,,,,,4301,town,,Barnstable town,False
-Beverly,MA,,,4608,4283,4073,4689,town,,Beverly town,False
-Boston,MA,18320,24937,33787,43298,61392,93383,town; city,,Boston town; Boston city,True
-Cambridge,MA,,,,,6072,8409,town,,Cambridge town,False
-Charlestown,MA,,,4959,6591,8783,11484,town,,Charlestown town,True
-Danvers,MA,,,,,4228,5020,town,,Danvers town,False
-Dorchester,MA,,,,,4074,4875,town,,Dorchester town,True
-Fall River,MA,,,,,4158,6738,town,,Fall River town,False
-Gloucester,MA,5317,5313,5943,6384,7510,6350,town,,Gloucester town,False
-Haverhill,MA,,,,,,4336,town,,Haverhill town,False
-Lowell,MA,,,,,6474,20796,town; city,,Lowell town; Lowell city,False
-Lynn,MA,,,4087,4515,6138,9367,town,,Lynn town,False
-Marblehead,MA,5661,5211,5900,5630,5149,5575,town,,Marblehead town,False
-Middleborough,MA,4526,4458,4400,4687,5008,5085,town,,Middleborough town,False
-Nantucket,MA,,5617,6807,7266,7202,9012,town,,Nantucket town,False
-New Bedford,MA,,4361,5651,3947,7592,12087,town,,New Bedford town,False
-Newburyport,MA,4837,5946,7634,6852,6375,7161,town,,Newburyport town,False
-Plymouth,MA,,,4228,4348,4758,5281,town,,Plymouth town,False
-Roxbury,MA,,,,4135,5247,9089,town,,Roxbury town,True
-Salem,MA,7921,9457,12613,12731,13895,15082,town; city,,Salem town; Salem city,False
-Sherburne,MA,4620,,,,,,town,Nantucket,Sherburne town (Nantucket),True
-Springfield,MA,,,,,6784,10985,town,,Springfield town,False
-Taunton,MA,,,,4520,6042,7645,town,,Taunton town,False
-Worcester,MA,,,,,4173,7497,town,,Worcester town,False
-Annapolis,MD,,,,,2623,,city,,Annapolis city,False
-Baltimore,MD,13503,26514,46555,62738,80620,102313,town; city,,Baltimore town; Baltimore city,False
-Frederick,MD,,,,3640,4427,5182,town,,Frederick town,False
-Hagerstown,MD,,,,,3371,,town,,Hagerstown town,False
-Augusta,ME,,,,,,5314,town,,Augusta town,False
-Bangor,ME,,,,,,8627,city,,Bangor city,False
-Bath,ME,,,,,,5141,town,,Bath town,False
-Gardiner,ME,,,,,,5042,town,,Gardiner town,False
-Portland,ME,,3704,7169,8581,12598,15218,town; city,,Portland town; Portland city,False
-Detroit,MI,,,,,,9102,city,,Detroit city,False
-St. Louis,MO,,,,,4977,16469,city,,St. Louis city,False
-Natchez,MS,,,,,2789,,city,,Natchez city,False
-Fayetteville,NC,,,,3532,2868,4285,town,,Fayetteville town,False
-New Bern,NC,,,,3663,3796,,town,,New Bern town,False
-Raleigh,NC,,,,2674,,,city,,Raleigh city,False
-Wilmington,NC,,,,2633,3791,5335,town,,Wilmington town,False
-Concord,NH,,,,,,4897,town,,Concord town,False
-Dover,NH,,,,,5449,6458,town,,Dover town,False
-Nashua,NH,,,,,,6054,town,,Nashua town,False
-Portsmouth,NH,4720,5339,6934,7327,8026,7887,town,,Portsmouth town,False
-Elizabeth,NJ,,,2977,3515,3455,,borough,,Elizabeth borough,False
-Newark,NJ,,,,,10953,17290,township; city,,Newark township; Newark city,False
-Paterson,NJ,,,,,,7596,township,,Paterson township,False
-Trenton,NJ,,,3002,3942,3925,,city,,Trenton city,False
-Albany,NY,3498,5289,10762,12630,24209,33721,city,,Albany city,False
-Auburn,NY,,,,,,5626,town,,Auburn town,False
-Brooklyn,NY,,,4402,7175,12406,36233,town; city,,Brooklyn town; Brooklyn city,True
-Buffalo,NY,,,,,8668,18213,town; city,,Buffalo town; Buffalo city,True
-Hudson,NY,2584,3664,4048,5310,5392,5672,city,,Hudson city,False
-New York,NY,33131,60515,96373,123706,202589,312710,city,,New York city,True
-Rochester,NY,,,,,9207,20191,town; city,,Rochester town; Rochester city,True
-Schenectady,NY,,5289,5903,3939,4268,6784,city,,Schenectady city,False
-Troy,NY,,,,5264,11556,19334,city,,Troy city,False
-Utica,NY,,,,2972,8323,12782,town; city,,Utica town; Utica city,True
-Chillicothe,OH,,,,,2846,,city,,Chillicothe city,False
-Cincinnati,OH,,,2540,9642,24831,46338,town; city,,Cincinnati town; Cincinnati city,False
-Cleveland,OH,,,,,,6071,city,,Cleveland city,False
-Columbus,OH,,,,,,6048,city,,Columbus city,False
-Dayton,OH,,,,,2950,6067,town,,Dayton town,False
-Steubenville,OH,,,,,2937,4247,village,,Steubenville village,True
-Zanesville,OH,,,,,3094,4766,village,,Zanesville village,False
-Allegheny,PA,,,,,2801,10089,borough; city,,Allegheny borough; Allegheny city,True
-Carlisle,PA,,,,2908,3707,4351,borough,,Carlisle borough,False
-Easton,PA,,,,,3529,4865,borough,,Easton borough,False
-Harrisburg,PA,,,,2990,4312,5980,borough,,Harrisburg borough,False
-Kensington,PA,,,,7118,13394,22314,district,,Kensington district,True
-Lancaster,PA,,4292,5405,6633,7704,8417,borough; city,,Lancaster borough; Lancaster city,False
-Moyamensing,PA,,,,,6822,14573,township,,Moyamensing township,True
-Northern Liberties,PA,9913,10718,19874,19678,28872,34474,township; district,,Northern Liberties township; Northern Liberties district,True
-Philadelphia,PA,28522,41220,53722,63802,80462,93665,city,,Philadelphia city,True
-Pittsburgh,PA,,,4768,7248,12568,21115,borough; city,,Pittsburgh borough; Pittsburgh city,True
-Pottsville,PA,,,,,,4345,borough,,Pottsville borough,False
-Reading,PA,,,3462,4332,5856,8410,borough,,Reading borough,False
-Southwark,PA,5661,9621,13707,14713,20581,27548,district,,Southwark district,True
-Spring Garden,PA,,,,3498,11140,27849,district,,Spring Garden district,True
-York,PA,,2503,2847,3545,4216,4779,borough,,York borough,False
-Cumberland,RI,,,,,,5225,town,,Cumberland town,False
-Newport,RI,6716,6739,7907,7319,8010,8333,town,,Newport town,False
-Providence,RI,6380,7614,10071,11767,16833,23171,town; city,,Providence town; Providence city,True
-Warwick,RI,,,,,5529,6726,town,,Warwick town,False
-Charleston,SC,16359,18824,24711,24780,30289,29261,city,,Charleston city,False
-Columbia,SC,,,,,3310,4340,town,,Columbia town,False
-Nashville,TN,,,,,5566,6929,city,,Nashville city,False
-Alexandria,VA,2748,,,,,,town,,Alexandria town,True
-Fredericksburg,VA,,,,,3308,,town,,Fredericksburg town,False
-Lynchburg,VA,,,,,4630,6395,town,,Lynchburg town,False
-Norfolk,VA,2959,6926,9193,8478,9814,10920,borough,,Norfolk borough,False
-Petersburg,VA,2828,3521,5668,6690,8322,11136,town,,Petersburg town,False
-Portsmouth,VA,,,,,,6477,town,,Portsmouth town,False
-Richmond,VA,3761,5737,9735,12067,16060,20153,city,,Richmond city,False
-Wheeling,VA,,,,,,7885,city,,Wheeling city,True
+place,state,pop_1790,pop_1800,pop_1810,pop_1820,pop_1830,pop_1840,place_type,alt_name,gibson_label,gibson_note,merge_note
+Mobile,AL,,,,,3194,12672,city,,Mobile city,False,
+Hartford,CT,2683,3523,3955,4726,7074,9468,city,,Hartford city,True,
+Middletown,CT,,,,2618,3123,,city,,Middletown city,True,
+New Haven,CT,4487,4049,5772,7147,10180,12960,city,,New Haven city,True,
+New London,CT,,5150,3238,3330,4335,5519,city,,New London city,False,
+Norwich,CT,,,2976,2983,3135,,city,,Norwich city,False,
+Georgetown,DC,,2993,4948,7360,8441,7312,town,,Georgetown town,True,
+Washington,DC,,3210,8208,13247,18826,23364,city,,Washington city,True,
+Wilmington,DE,,,,,,8367,city,,Wilmington city,False,
+Augusta,GA,,,,,6710,6403,city,,Augusta city,False,
+Savannah,GA,,5146,5215,7523,7303,11214,city,,Savannah city,False,
+Chicago,IL,,,,,,4470,city,,Chicago city,False,
+New Albany,IN,,,,,,4226,city,,New Albany city,False,
+Lexington,KY,,,4326,5279,6026,6997,town; city,,Lexington town; Lexington city,True,
+Louisville,KY,,,,4012,10341,21210,town; city,,Louisville town; Louisville city,False,
+New Orleans,LA,,,17242,27176,46082,102193,city,,New Orleans city,True,
+Andover,MA,,,,,4530,5207,town,,Andover town,False,
+Barnstable,MA,,,,,,4301,town,,Barnstable town,False,
+Beverly,MA,,,4608,4283,4073,4689,town,,Beverly town,False,
+Boston,MA,18320,24937,33787,43298,61392,93383,town; city,,Boston town; Boston city,True,
+Cambridge,MA,,,,,6072,8409,town,,Cambridge town,False,
+Charlestown,MA,,,4959,6591,8783,11484,town,,Charlestown town,True,
+Danvers,MA,,,,,4228,5020,town,,Danvers town,False,
+Dorchester,MA,,,,,4074,4875,town,,Dorchester town,True,
+Fall River,MA,,,,,4158,6738,town,,Fall River town,False,
+Gloucester,MA,5317,5313,5943,6384,7510,6350,town,,Gloucester town,False,
+Haverhill,MA,,,,,,4336,town,,Haverhill town,False,
+Lowell,MA,,,,,6474,20796,town; city,,Lowell town; Lowell city,False,
+Lynn,MA,,,4087,4515,6138,9367,town,,Lynn town,False,
+Marblehead,MA,5661,5211,5900,5630,5149,5575,town,,Marblehead town,False,
+Middleborough,MA,4526,4458,4400,4687,5008,5085,town,,Middleborough town,False,
+Nantucket,MA,4620,5617,6807,7266,7202,9012,town,Sherburne,Sherburne town (Nantucket); Nantucket town,True,Gibson 1790 lists the town as Sherburne (Nantucket); renamed Nantucket 1795. Merged into one row.
+New Bedford,MA,,4361,5651,3947,7592,12087,town,,New Bedford town,False,
+Newburyport,MA,4837,5946,7634,6852,6375,7161,town,,Newburyport town,False,
+Plymouth,MA,,,4228,4348,4758,5281,town,,Plymouth town,False,
+Roxbury,MA,,,,4135,5247,9089,town,,Roxbury town,True,
+Salem,MA,7921,9457,12613,12731,13895,15082,town; city,,Salem town; Salem city,False,
+Springfield,MA,,,,,6784,10985,town,,Springfield town,False,
+Taunton,MA,,,,4520,6042,7645,town,,Taunton town,False,
+Worcester,MA,,,,,4173,7497,town,,Worcester town,False,
+Annapolis,MD,,,,,2623,,city,,Annapolis city,False,
+Baltimore,MD,13503,26514,46555,62738,80620,102313,town; city,,Baltimore town; Baltimore city,False,
+Frederick,MD,,,,3640,4427,5182,town,,Frederick town,False,
+Hagerstown,MD,,,,,3371,,town,,Hagerstown town,False,
+Augusta,ME,,,,,,5314,town,,Augusta town,False,
+Bangor,ME,,,,,,8627,city,,Bangor city,False,
+Bath,ME,,,,,,5141,town,,Bath town,False,
+Gardiner,ME,,,,,,5042,town,,Gardiner town,False,
+Portland,ME,,3704,7169,8581,12598,15218,town; city,,Portland town; Portland city,False,
+Detroit,MI,,,,,,9102,city,,Detroit city,False,
+St. Louis,MO,,,,,4977,16469,city,,St. Louis city,False,
+Natchez,MS,,,,,2789,,city,,Natchez city,False,
+Fayetteville,NC,,,,3532,2868,4285,town,,Fayetteville town,False,
+New Bern,NC,,,,3663,3796,,town,,New Bern town,False,
+Raleigh,NC,,,,2674,,,city,,Raleigh city,False,
+Wilmington,NC,,,,2633,3791,5335,town,,Wilmington town,False,
+Concord,NH,,,,,,4897,town,,Concord town,False,
+Dover,NH,,,,,5449,6458,town,,Dover town,False,
+Nashua,NH,,,,,,6054,town,,Nashua town,False,
+Portsmouth,NH,4720,5339,6934,7327,8026,7887,town,,Portsmouth town,False,
+Elizabeth,NJ,,,2977,3515,3455,,borough,,Elizabeth borough,False,
+Newark,NJ,,,,,10953,17290,township; city,,Newark township; Newark city,False,
+Paterson,NJ,,,,,,7596,township,,Paterson township,False,
+Trenton,NJ,,,3002,3942,3925,,city,,Trenton city,False,
+Albany,NY,3498,5289,10762,12630,24209,33721,city,,Albany city,False,
+Auburn,NY,,,,,,5626,town,,Auburn town,False,
+Brooklyn,NY,,,4402,7175,12406,36233,town; city,,Brooklyn town; Brooklyn city,True,
+Buffalo,NY,,,,,8668,18213,town; city,,Buffalo town; Buffalo city,True,
+Hudson,NY,2584,3664,4048,5310,5392,5672,city,,Hudson city,False,
+New York,NY,33131,60515,96373,123706,202589,312710,city,,New York city,True,
+Rochester,NY,,,,,9207,20191,town; city,,Rochester town; Rochester city,True,
+Schenectady,NY,,5289,5903,3939,4268,6784,city,,Schenectady city,False,
+Troy,NY,,,,5264,11556,19334,city,,Troy city,False,
+Utica,NY,,,,2972,8323,12782,town; city,,Utica town; Utica city,True,
+Chillicothe,OH,,,,,2846,,city,,Chillicothe city,False,
+Cincinnati,OH,,,2540,9642,24831,46338,town; city,,Cincinnati town; Cincinnati city,False,
+Cleveland,OH,,,,,,6071,city,,Cleveland city,False,
+Columbus,OH,,,,,,6048,city,,Columbus city,False,
+Dayton,OH,,,,,2950,6067,town,,Dayton town,False,
+Steubenville,OH,,,,,2937,4247,village,,Steubenville village,True,
+Zanesville,OH,,,,,3094,4766,village,,Zanesville village,False,
+Allegheny,PA,,,,,2801,10089,borough; city,,Allegheny borough; Allegheny city,True,
+Carlisle,PA,,,,2908,3707,4351,borough,,Carlisle borough,False,
+Easton,PA,,,,,3529,4865,borough,,Easton borough,False,
+Harrisburg,PA,,,,2990,4312,5980,borough,,Harrisburg borough,False,
+Kensington,PA,,,,7118,13394,22314,district,,Kensington district,True,
+Lancaster,PA,,4292,5405,6633,7704,8417,borough; city,,Lancaster borough; Lancaster city,False,
+Moyamensing,PA,,,,,6822,14573,township,,Moyamensing township,True,
+Northern Liberties,PA,9913,10718,19874,19678,28872,34474,township; district,,Northern Liberties township; Northern Liberties district,True,
+Philadelphia,PA,28522,41220,53722,63802,80462,93665,city,,Philadelphia city,True,
+Pittsburgh,PA,,,4768,7248,12568,21115,borough; city,,Pittsburgh borough; Pittsburgh city,True,
+Pottsville,PA,,,,,,4345,borough,,Pottsville borough,False,
+Reading,PA,,,3462,4332,5856,8410,borough,,Reading borough,False,
+Southwark,PA,5661,9621,13707,14713,20581,27548,district,,Southwark district,True,
+Spring Garden,PA,,,,3498,11140,27849,district,,Spring Garden district,True,
+York,PA,,2503,2847,3545,4216,4779,borough,,York borough,False,
+Cumberland,RI,,,,,,5225,town,,Cumberland town,False,
+Newport,RI,6716,6739,7907,7319,8010,8333,town,,Newport town,False,
+Providence,RI,6380,7614,10071,11767,16833,23171,town; city,,Providence town; Providence city,True,
+Warwick,RI,,,,,5529,6726,town,,Warwick town,False,
+Charleston,SC,16359,18824,24711,24780,30289,29261,city,,Charleston city,False,
+Columbia,SC,,,,,3310,4340,town,,Columbia town,False,
+Nashville,TN,,,,,5566,6929,city,,Nashville city,False,
+Alexandria,VA,2748,4971,7227,8218,8241,8459,town,Alexandria DC,Alexandria town,True,"Gibson lists Alexandria under VA in 1790 and DC in 1800-1840 (in DC 1801-1846, retroceded to VA). Merged into one row under VA, the state in 1790 and in the post-office file."
+Fredericksburg,VA,,,,,3308,,town,,Fredericksburg town,False,
+Lynchburg,VA,,,,,4630,6395,town,,Lynchburg town,False,
+Norfolk,VA,2959,6926,9193,8478,9814,10920,borough,,Norfolk borough,False,
+Petersburg,VA,2828,3521,5668,6690,8322,11136,town,,Petersburg town,False,
+Portsmouth,VA,,,,,,6477,town,,Portsmouth town,False,
+Richmond,VA,3761,5737,9735,12067,16060,20153,city,,Richmond city,False,
+Wheeling,VA,,,,,,7885,city,,Wheeling city,True,

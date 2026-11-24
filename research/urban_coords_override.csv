@@ -1,0 +1,15 @@
+place,state,lat,lon,source,note
+Gloucester,MA,42.6159,-70.6620,USGS GNIS 615084 (Populated Place),Unmatched. GNIS primary point at the harbour and downtown.
+St. Louis,MO,38.6273,-90.1979,USGS GNIS 765765 (Populated Place; GNIS name Saint Louis),"Unmatched. The file and GNIS spell it Saint Louis. Downtown, about 1 km west of the levee where the town began."
+Moyamensing,PA,39.9319,-75.1612,"Moyamensing Prison site (Passyunk Ave and Reed St, built 1832-35); coordinates via Wikipedia","Unverified: GNIS has no Moyamensing feature. The prison stood inside the township, so it serves as a landmark point. Wikipedia's township coordinate (39.9339, -75.1483) falls in Southwark, so I rejected it. Consolidated into Philadelphia in 1854."
+Northern Liberties,PA,39.9660,-75.1463,USGS GNIS 1202854 (Populated Place),"Unmatched (Philadelphia district, no post office of that name). Consolidated into Philadelphia in 1854. About 2 km from the Philadelphia point."
+Southwark,PA,39.9345,-75.1435,"Gloria Dei (Old Swedes') Church, NRHP 66000682; coordinates via Wikipedia","Unverified: GNIS has no Southwark feature. The church stands in the old riverfront core of the district (created 1762). Consolidated into Philadelphia in 1854."
+Beverly,MA,42.5584,-70.8800,USGS GNIS 614200 (Populated Place),Unmatched. Downtown point.
+Cumberland,RI,41.9668,-71.4328,USGS GNIS 1219346 (Populated Place),"Unmatched. The town had no single centre. In 1840 it still included Woonsocket Falls, Social and Jenckesville (set off as the town of Woonsocket in 1867), so much of the 5,225 lived in the northern mill villages. This is the GNIS town point, about 6 km from Woonsocket."
+Bath,ME,43.9106,-69.8206,USGS GNIS 561723 (Populated Place),Unmatched. Point on the Kennebec waterfront downtown.
+Lynchburg,VA,37.4138,-79.1422,USGS GNIS 1479007 (Populated Place),Unmatched (office in the file but not geocoded). Downtown on the James.
+Petersburg,VA,37.2279,-77.4019,USGS GNIS 1497087 (Populated Place),Unmatched (office in the file but not geocoded). Old Towne on the Appomattox.
+Portsmouth,VA,36.8354,-76.2983,USGS GNIS 1497102 (Populated Place),Unmatched (office in the file but not geocoded). Olde Towne on the Elizabeth River.
+Wheeling,VA,40.0640,-80.7209,USGS GNIS 1548994 (Populated Place; GNIS state WV),"Unmatched (WV in the file). Ohio County, Virginia, until West Virginia was admitted in 1863. Town incorporated 1805, city 1836. Downtown on the Ohio."
+Richmond,VA,37.5538,-77.4603,USGS GNIS 1499957 (Populated Place),"Bad match corrected. The old match was a GNIS Locale about 12 km east. This GNIS point is about 3 km north-west of Capitol Square and the 1737 town, which is small at continental scale."
+Fredericksburg,VA,38.3032,-77.4605,USGS GNIS 1494947 (Populated Place),"Bad match corrected. The old match was a GNIS School about 5 km off. This point is in the downtown historic district on the Rappahannock."

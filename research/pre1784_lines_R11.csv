@@ -1,0 +1,156 @@
+line,seq,lat,lon,anchor,source,method,uncertainty_km
+fort_stanwix_1768,1,37.07,-88.57,"Mouth of the Cherokee or Hogohege (Tennessee) River on the Ohio","O'Callaghan 1857, 8:111-37 (deed of 5 Nov 1768)",described,1
+fort_stanwix_1768,2,37.14,-88.40,"Ohio River, south side, at mouth of Cumberland River (Smithland)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,3,37.80,-88.03,"Ohio River, south side, opposite mouth of Wabash","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,4,37.95,-87.57,"Ohio River, south side, at Henderson KY","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,5,37.77,-87.11,"Ohio River, south side, at Owensboro KY","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,6,37.91,-86.74,"Ohio River, south side, at Hawesville KY","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,7,38.00,-86.17,"Ohio River, south side, at Brandenburg KY","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,8,38.27,-85.77,"Ohio River, south side, Falls of the Ohio (Louisville)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,9,38.68,-85.18,"Ohio River, south side, at mouth of Kentucky River (Carrollton)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,10,39.10,-84.82,"Ohio River, south side, opposite mouth of Great Miami","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,11,39.09,-84.51,"Ohio River, south side, at mouth of Licking River","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,12,38.65,-83.77,"Ohio River, south side, at Limestone (Maysville KY)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,13,38.73,-83.00,"Ohio River, south side, opposite mouth of Scioto","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,14,38.42,-82.60,"Ohio River, south side, at mouth of Big Sandy","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,15,38.84,-82.14,"Ohio River, south side, at mouth of Great Kanawha (Point Pleasant)","O'Callaghan 1857, 8:111-37",described,1
+fort_stanwix_1768,16,39.27,-81.56,"Ohio River, south side, at mouth of Little Kanawha (Parkersburg)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,17,39.41,-81.46,"Ohio River, south side, opposite mouth of Muskingum (Marietta)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,18,40.07,-80.73,"Ohio River, south side, at Wheeling","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,19,40.36,-80.61,"Ohio River, south side, opposite Steubenville","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,20,40.69,-80.30,"Ohio River, south side, at mouth of Beaver River","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,21,40.44,-80.01,"Forks of the Ohio (Fort Pitt)","O'Callaghan 1857, 8:111-37",described,1
+fort_stanwix_1768,22,40.67,-79.69,"Allegheny River, south side, at Freeport PA","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,23,40.82,-79.52,"Kittaning, 'above Fort Pitt'","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,24,40.73,-78.80,"'Nearest Fork of the west branch of Susquehanna' (Canoe Place, Cherry Tree PA)","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,25,40.87,-78.73,"West Branch Susquehanna, south side, at Mahaffey PA","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,26,41.03,-78.44,"West Branch, south side, at Clearfield PA","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,27,41.12,-78.11,"West Branch, south side, at Karthaus PA","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,28,41.25,-77.92,"West Branch, south side, at mouth of Sinnemahoning (Keating PA)","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,29,41.33,-77.76,"West Branch, south side, at Renovo PA","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,30,41.14,-77.45,"West Branch, south side, at Lock Haven PA","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,31,41.18,-77.31,"West Branch, opposite mouth of Pine Creek (settlers' and 1784 reading of Tiadaghton)","O'Callaghan 1857, 8:111-37; Wolf 1969",described,3
+fort_stanwix_1768,32,41.23,-77.04,"Opposite mouth of Tiadaghton, read as Lycoming Creek (Six Nations' reading before 1784)","O'Callaghan 1857, 8:111-37; Wolf 1969",described,25
+fort_stanwix_1768,33,41.39,-77.05,"South side of Lycoming Creek at Trout Run","O'Callaghan 1857, 8:111-37",described,25
+fort_stanwix_1768,34,41.51,-76.96,"South side of Lycoming Creek at Ralston","O'Callaghan 1857, 8:111-37",described,20
+fort_stanwix_1768,35,41.57,-76.88,"Head of Lycoming Creek (McNett Twp)","O'Callaghan 1857, 8:111-37",described,8
+fort_stanwix_1768,36,41.61,-76.86,"Head of Awandae (Towanda Creek), SW Canton Twp; reached 'along the North Side of Burnetts Hills'","O'Callaghan 1857, 8:111-37",extrapolated,10
+fort_stanwix_1768,37,41.66,-76.85,"Towanda Creek at Canton PA","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,38,41.71,-76.48,"Towanda Creek at Monroeton PA","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,39,41.75,-76.44,"Mouth of Towanda Creek on the East (North) Branch Susquehanna","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,40,41.95,-76.52,"East side of East Branch at Tioga Point (Athens PA)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,41,42.10,-76.26,"Oswegy (Owego NY)","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,42,42.10,-75.33,"Delaware (West Branch), due 'East' of Owego","O'Callaghan 1857, 8:111-37",described,6
+fort_stanwix_1768,43,42.17,-75.13,"Delaware West Branch 'opposite where Tianaderha falls into Susquehanna' (near Walton NY)","O'Callaghan 1857, 8:111-37",extrapolated,15
+fort_stanwix_1768,44,42.32,-75.41,"Mouth of Tianaderha (Unadilla River) at Sidney NY","O'Callaghan 1857, 8:111-37",described,1
+fort_stanwix_1768,45,42.62,-75.33,"West side of Unadilla River at New Berlin NY","O'Callaghan 1857, 8:111-37",described,2
+fort_stanwix_1768,46,42.86,-75.21,"Unadilla Forks (mouth of West Branch Unadilla)","O'Callaghan 1857, 8:111-37",described,3
+fort_stanwix_1768,47,42.93,-75.25,"Head of West Branch Unadilla, a few miles N of Bridgewater NY","O'Callaghan 1857, 8:111-37",described,5
+fort_stanwix_1768,48,43.24,-75.54,"Canada Creek where it empties into Wood Creek, west of the Carrying Place beyond Fort Stanwix","O'Callaghan 1857, 8:111-37",described,3
+hard_labour_1768,1,34.17,-82.68,"Towatuhe, north bank of Savannah River (placed on the N50E bearing through DeWitt's Corner)","Saunders 1886-90, 7:851-55 (Treaty of Hard Labour, 14 Oct 1768, Art. I)",extrapolated,12
+hard_labour_1768,2,34.33,-82.39,"Dewisses Corner or the Yellow Water (Due West SC)","Saunders 1886-90, 7:851-55",described,2
+hard_labour_1768,3,34.50,-82.17,"Waughoe or Elm Tree, south side of Reedy River (same N50E course)","Saunders 1886-90, 7:851-55",extrapolated,10
+hard_labour_1768,4,35.27,-82.26,"Spanish Oak on top of Tryon Mountain (NC commissioners' mark)","Saunders 1886-90, 7:851-55",described,3
+hard_labour_1768,5,36.85,-80.91,"Colonel Chiswell's Mine, east bank of the Great Conhoway (New River, Austinville VA)","Saunders 1886-90, 7:851-55",described,2
+hard_labour_1768,6,38.84,-82.14,"Mouth of the Great Conhoway on the Ohio (straight line)","Saunders 1886-90, 7:851-55",described,1
+lochaber_1770,1,36.55,-81.17,"Where the NC-Cherokee line ends: Hard Labour line crossing the VA-NC boundary (36 deg 30 min); computed","VMHB 1902, 9:360-64 (Treaty of Lochaber, 18 Oct 1770, Art. 1); Folmsbee 1967, 754-55",extrapolated,10
+lochaber_1770,2,36.55,-82.45,"Point six miles east of Long Island in Holston River (Kingsport TN)","VMHB 1902, 9:360-64",described,3
+lochaber_1770,3,38.84,-82.14,"Confluence of the Great Canaway and Ohio (straight line)","VMHB 1902, 9:360-64; Folmsbee 1967, 754-55",described,1
+donelson_1771,1,36.55,-82.45,"Near Long Island of Holston (start of the 1771 revised run)","Folmsbee 1967, 754-55",described,5
+donelson_1771,2,37.10,-82.80,"Headwaters of the Kentucky River ('Louisa'); fork not identified","Folmsbee 1967, 754-55",extrapolated,30
+donelson_1771,3,37.25,-83.19,"North Fork Kentucky River at Hazard KY (assumes North Fork)","Folmsbee 1967, 754-55",extrapolated,20
+donelson_1771,4,37.55,-83.38,"North Fork Kentucky River at Jackson KY (assumes North Fork)","Folmsbee 1967, 754-55",extrapolated,15
+donelson_1771,5,37.57,-83.71,"Three Forks of the Kentucky (Beattyville KY)","Folmsbee 1967, 754-55",described,3
+donelson_1771,6,37.70,-83.97,"Kentucky River at Irvine KY","Folmsbee 1967, 754-55",described,2
+donelson_1771,7,37.90,-84.27,"Kentucky River at Boonesborough","Folmsbee 1967, 754-55",described,2
+donelson_1771,8,38.20,-84.87,"Kentucky River at Frankfort","Folmsbee 1967, 754-55",described,2
+donelson_1771,9,38.68,-85.18,"Mouth of the Kentucky River on the Ohio (Carrollton)","Folmsbee 1967, 754-55",described,2
+donelson_1771,10,39.10,-84.82,"Ohio River opposite mouth of Great Miami","Folmsbee 1967, 754-55",described,2
+donelson_1771,11,39.09,-84.51,"Ohio River at mouth of Licking River","Folmsbee 1967, 754-55",described,2
+donelson_1771,12,38.65,-83.77,"Ohio River at Limestone (Maysville KY)","Folmsbee 1967, 754-55",described,2
+donelson_1771,13,38.73,-83.00,"Ohio River opposite mouth of Scioto","Folmsbee 1967, 754-55",described,2
+donelson_1771,14,38.42,-82.60,"Ohio River at mouth of Big Sandy","Folmsbee 1967, 754-55",described,2
+donelson_1771,15,38.84,-82.14,"Mouth of the Kanawha on the Ohio","Folmsbee 1967, 754-55",described,1
+augusta_1763_creek,1,33.68,-82.28,"Savannah River at mouth of Little River (now Lake Thurmond)","Saunders 1890, 11:201 (Treaty of Augusta, 10 Nov 1763)",described,5
+augusta_1763_creek,2,33.55,-82.60,"'Fork of Little River' (near Wrightsboro GA); which fork not identified","Saunders 1890, 11:201",described,15
+augusta_1763_creek,3,33.42,-82.55,"'Ends of the South Branch of Briar Creek' (near Thomson GA)","Saunders 1890, 11:201",described,15
+augusta_1763_creek,4,33.30,-82.50,"South Branch of Briar Creek where it meets the Lower Creek Path","Saunders 1890, 11:201",extrapolated,20
+augusta_1763_creek,5,33.20,-82.65,"Lower Creek Path at the main stream of the Ogeechee","Saunders 1890, 11:201",extrapolated,25
+augusta_1763_creek,6,32.60,-81.95,"Ogeechee 'just below the Path leading from Mount Pleasant'","Saunders 1890, 11:201",extrapolated,30
+augusta_1763_creek,7,31.40,-81.80,"Santa Savilla (Sansavilla Bluff) on the Altamaha","Saunders 1890, 11:201",described,15
+augusta_1773,1,33.20,-82.65,"Where the Lower Creek Path crosses the Ogeechee (joins augusta_1763_creek seq 5)","University of Utah n.d. (OCR, search snippet only)",extrapolated,25
+augusta_1773,2,33.60,-83.05,"Source of the Ogeechee (near Union Point GA)","University of Utah n.d. (OCR, search snippet only)",described,10
+augusta_1773,3,33.73,-83.10,"Great Buffalo Lick, about ten miles south of Lexington GA","DeVorsey 2003",described,5
+augusta_1773,4,34.17,-82.70,"Savannah River near Towatuhe (assumed join with the 1766 SC-Cherokee line); no anchor in a read source","none read; join assumed",extrapolated,40
+proclamation_1763,1,43.21,-75.46,"Oneida Carry at Fort Stanwix: Mohawk (to the sea) vs Wood Creek (to Lake Ontario)","George III 1763 (criterion only: 'Sources of the Rivers which fall into the Sea from the West and North West')",extrapolated,3
+proclamation_1763,2,42.90,-75.65,"Divide between Chenango (Susquehanna) heads and Oneida Lake streams, near Morrisville NY","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,3,42.80,-76.11,"Tully Valley Heads: Tioughnioga (Susquehanna) vs Onondaga Creek (Ontario)","George III 1763 (criterion only)",extrapolated,5
+proclamation_1763,4,42.23,-76.85,"Pine Valley divide near Horseheads NY: Chemung (Susquehanna) vs Seneca Lake","George III 1763 (criterion only)",extrapolated,8
+proclamation_1763,5,42.57,-77.59,"Cohocton (Susquehanna) vs Genesee divide near Wayland NY","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,6,41.83,-77.86,"Triple divide, Potter County PA: Susquehanna / Genesee / Allegheny","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,7,41.66,-78.18,"Allegheny vs Sinnemahoning divide near Keating Summit PA","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,8,41.43,-78.56,"Clarion (Allegheny) vs Bennett Branch (Susquehanna) divide at St. Marys PA","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,9,41.12,-78.76,"Divide near DuBois PA","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,10,40.60,-78.71,"Head of West Branch Susquehanna near Carrolltown PA","George III 1763 (criterion only)",extrapolated,8
+proclamation_1763,11,40.48,-78.55,"Allegheny Front at Gallitzin PA","George III 1763 (criterion only)",extrapolated,3
+proclamation_1763,12,40.00,-78.85,"Allegheny Mountain, Somerset-Bedford county line PA","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,13,39.70,-78.95,"Big Savage Mountain near Frostburg MD","George III 1763 (criterion only)",extrapolated,5
+proclamation_1763,14,39.20,-79.49,"Fairfax Stone, head spring of North Branch Potomac","George III 1763 (criterion only)",extrapolated,3
+proclamation_1763,15,38.45,-79.70,"Allegheny Mountain on the VA-WV line, Highland County VA","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,16,37.80,-80.22,"Allegheny Mountain east of White Sulphur Springs WV: James vs Greenbrier","George III 1763 (criterion only)",extrapolated,10
+proclamation_1763,17,37.13,-80.41,"New (Ohio) vs Roanoke divide at Christiansburg VA","George III 1763 (criterion only)",extrapolated,3
+proclamation_1763,18,36.67,-80.70,"Blue Ridge crest at Fancy Gap VA","George III 1763 (criterion only)",extrapolated,5
+proclamation_1763,19,36.13,-81.68,"Blue Ridge at Blowing Rock NC","George III 1763 (criterion only)",extrapolated,3
+proclamation_1763,20,35.61,-82.27,"Swannanoa Gap NC","George III 1763 (criterion only)",extrapolated,3
+proclamation_1763,21,35.18,-82.40,"Blue Ridge near Saluda Gap NC-SC","George III 1763 (criterion only)",extrapolated,8
+proclamation_1763,22,35.11,-82.63,"Blue Ridge escarpment near Caesars Head SC","George III 1763 (criterion only)",extrapolated,8
+proclamation_1763,23,35.05,-83.20,"Blue Ridge at Highlands NC","George III 1763 (criterion only)",extrapolated,5
+proclamation_1763,24,34.96,-83.39,"Rabun Gap GA: Little Tennessee vs Savannah (Tallulah) waters","George III 1763 (criterion only)",extrapolated,3
+henderson_1775,1,38.68,-85.18,"Mouth of the Kentucky ('Chenosa' or Louisa) River on the Ohio (= fort_stanwix_1768 seq 9)","Henderson et al. deed, 17 Mar 1775, in Price deposition (TNGenWeb n.d., from LoC Jefferson Papers); Royce 1887 (cession No. 7)",described,2
+henderson_1775,2,38.20,-84.87,"Kentucky River at Frankfort","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,3,37.90,-84.27,"Kentucky River at Boonesborough","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,4,37.70,-83.97,"Kentucky River at Irvine KY","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,5,37.57,-83.71,"Three Forks of the Kentucky (Beattyville KY)","Henderson deed 1775 (TNGenWeb n.d.)",described,3
+henderson_1775,6,37.55,-83.38,"North Fork at Jackson KY: the deed names 'the most Northwardly fork'","Henderson deed 1775 (TNGenWeb n.d.)",described,3
+henderson_1775,7,37.25,-83.19,"North Fork Kentucky River at Hazard KY","Henderson deed 1775 (TNGenWeb n.d.)",described,3
+henderson_1775,8,37.12,-82.83,"North Fork Kentucky River at Whitesburg KY","Henderson deed 1775 (TNGenWeb n.d.)",described,3
+henderson_1775,9,37.13,-82.63,"'Head spring' of the North Fork, Letcher County KY (placed from gazetteer knowledge; not checked)","Henderson deed 1775 (TNGenWeb n.d.)",described,10
+henderson_1775,10,36.92,-82.62,"'Top of the ridge of Powells Mountain' at its NE end near Norton VA, reached by the deed's 'south east' course (bearing fits only roughly)","Henderson deed 1775 (TNGenWeb n.d.); Powell Mountain extent: Wikipedia n.d.",extrapolated,15
+henderson_1775,11,36.70,-82.90,"Ridge of Powell's Mountain at Kanes Gap (Wilderness Road crossing near US 58); gap position estimated","Henderson deed 1775 (TNGenWeb n.d.); Wikipedia n.d.",extrapolated,8
+henderson_1775,12,36.45,-83.55,"SW end of Powell's Mountain near Tazewell TN, taken as the 'point from which a Northwest Course will hit' the Cumberland head spring","Henderson deed 1775 (TNGenWeb n.d.); Wikipedia n.d.",extrapolated,10
+henderson_1775,13,36.60,-83.67,"Head spring of 'the most Southwardly branch of the Cumberland', read as Yellow Creek at Cumberland Gap (reading unverified)","Henderson deed 1775 (TNGenWeb n.d.)",extrapolated,20
+henderson_1775,14,36.76,-83.69,"Cumberland River at Pineville KY (Cumberland Ford)","Henderson deed 1775 (TNGenWeb n.d.)",described,3
+henderson_1775,15,36.87,-83.89,"Cumberland River at Barbourville KY","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,16,36.74,-84.16,"Cumberland River at Williamsburg KY","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,17,36.84,-84.34,"Cumberland Falls","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,18,36.99,-84.60,"Cumberland River at Burnside KY","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,19,36.79,-85.37,"Cumberland River at Burkesville KY","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,20,36.55,-85.51,"Cumberland River at Celina TN","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,21,36.25,-85.95,"Cumberland River at Carthage TN","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,22,36.31,-86.45,"Cumberland River near Gallatin TN","Henderson deed 1775 (TNGenWeb n.d.)",described,3
+henderson_1775,23,36.17,-86.78,"Cumberland River at Nashville","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,24,36.53,-87.36,"Cumberland River at Clarksville TN","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,25,36.49,-87.84,"Cumberland River at Dover TN","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+henderson_1775,26,37.09,-88.08,"Cumberland River at Eddyville KY (now Lake Barkley)","Henderson deed 1775 (TNGenWeb n.d.)",described,3
+henderson_1775,27,37.14,-88.40,"Mouth of the Cumberland on the Ohio at Smithland (= fort_stanwix_1768 seq 2); deed then runs 'up the said River as it meanders to the beginning'","Henderson deed 1775 (TNGenWeb n.d.)",described,2
+long_island_nc_1777,1,36.60,-83.67,"Start 'on the dividing line ... agreed upon between the Cherokees and ... Virginia' where the VA-NC line meets it; placed at Cumberland Gap from Hopewell's restatement 'Campbell's line, near Cumberland gap'","Royce 1899, 630 (NC act reciting the treaty of 20 Jul 1777); Kappler 1904, 2:8-11 (Hopewell, 28 Nov 1785, Art. IV)",extrapolated,10
+long_island_nc_1777,2,36.38,-83.10,"Mouth of Cloud's Creek on the Holston, 'second creek below the Warrior's Ford, at the mouth of Carter's Valley' (GNIS point via TopoQuest; that it is the mouth is unconfirmed)","Royce 1899, 630; Kappler 1904, 2:8-11",described,5
+long_island_nc_1777,3,36.41,-82.71,"'Highest point of Chimney Top Mountain or High Rock' (fire-tower benchmark)","Royce 1899, 630; Kappler 1904, 2:8-11",described,2
+long_island_nc_1777,4,36.12,-82.78,"Mouth of Camp or McNamee's Creek, south bank of Nolichucky, 'about ten miles below the mouth of Big Limestone' (placed from Camp Creek community; mouth not checked)","Royce 1899, 630; Kappler 1904, 2:8-11",described,6
+long_island_nc_1777,5,36.03,-82.66,"Top of the Great Iron Mountain (Bald Mountains, TN-NC line) on the 'southeast course' from Camp Creek","Royce 1899, 630",extrapolated,8
+long_island_nc_1777,6,35.91,-82.54,"French Broad / Nolichucky dividing ridge, reached by the 'south course' (edge of USFS cession 3, i.e. Royce's NC plate)","Royce 1899, 630; USDA Forest Service 2022 (cession 3)",mapped,8
+long_island_nc_1777,7,35.93,-82.41,"Along the French Broad / Nolichucky ridge (edge of USFS cession 3)","Royce 1899, 630; USDA Forest Service 2022 (cession 3)",mapped,8
+long_island_nc_1777,8,35.72,-82.38,"Junction with 'the great ridge of the Appalachian Mountains which divide the eastern and western waters' (edge of USFS cession 3)","Royce 1899, 630; USDA Forest Service 2022 (cession 3)",mapped,8
+long_island_nc_1777,9,35.61,-82.27,"Blue Ridge divide at Swannanoa Gap (= proclamation_1763 seq 20)","Royce 1899, 630",described,3
+long_island_nc_1777,10,35.18,-82.40,"Blue Ridge divide near Saluda Gap (= proclamation_1763 seq 21)","Royce 1899, 630",described,8
+long_island_nc_1777,11,35.11,-82.63,"Divide reaches 'the line that divides the State of South Carolina from this State', near Caesars Head (= proclamation_1763 seq 22)","Royce 1899, 630",described,10
+dewitts_corner_1777,1,35.03,-82.76,"NE end of the SC-Cherokee line at the NC line (USFS cession 76 vertex; the NC-SC line was unsurveyed here in 1777)","SCDAH n.d. (Treaty of DeWitt's Corner, 20 May 1777, Arts. I-II); USDA Forest Service 2022 (cession 76)",mapped,10
+dewitts_corner_1777,2,35.00,-82.81,"Line 'South West and North East across the highest part of Ocunnee Mountain' where it crosses the Keowee (Treaty of New York 1790, Art. IV wording); USFS cessions 7 and 76 shared vertex","SCDAH n.d.; Kappler 1904, 2:25-29 (Creeks, 7 Aug 1790, Art. IV); USDA Forest Service 2022 (cessions 7, 76)",mapped,8
+dewitts_corner_1777,3,34.67,-83.31,"Where the line 'over the top of the Oconee mountain' strikes the Tugaloo River (Hopewell 1785, Art. IV); USFS cessions 7 and 76 shared vertex","SCDAH n.d.; Kappler 1904, 2:8-11; USDA Forest Service 2022 (cessions 7, 76)",mapped,8
+dewitts_corner_1777,4,34.38,-82.84,"Tugaloo and Seneca (Keowee) join to form the Savannah (now under Lake Hartwell); SC's boundary river; placed, not checked","SCDAH n.d. (cession of Cherokee land in South Carolina)",described,5
+dewitts_corner_1777,5,34.17,-82.68,"Down the Savannah to Towatuhe (= hard_labour_1768 seq 1)","SCDAH n.d.; Saunders 1886-90, 7:851-55",extrapolated,12
+augusta_1773_royce7,1,33.71,-83.07,"Great Buffalo Lick (edge vertex of USFS cession 7; compare augusta_1773 seq 3)","Royce 1899, 639 (Augusta, 1 Jun 1773, boundary text); USDA Forest Service 2022 (cession 7)",mapped,6
+augusta_1773_royce7,2,33.88,-83.31,"'Straight line to the tree marked by the Cherokees near the head of a branch falling into the Oconee' (edge of USFS cession 7)","Royce 1899, 639; USDA Forest Service 2022 (cession 7)",mapped,10
+augusta_1773_royce7,3,33.97,-83.35,"'Along the said ridge twenty miles above the line already run by the Cherokees' (edge of USFS cession 7)","Royce 1899, 639; USDA Forest Service 2022 (cession 7)",mapped,10
+augusta_1773_royce7,4,34.22,-83.40,"NW corner of the 1773 Ceded Lands (edge of USFS cession 7)","Royce 1899, 639; USDA Forest Service 2022 (cession 7)",mapped,10
+augusta_1773_royce7,5,34.32,-82.83,"'Across to Savannah river by a line parallel with that formerly marked'; Savannah end (edge of USFS cession 7)","Royce 1899, 639; USDA Forest Service 2022 (cession 7)",mapped,8

@@ -14,7 +14,7 @@ const toGeo = (topo, name) => {
 };
 
 export async function loadAll() {
-  const [bounds, borders, water, native, ads, flows, nodes, reservations, infra, removal, pathIndex] =
+  const [bounds, borders, water, native, ads, flows, nodes, reservations, infra, removal, pathIndex, settlements] =
     await Promise.all([
       getJSON('relief_bounds.json'),
       getJSON('borders.topojson'),
@@ -27,7 +27,20 @@ export async function loadAll() {
       getJSON('infrastructure.topojson'),
       getJSON('removal_routes.topojson'),
       getJSON('paths.json'),
+      getJSON('settlements.json'),
     ]);
+
+  // C7: migration legs per decade (state level); legs with no year are counted, not drawn.
+  const stateFlows = flows.filter((f) => f.level === 'state');
+  const legsByDecade = new Map();
+  let undatedLegs = 0;
+  for (const f of stateFlows) {
+    if (f.decade == null) undatedLegs += f.legs;
+    else legsByDecade.set(f.decade, (legsByDecade.get(f.decade) ?? 0) + f.legs);
+  }
+
+  // C5: the "taken before 1784" zone (T-021/T-022). Kept even with null geometry, so the page note can show.
+  const before = native.objects.before_1784 ? feature(native, native.objects.before_1784).features : [];
 
   const placeCoords = new Map();
   for (const n of nodes) placeCoords.set(n.place_id, [n.lon, n.lat]);
@@ -41,16 +54,27 @@ export async function loadAll() {
     coast: toGeo(water, 'coast'),
     royce: toGeo(native, 'royce_cessions'),
     stateCessions: toGeo(native, 'state_cessions'),
+    before1784: before.filter((f) => f.geometry),
+    before1784Props: before.map((f) => f.properties),
     ads: ads.places,
-    flows: flows.filter((f) => f.level === 'state'),
+    extent: bounds.extent,
+    flows: stateFlows,
+    legsByDecade,
+    undatedLegs,
+    // Hubs at the people-weighted centre of the state's residences (T-013); centroid if none.
     locations: [...new Map(
-      nodes.filter((n) => n.level === 'state').map((n) => [n.place_id, { id: n.place_id, lat: n.lat, lon: n.lon }]),
+      nodes.filter((n) => n.level === 'state').map((n) => [n.place_id, {
+        id: n.place_id, lat: n.hub_lat ?? n.lat, lon: n.hub_lon ?? n.lon,
+      }]),
     ).values()],
     placeCoords,
     pathIndex,
     reservations: reservations.filter((r) => r.has_coords),
     removal: toGeo(removal, 'trail_of_tears'),
     infrastructure: toGeo(infra, 'infrastructure'),
+    // C6: dated settled places (T-016): post offices and Gibson urban places ≥ 2,500.
+    offices: settlements.settlements.filter((d) => d.kind === 'post_office'),
+    urban: settlements.settlements.filter((d) => d.kind === 'urban_2500'),
   };
 }
 

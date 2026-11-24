@@ -16,12 +16,19 @@
         <legend>Layers</legend>
         <div id="toggles"></div>
       </fieldset>
-      <label>Pension Act cohort <select id="cohort"></select></label>
     </aside>
 
     <footer id="timeline">
-      <input id="year" type="range" />
-      <span id="year-label"></span>
+      <div class="track">
+        <div id="strip"></div>
+        <div id="acts"></div>
+        <input id="year" type="range" aria-label="Decade" />
+        <div id="ticks"></div>
+      </div>
+      <div class="side">
+        <span id="year-label"></span>
+        <p id="strip-note"></p>
+      </div>
     </footer>
 
     <p id="hint" hidden></p>

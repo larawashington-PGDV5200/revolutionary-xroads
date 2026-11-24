@@ -49,6 +49,25 @@ Two layers: post offices as the dated "settled place" dots, and Gibson places as
 
 Open issues for Lara: (a) pre-1790 coverage; (b) the 1840 gap; (c) the model gate does not apply (no ML), but geocoding Gibson names is a new task needing an approved `tasks/T-NNN` file; (d) a manual step: she downloads the 32 MB CSV into `data/raw/blevins-post-offices/` (one folder per source, plus a `MANIFEST.md` row). I did not do this, to stay within the size cap.
 
+## 5. Addendum (2026-11-24): hand coordinates for the city tier
+
+Output: `research/urban_coords_override.csv` (14 rows: place, state, lat, lon, source, note). Points are the primary point of a GNIS Populated Place feature, read from the USGS GNIS map service (layer 3), unless marked otherwise. The GNIS web app is JavaScript-only, so I queried the service by `gaz_id`. One line per check:
+
+- Gloucester MA: GNIS 615084, harbour/downtown. OK.
+- St. Louis MO: GNIS 765765 ("Saint Louis", the reason the exact match failed). OK.
+- Moyamensing PA: **unverified**. No GNIS feature. I used the Moyamensing Prison site (inside the township) as a landmark. Wikipedia's township point lies in Southwark, so I rejected it.
+- Northern Liberties PA: GNIS 1202854. OK.
+- Southwark PA: **unverified**. No GNIS feature. I used Gloria Dei Church (NRHP 66000682) as a landmark, with Wikipedia coordinates I did not check against NPS data.
+- Beverly MA: GNIS 614200. OK.
+- Cumberland RI: GNIS 1219346. OK as a point, but the 1840 town included Woonsocket's mill villages (set off 1867), so one point understates its spread.
+- Bath ME: GNIS 561723. OK.
+- Lynchburg VA, Petersburg VA, Portsmouth VA: GNIS 1479007, 1497087, 1497102. OK. Portsmouth's point is in Olde Towne.
+- Wheeling (VA): GNIS 1548994 (filed under WV). OK. Virginia until 1863.
+- Richmond VA (bad match): GNIS 1499957 replaces a Locale about 12 km east. The new point is still about 3 km north-west of Capitol Square.
+- Fredericksburg VA (bad match): GNIS 1494947 replaces a School about 5 km off. OK.
+- Roadside Thoughts' "GNIS GPS location" for Gloucester, Beverly and Bath is 2-3 km from the GNIS primary points, so I did not use it.
+- Sherburne renamed Nantucket in 1795: **verified for the year**. Macy (1835, 146), a Nantucket author writing 40 years later, says: "This year, 1795, the name of the town was changed. It had hitherto been called Sherburne." The day (8 June 1795, the act signed by Governor Samuel Adams on Micajah Coffin's bill) is from secondary sources only. I did not find the act's chapter in the 1794-95 Acts and Resolves. One source disagrees: the Massachusetts Historical Commission (1984) gives 1793. I did not fetch that report (404); a search snippet quotes it. Keep 1795.
+
 ## Sources (Chicago author-date)
 
 Blevins, Cameron. 2021. "US Post Offices: Data Biography." https://cblevins.github.io/us-post-offices/data-biography.
@@ -57,4 +76,12 @@ Blevins, Cameron, and Richard W. Helbock. 2021. *US Post Offices*. Harvard Datav
 
 Gibson, Campbell. 1998. *Population of the 100 Largest Cities and Other Urban Places in the United States: 1790 to 1990*. Population Division Working Paper No. 27. Washington, DC: US Census Bureau. https://www.census.gov/library/working-papers/1998/demo/POP-twps0027.html.
 
+Macy, Obed. 1835. *The History of Nantucket*. Boston: Hilliard, Gray. Transcription at https://whalesite.org/anthology/1835_Macy_History_of_Nantucket_1st_ed.htm.
+
+Massachusetts Historical Commission. 1984. *MHC Reconnaissance Survey Town Report: Nantucket*. Boston: MHC. https://www.sec.state.ma.us/divisions/mhc/preservation/survey/town-reports/nan.pdf (returned 404 on 2026-11-24; quoted from a search snippet).
+
 United Nations Statistical Commission. 2020. *A Recommendation on the Method to Delineate Cities, Urban and Rural Areas for International Statistical Comparisons* (Degree of Urbanisation). New York: United Nations. (Cited from memory; not fetched this session.)
+
+US Geological Survey. 2026. "Geographic Names Information System (GNIS)": geonames map service, Populated Places layer. Accessed 2026-11-24. https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer/3.
+
+Wikipedia contributors. 2026. "Moyamensing Prison"; "Gloria Dei (Old Swedes') Church"; "Woonsocket, Rhode Island"; "Wheeling, West Virginia." *Wikipedia*. Accessed 2026-11-24. https://en.wikipedia.org/wiki/Moyamensing_Prison; https://en.wikipedia.org/wiki/Gloria_Dei_(Old_Swedes%27)_Church; https://en.wikipedia.org/wiki/Woonsocket,_Rhode_Island; https://en.wikipedia.org/wiki/Wheeling,_West_Virginia.

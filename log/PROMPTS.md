@@ -422,6 +422,120 @@ Output: files in T-021; Result filled in; preview PNG in scratch.
 Report back: re-dated counts, overlap report, before-1784 area, preview path.
 ```
 
+### B-030a S01 settlements, remote read · coder · 2026-11-24 · T-016-s01-settlements.md
+**Status:** orchestrator re-dispatch under master plan T-012 (data/raw stays write-protected), sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** S01_settlements.ipynb; web/data/settlements.json
+```text
+Goal: finish T-016 by reading the post-office file remotely instead of saving it.
+Context: tasks/T-016-s01-settlements.md (incl. the 2026-11-24 change); research/R9-settlements.md; research/urban_places_gibson.csv (done); E01 for the remote-read pattern. Kernel: revx.
+Do: steps 2–4 of T-016. Resolve Sherburne/Nantucket and Alexandria VA/DC as one place each, noted.
+Don't: write to data/raw; touch web/src or other notebooks, rx/, config.py; use a web geocoder or any ML/LLM model; commit or push.
+Output: files in T-016; Result updated.
+Report back: counts by kind × decade, file size, unmatched urban names.
+```
+
+### B-032 Viz: camera, guides, focus, one timeline · coder · 2026-11-24 · T-017-stack-camera-focus.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** web/src/**, web/index.html
+```text
+Goal: turnable, tiltable stack with plane outlines, stretching dotted guides, hover focus, and one decade slider for all layers.
+Context: tasks/T-017-stack-camera-focus.md; tasks/T-012-refine-master.md (C1–C3, C7); web/README.md; new data shapes in T-013 Result. Reference look: exploded axonometric urban-analysis plates (numbered planes, dotted vertical guides).
+Do: per T-017. Run npm run build and check in a browser (vite dev/preview); take screenshots.
+Don't: edit web/data or notebooks; redesign L4 beyond making it render (T-018); restyle type/layout beyond what T-017 lists; add dependencies without saying why; commit or push.
+Output: changed web files; T-017 Result section; screenshots in your scratch folder.
+Report back: what changed per step, build result, screenshot paths, anything left undone.
+```
+
+### B-035 Trace pre-1784 lines with uncertainty · historian · 2026-11-24 · T-022-trace-pre1784-lines.md
+**Status:** approved by Lara 2026-11-24 ("trace but add variation to the hatching to show extra uncertainty and add note for extrapolated data"), sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** research/pre1784_lines_R11.csv, research/R11-pre1784-lines.md
+```text
+Goal: sourced vertices for the 1763 Proclamation line and 1768 Fort Stanwix line (plus De Vorsey's southern treaty lines if they bound the zone), each with method and uncertainty.
+Context: tasks/T-022-trace-pre1784-lines.md step 1; research/R10-native-gaps.md §3; R7; extent in web/data/relief_bounds.json.
+Do: per T-022 step 1. Prefer treaty/survey calls (described) over map reading (mapped); mark every joined stretch extrapolated with an honest uncertainty_km.
+Don't: use Native Land Digital or Whose Land; invent points without an anchor; write outside research/.
+Output: the two files above, Chicago author-date.
+Report back: vertex counts per line by method, the largest uncertainties and where.
+```
+
+### B-037 Urban place coordinates (hand table) · historian · 2026-11-24 · T-016-s01-settlements.md
+**Status:** orchestrator follow-up under master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** research/urban_coords_override.csv
+```text
+Goal: coordinates for the 12 unmatched Gibson urban places and 2 bad matches, so every city tier place is drawn.
+Context: T-016 Result; research/urban_places_gibson.csv.
+Do: one row each for Gloucester MA, St. Louis MO, Moyamensing PA, Northern Liberties PA, Southwark PA, Beverly MA, Cumberland RI, Bath ME, Lynchburg VA, Petersburg VA, Portsmouth VA, Wheeling (VA in 1790–1840), plus corrected points for Richmond VA and Fredericksburg VA: place, state, lat, lon (historic town centre, 4 decimals), source (USGS GNIS feature id or other public-domain gazetteer), note. Also verify "Sherburne renamed Nantucket in 1795" with a citation.
+Don't: write outside research/; use Native Land or NHGIS.
+Output: research/urban_coords_override.csv + one line per check in research/R9-settlements.md addendum.
+Report back: rows written, any place you couldn't place, the Sherburne check.
+```
+
+### B-033 Viz: migration redesign + default camera · coder · 2026-11-24 · T-018-migration-redesign.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** web/src/**, web/README.md
+```text
+Goal: a readable, directional migration layer with hub isolation and tooltips; a default view where the planes separate.
+Context: tasks/T-018-migration-redesign.md (incl. added steps 7–9); T-017 Result and screenshots (scratch 02-exploded.png); T-013 Result for the data shape; dataviz skill for the palette check.
+Do: per T-018. Build, check in headless Chrome as T-017 did, take screenshots.
+Don't: edit web/data or notebooks; change L2/L5/L6 (T-019); add dependencies without saying why; commit or push.
+Output: changed web files; T-018 Result; screenshots (default view, 1790s, 1830s, hovered hub + tooltip) in scratch.
+Report back: palette + validator result, threshold chosen, how direction is drawn, screenshot paths, anything left.
+```
+
+### B-036 C01: build pre-1784 lines + uncertain zone · coder · 2026-11-24 · T-022-trace-pre1784-lines.md
+**Status:** approved by Lara 2026-11-24 (T-022), sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** C01_native.ipynb; web/data/native_land.topojson
+```text
+Goal: turn research/pre1784_lines_R11.csv into line geometry and fill the before_1784 zone, with uncertainty per piece.
+Context: tasks/T-022-trace-pre1784-lines.md step 2; research/R11-pre1784-lines.md (segment rule, open ends, which lines bound the zone); T-021 Result (zone code already in C01). Kernel: revx.
+Do: per T-022 step 2. Segment = weaker method + larger uncertainty of its ends; floor uncertainty at 3 km (most vertices not yet GNIS-checked). Between described vertices on one named river, follow Natural Earth river geometry (remote read, as E01) where it exists, else straight. Zone edge = Fort Stanwix → Donelson → Lochaber → Hard Labour → Augusta lines; Proclamation 1763 kept as a reference line only. Drop augusta_1773 seq 4 unless a closure needs it (then flag it). Bucket zone pieces low ≤ 10 km < medium ≤ 25 km < high; note text names each extrapolated stretch. Add page note: "Cessions of 1775–83 (Henderson, DeWitt's Corner, Long Island of Holston, Augusta 1783) are not yet drawn."
+Don't: write to data/raw; touch web/src or other notebooks; invent vertices; commit or push.
+Output: files in T-022; Result filled in; preview PNG in scratch (zone by uncertainty + lines).
+Report back: zone area by uncertainty bucket, closures assumed, preview path.
+```
+
+### B-030b S01: apply urban coordinate overrides · coder · 2026-11-24 · T-016-s01-settlements.md
+**Status:** orchestrator follow-up under master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+```text
+Apply research/urban_coords_override.csv in S01 (overrides win over the exact-name match; keep `coord_source` and an `unverified` flag for Moyamensing and Southwark). Re-run S01 top to bottom; all checks pass; every Gibson place drawn. Don't touch web/src, other notebooks or data/raw; no commit. Report: urban places per census year, file size.
+```
+
+### B-034 Viz: Native family, settlement and routes, L4 fixes · coder · 2026-11-24 · T-019-native-settlement-layers.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** web/src/**, web/package.json
+```text
+Goal: Native layers in one madder family with destinations and the before-1784 zone; a dated settlement and routes layer; three L4 fixes.
+Context: tasks/T-019-native-settlement-layers.md (parts a, b, update 6–8); T-021, T-022 and T-016 Results for data fields; research/R10-native-gaps.md (titles, page text); T-018 Result (layer order, palette, hover).
+Do: per T-019. Build, check in headless Chrome as before; screenshots 1800, 1830, 1840 and a hovered destination polygon.
+Don't: edit web/data or notebooks; restyle type/layout; commit or push.
+Output: changed web files; T-019 Result; screenshots in scratch.
+Report back: what changed, settlement dot counts drawn per decade, screenshot paths, anything left.
+```
+
+### B-038 Trace 1775–83 cessions; check northern NY · historian · 2026-11-24 · T-022-trace-pre1784-lines.md
+**Status:** approved by Lara 2026-11-24 ("2 trace now"), sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** research/pre1784_lines_R11.csv (appended), research/R11-pre1784-lines.md (addendum)
+```text
+Goal: add the 1775–83 cessions so the "Taken before 1784" zone matches its label, and settle what northern New York was in 1784.
+Context: research/R11-pre1784-lines.md, pre1784_lines_R11.csv (same columns, same method/uncertainty rules); T-022 Result (assumed closures); research/R10-native-gaps.md.
+Do: 1) Trace Henderson/Sycamore Shoals 1775, DeWitt's Corner 1777, Long Island of Holston 1777, Augusta 1783 (and any other 1775–83 cession that moves the zone edge west), each vertex anchored. Skip any area a Royce polygon already covers, and say so. 2) Northern NY: the T-022 zone runs due north from Wood Creek (assumed). Say who held that land in 1784 and when/how it was taken (e.g. NY state treaties 1788–97, Seven Nations of Canada 1796, colonial patents in the Champlain/Lake George corridor). Recommend a cited zone edge for the north or "leave open".
+Don't: use Native Land Digital or Whose Land; invent vertices; write outside research/.
+Output: rows appended to pre1784_lines_R11.csv; addendum in R11.
+Report back: vertices per new line by method, largest uncertainties, the northern NY finding and recommended edge.
+```
+
+### B-039 Verify refinement pass 1 (viz) · tester · 2026-11-24 · T-017, T-018, T-019
+**Status:** approved by Lara 2026-11-24 via master plan T-012 (workstream D), sent 2026-11-24 · **stopped by Lara 2026-11-24** before reporting · output reviewed by Lara: ☐
+**Output:** tasks/T-012-refine-master.md (Verification section); test files only if useful
+```text
+Goal: verify the viz against the "Done when" of T-017, T-018, T-019 and the master plan T-012.
+Context: those task files and their Results; web/README.md; screenshots in the scratch folder (t018/, t019/). Data tasks T-013–T-016, T-021, T-022 already passed their notebook assertions.
+Do: npm run build; run the page (vite preview) in headless Chrome as T-018 did; check each Done-when item with a screenshot; check reduced motion, keyboard (Esc), console errors, hover focus clearing, decade slider at every decade (no exceptions), layer toggles, tooltip text against the data for 3 random hubs and 3 destinations; check Lara's original asks list in T-012 "Done when". Root-cause any failure.
+Don't: edit production code in web/src (report fixes for the coder); edit web/data or notebooks; commit or push.
+Output: a "Verification" section appended to tasks/T-012-refine-master.md (pass/fail per item, evidence path, root cause + suggested fix for failures).
+Report back: pass/fail counts, each failure in one line, screenshot folder.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

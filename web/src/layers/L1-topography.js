@@ -18,14 +18,6 @@ export function topographyLayers(data, state, common) {
       ...common,
     }),
     new GeoJsonLayer({
-      id: 'L1-lakes',
-      data: data.lakes,
-      stroked: false,
-      filled: true,
-      getFillColor: COLORS.water,
-      ...common,
-    }),
-    new GeoJsonLayer({
       id: 'L1-rivers',
       data: data.rivers,
       getLineColor: COLORS.water,
@@ -58,6 +50,15 @@ export function topographyLayers(data, state, common) {
       getLineColor: COLORS.state,
       getLineWidth: 1.5,
       lineWidthUnits: 'pixels',
+      ...common,
+    }),
+    // Lakes above the borders, so county lines don't cross small lakes (T-017).
+    new GeoJsonLayer({
+      id: 'L1-lakes',
+      data: data.lakes,
+      stroked: false,
+      filled: true,
+      getFillColor: COLORS.water,
       ...common,
     }),
   ];

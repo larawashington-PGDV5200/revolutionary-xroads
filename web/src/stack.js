@@ -3,10 +3,11 @@ import { GAP_M, EXPLODE_MS } from './config.js';
 
 export const stack = { t: 0 };
 
+export const planeZ = (index) => index * GAP_M * stack.t;
+
 export function stackProps(index) {
-  const z = index * GAP_M * stack.t;
   return {
-    modelMatrix: new Matrix4().translate([0, 0, z]),
+    modelMatrix: new Matrix4().translate([0, 0, planeZ(index)]),
     parameters: { depthCompare: 'always', depthWriteEnabled: false },
   };
 }

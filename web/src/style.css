@@ -5,6 +5,8 @@ html, body { margin: 0; height: 100%; background: #fff; color: #222; font: 13px/
   position: absolute; top: 12px; left: 12px; width: 210px; padding: 10px 12px;
   background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd;
   display: flex; flex-direction: column; gap: 8px;
+  /* T-019: three legends now; the panel scrolls rather than run under the timeline. */
+  max-height: calc(100vh - 170px); overflow-y: auto;
 }
 #panel h1 { font-size: 14px; margin: 0; }
 #panel fieldset { border: 1px solid #eee; margin: 0; padding: 6px 8px; }
@@ -13,11 +15,59 @@ html, body { margin: 0; height: 100%; background: #fff; color: #222; font: 13px/
 #timeline {
   position: absolute; left: 12px; right: 12px; bottom: 12px; padding: 8px 12px;
   background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd;
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: flex-end; gap: 16px;
 }
-#year { flex: 1; }
+#timeline .track { flex: 1; }
+#timeline .side { width: 240px; }
+#timeline .side p { margin: 4px 0 0; font-size: 11px; color: #777; }
+
+/* Strip, acts and ticks sit inside the thumb's travel (thumb 14px → 7px inset). */
+#strip, #acts, #ticks { position: relative; margin: 0 7px; }
+#strip { height: 36px; border-bottom: 1px solid #ccc; }
+#strip .bar { position: absolute; bottom: 0; width: 28px; transform: translateX(-50%); background: #bbb; }
+#strip .bar.on { background: #555; }
+#acts { height: 24px; }
+#acts .act {
+  position: absolute; top: 0; transform: translateX(-50%); font-size: 10px; color: #666; white-space: nowrap;
+}
+#acts .act.low { top: 11px; }
+#acts .act::after {
+  content: ''; position: absolute; left: 50%; top: 100%; height: calc(24px + 6px); border-left: 1px solid #999;
+}
+#acts .act.low::after { height: calc(13px + 6px); }
+#ticks { height: 14px; }
+#ticks .tick { position: absolute; transform: translateX(-50%); font-size: 10px; color: #777; }
+
+#year { width: 100%; margin: 0; height: 16px; -webkit-appearance: none; appearance: none; background: none; }
+#year::-webkit-slider-runnable-track { height: 2px; background: #ccc; }
+#year::-moz-range-track { height: 2px; background: #ccc; }
+#year::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px; margin-top: -6px; border-radius: 50%; background: #333; border: 0;
+}
+#year::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #333; border: 0; }
+
+#toggles .num { color: #888; font-variant-numeric: tabular-nums; }
 
 #hint {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0;
   padding: 10px 14px; background: #fffbe6; border: 1px solid #e6d58a;
 }
+
+/* C4 migration legend */
+#legend p { margin: 4px 0 0; font-size: 11px; }
+#legend .muted { color: #777; }
+#legend .hubs { display: grid; grid-template-columns: repeat(3, auto); gap: 2px 8px; font-size: 11px; }
+#legend .sw { white-space: nowrap; }
+#legend .sw i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; vertical-align: -1px; }
+#legend .taper svg { vertical-align: middle; margin-right: 4px; }
+#legend label { display: block; margin-top: 6px; font-size: 11px; }
+
+/* C5/C6 legends (T-019): same type as the migration legend */
+.legend p { margin: 4px 0 0; font-size: 11px; }
+.legend .muted { color: #777; }
+.legend .keys { display: grid; grid-template-columns: repeat(2, auto); gap: 2px 8px; font-size: 11px; margin-top: 4px; }
+.legend .keys.three { grid-template-columns: repeat(3, auto); }
+.legend .sw { white-space: nowrap; }
+.legend .sw i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; vertical-align: -1px; }
+.legend .sw i.dot { border-radius: 50%; vertical-align: middle; }
+.legend .sw i.line { height: 2px; vertical-align: middle; }
