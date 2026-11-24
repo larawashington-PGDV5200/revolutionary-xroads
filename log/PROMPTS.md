@@ -313,6 +313,18 @@ Output: the files in T-010 "Files"; the T-010 Result section filled in; hillshad
 Report back: counts before/after per object, the check result, z_factor and stretch chosen, preview path, commit hash (or "staged, commit blocked").
 ```
 
+### B-024 Shared extent + relief fix · coder · 2026-11-23 · T-011-shared-extent-relief.md
+**Status:** approved by Lara 2026-11-23 (nodes: option a, leave as they are), sent 2026-11-23 · output reviewed by Lara: ☐
+**Output:** E01, C01, D01 notebooks; web/data/ relief.png, relief_bounds.json, water, native_land, removal_routes, infrastructure .topojson
+```text
+Goal: clip every map layer to the topography extent, downsample relief.png, and make the Great Lakes transparent in it.
+Context: tasks/T-011-shared-extent-relief.md; T-006, T-007, T-009, T-010 for the current notebooks. Kernel: revx. topojson-client in web/node_modules.
+Do: per T-011. Re-run E01, C01, D01 top to bottom; keep the T-010 topojson-client check and extend it to assert all coordinates fall inside the extent. Stage only the T-011 files.
+Don't: touch web/src or other web/ code; edit A*, B01, V00 notebooks, rx/, config.py, data/raw or data/processed; use any ML/LLM model; commit or push.
+Output: files in T-011; T-011 Result section filled in; relief preview PNG in your scratch folder.
+Report back: feature counts before/after per object, relief.png size and dimensions, the check result, preview path.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

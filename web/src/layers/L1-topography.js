@@ -7,8 +7,8 @@ import { COLORS } from '../config.js';
 import { snapshotFor } from '../data.js';
 import { ___ } from '../blank.js';
 
-const RELIEF_READY = false;   // ✏️ flip to true once a2 is filled
-const BORDERS_READY = false;  // ✏️ flip to true once a3 is filled
+const RELIEF_READY = true;   // ✏️ flip to true once a2 is filled
+const BORDERS_READY = true;  // ✏️ flip to true once a3 is filled
 
 export function topographyLayers(data, state, common) {
   const layers = [];
@@ -22,10 +22,10 @@ export function topographyLayers(data, state, common) {
   if (RELIEF_READY) {
     layers.push(new BitmapLayer({
       id: 'L1-relief',
-      image: ___,
-      bounds: ___,
+      image: data.relief.image,
+      bounds: data.relief.bounds,
       _imageCoordinateSystem: COORDINATE_SYSTEM.LNGLAT,
-      opacity: ___,        // 0–1; try 0.5 so lines on top stay readable
+      opacity: 0.5,        // 0–1; try 0.5 so lines on top stay readable
       ...common,
     }));
   }
@@ -71,16 +71,16 @@ export function topographyLayers(data, state, common) {
   //   something outside the feature (like the year), list that value here so deck.gl recomputes.
   //   (Here the year changes `data` itself, which deck.gl notices on its own, so this is optional.)
   if (BORDERS_READY) {
-    const snap = ___;
-    const counties = ___;   // filtered data.counties.features
-    const states = ___;     // filtered data.states.features
+    const snap = snapshotFor(state.year);
+    const counties = data.counties.features.filter((f) => f.properties.years.includes(snap));   // filtered data.counties.features
+    const states = data.states.features.filter((f) => f.properties.years.includes(snap));     // filtered data.states.features
     layers.push(
       new GeoJsonLayer({
         id: 'L1-counties',
         data: counties,
         filled: false,
-        getLineColor: ___,
-        getLineWidth: ___,
+        getLineColor: COLORS.county,
+        getLineWidth: 0.5,
         lineWidthUnits: 'pixels',
         pickable: true,     // lets hover/click find a county (see getTooltip in main.js)
         ...common,
@@ -89,8 +89,8 @@ export function topographyLayers(data, state, common) {
         id: 'L1-states',
         data: states,
         filled: false,
-        getLineColor: ___,
-        getLineWidth: ___,
+        getLineColor: COLORS.state,
+        getLineWidth: 1.5,
         lineWidthUnits: 'pixels',
         ...common,
       }),

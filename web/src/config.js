@@ -4,18 +4,14 @@ import { ___ } from './blank.js';
 // Data extent from data/relief_bounds.json: [west, south, east, north] in degrees.
 export const BOUNDS = [-100.0, 24.908, -66.617, 47.442];
 
-// ✏️ a1: the camera. deck.gl calls this the "view state".
-//   longitude, latitude: the point the camera looks at (try the middle of BOUNDS).
-//   zoom: 0 = whole world; each +1 doubles the scale. The eastern US fits at about 4.
-//   pitch: tilt in degrees. 0 = straight down; 60 = the axonometric look.
-//   bearing: rotation in degrees. Negative turns the map clockwise.
 export const INITIAL_VIEW = {
-  longitude: ___,
-  latitude: ___,
-  zoom: ___,
-  pitch: ___,
-  bearing: ___,
-  maxPitch: 85,      // deck.gl caps pitch at 60 unless you raise this
+  longitude: -88,
+  latitude: 32,
+  zoom: 4,
+  pitch: 60,
+  bearing: 360,
+  minPitch: 60,
+  maxPitch: 60,
 };
 
 // The stack, bottom → top (PLAN.md). `index` decides each layer's height when exploded.

@@ -3,13 +3,13 @@ import { GeoJsonLayer } from '@deck.gl/layers';
 import { COLORS } from '../config.js';
 import { ___ } from '../blank.js';
 
-const READY = false; // ✏️ flip once c8–c9 are filled
+const READY = true; // ✏️ flip once c8–c9 are filled
 
 export function infrastructureLayers(data, state, common) {
   if (!READY) return [];
 
   // ✏️ c8 Open by year Y: features with properties.year_open <= state.year.
-  const open = ___;
+  const open = data.infrastructure.features.filter((f) => f.properties.year_open <= state.year);
 
   return [
     new GeoJsonLayer({
@@ -17,7 +17,7 @@ export function infrastructureLayers(data, state, common) {
       data: open,
       // ✏️ c9 Colour by kind. An accessor function gets each feature:
       //   f => COLORS[f.properties.kind]   (road, canal, rail, steamboat, route)
-      getLineColor: ___,
+      getLineColor: f => COLORS[f.properties.kind],
       getLineWidth: (f) => (f.properties.kind === 'steamboat' ? 1 : 2),
       lineWidthUnits: 'pixels',
       pickable: true,

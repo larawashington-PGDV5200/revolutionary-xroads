@@ -12,7 +12,7 @@ export function stackProps(index) {
   // ✏️ d1: how high (metres) layer number `index` sits for the current stack.t.
   //   Collapsed (t = 0) → 0 for every layer. Exploded (t = 1) → index × GAP_M.
   //   Until you fill it, everything stays collapsed.
-  const z = ___ ?? 0;
+  const z = index * GAP_M * stack.t;
 
   return {
     modelMatrix: new Matrix4().translate([0, 0, z]),

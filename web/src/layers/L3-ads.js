@@ -3,7 +3,7 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 import { COLORS } from '../config.js';
 import { ___ } from '../blank.js';
 
-const READY = false; // ✏️ flip once c3–c4 are filled
+const READY = true; // ✏️ flip once c3–c4 are filled
 
 export function adsLayers(data, state, common) {
   if (!READY) return [];
@@ -12,7 +12,13 @@ export function adsLayers(data, state, common) {
   //   - this decade only:    d.decade === state.year
   //   - everything so far:   d.decade <= state.year (circles pile up; sum n_ads per place first)
   //   Write down which one you chose; it's a decision for log/DECISIONS.md.
-  const rows = ___;
+  const byPlace = new Map();
+  for (const d of data.ads.filter((d) => d.decade <= state.year)) {
+    const p = byPlace.get(d.place_id) ?? { ...d, n_ads: 0 };
+    p.n_ads += d.n_ads;
+    byPlace.set(d.place_id, p);
+  }
+  const rows = [...byPlace.values()];
 
   return [
     new ScatterplotLayer({
@@ -21,9 +27,9 @@ export function adsLayers(data, state, common) {
       getPosition: (d) => [d.lon, d.lat],
       // ✏️ c4 Circle AREA should be proportional to the count, so the radius ∝ √n_ads.
       //   radiusUnits 'meters' grows the circles with zoom; radiusScale multiplies every radius.
-      getRadius: ___,
+      getRadius: (d) => Math.sqrt(d.n_ads),
       radiusUnits: 'meters',
-      radiusScale: ___,      // try 2000, then tune by eye
+      radiusScale: 2000,      // try 2000, then tune by eye
       getFillColor: COLORS.ads,
       stroked: true,
       getLineColor: [255, 255, 255],

@@ -66,7 +66,7 @@ function getTooltip({ object }) {
 const deck = new Deck({
   parent: document.getElementById('map'),
   initialViewState: INITIAL_VIEW,
-  controller: true,       // drag = pan, ctrl/right-drag = rotate and tilt, scroll = zoom
+  controller: { dragMode: 'rotate' },       // drag = pan, ctrl/right-drag = rotate and tilt, scroll = zoom
   getTooltip,
   layers: buildLayers(),
 });
