@@ -5,24 +5,77 @@ A data-visualization project mapping veterans' moves west onto ceded Native land
 
 Parsons School of Design, MS Data Visualization: Major Studio 1.
 
-## Data
-- [Revolution Crossroads](https://huggingface.co/RevolutionCrossroads) (CC0): Revolutionary War pension files (NARA), Chronicling America newspapers 1770–1810 (LoC), Smithsonian collections, OCR and named-entity tables.
-- Land cessions: USFS *Indian Land Cessions in the United States*, after Royce 1899 (CC BY 4.0).
-- Historical boundaries: Newberry Library, *Atlas of Historical County Boundaries*.
+## Data sources
 
-Dataset notes and caveats: [`docs/DATA.md`](docs/DATA.md). Sources: [`research/`](research/).
+### Core: Revolution Crossroads (CC0)
+From [Revolution Crossroads](https://huggingface.co/RevolutionCrossroads) on Hugging Face, queried remotely with DuckDB.
+
+| Dataset | Size | Used for |
+|---|---|---|
+| NARA Revolutionary War pension files | 2.2M pages, ~78.7k files | Layer 4. The file title gives the type (S/W/R/BLW), name and service state. The declaration page gives the residence at application. |
+| LoC Chronicling America, 1770–1810 | 77.8k pages, 110 papers | Layer 3. Land-sale ads by place and decade. |
+| RevX OCR blocks | 19M text blocks | Layer 3. Ad text and size on the page. |
+| Smithsonian collections | 12.7k objects | Cut. |
+
+### External layers
+| Layer | Source | Notes |
+|---|---|---|
+| 01 Topography | NOAA ETOPO 2022 relief; Natural Earth 10m rivers, lakes, coast (public domain); Newberry Library *Atlas of Historical County Boundaries* | Modern relief and water. Borders change by year (from 1783). |
+| 02 Native land not yet ceded | USFS *Indian Land Cessions*, after Royce 1899 (CC BY 4.0); colonial treaty lines 1763–83 traced from treaty texts ([R11](research/R11-pre1784-lines.md)) | Royce polygons held until their cession year. Pre-1784 lines are hatched by uncertainty. |
+| 05 Native land ceded | USFS Royce layer; 66 reservations ([R4](research/R4-reservations.md)); NPS Trail of Tears route (2021); 47 treaties ([R1](research/R1-treaties.md)) | NPS route is the designated trail and does not name the nation or year. |
+| 06 Settlement and routes | Blevins and Helbock (2021) post offices (CC0); Gibson (1998) urban places ≥ 2,500; Atack railroads and canals (no licence stated, cited per [D-020](log/DECISIONS.md)); historic roads ([R7](research/R7-layers-history.md)) | Post offices skew to long-lived offices. Steamboat rivers dropped ([D-027](log/DECISIONS.md)). |
+
+### Processing
+Notebooks in [`rx-pipeline/`](rx-pipeline/) run raw → interim → processed. No raw Hugging Face data is stored locally; only filtered tables are saved ([D-008](log/DECISIONS.md)). The notebooks write the JSON and TopoJSON in [`web/data/`](web/data/).
+
+Caveats and counts: [`docs/DATA.md`](docs/DATA.md). Full citations: [`research/`](research/).
 
 ## Status
-Data pipeline in progress. Plan: [`docs/PLAN.md`](docs/PLAN.md).
+Data pipeline done for v2. The web viz is in [`web/`](web/) (deck.gl, six stacked layers, decade timeline). Plan: [`docs/PLAN.md`](docs/PLAN.md).
 
-## Prototypes (Oct 2026)
+**Milestone 4 progress update**
+- Created the web visualization of isometric layers using deck.gl.
+- Each layer relates to a beat to the story, and from the bottom up, each impacts the next: 
+  - Topography
+  - Pre-revolution native terriories
+  - Newspaper land ads
+  - Migration of veterans and widows based on pension applications (showing by state)
+  - Native land cessions and reservations
+  - Settlements (towns with over 2500+) and infrastructure (railroads and traderoutes)
+- Timeline slider across the bottom to see the effect over time, binned by decades, with Pension Acts noted to correspond with the increase in data. 
+- Legend on the left needs refinement.
+
+**TODO**
+- Design & UX, more interactivity, better clicks for the layers and hiding the others.
+- Improve tooltip function & legend
+- Map migration to counties and cities where possible (currently shows by state). 
+- Audit all agent researched data and verify sources. Write disclaimers for native land terriories lines drawn. 
+- Look at combining all native land as a single layer. Remove current moire pattern. 
+
+## Prototypes
+
+### Sketches (Oct 2026)
 Early sketches to explore the data, built by Claude ([D-002](log/DECISIONS.md)).
 
 | How reprinted news spread | Where veterans served vs. applied from, and land for sale | Weather in print vs. in memory |
 |---|---|---|
-| ![Reprints](/prototypes/01a-reprints-overview%20copy.png) | ![Migration and land](/prototypes/02-migration-all-layers-min200.png) | ![Weather](/prototypes/03weather-overview.png) |
+| ![Reprints](/prototypes/sketches/01a-reprints-overview%20copy.png) | ![Migration and land](/prototypes/sketches/02-migration-all-layers-min200.png) | ![Weather](/prototypes/sketches/03weather-overview.png) |
 
 Code: [`prototypes/code/`](prototypes/code/).
+
+### v1 web viz (23 Nov 2026)
+First deck.gl version, coded by Lara with coaching (commit `aaa1b12`). Flat map by default, six layers, Pension Act cohort filter, decade slider.
+
+| 1790, flat | 1840, flat | 1840, exploded |
+|---|---|---|
+| ![v1 1790](/prototypes/v1/v1-1790-flat.png) | ![v1 1840](/prototypes/v1/v1-1840-flat.png) | ![v1 1840 exploded](/prototypes/v1/v1-1840-exploded.png) |
+
+### v2 web viz (24 Nov 2026, current)
+Exploded stack by default with numbered planes, migration flows coloured by origin state, pre-1784 treaty zone, settlements, and a timeline with migration counts and Pension Act marks.
+
+| 1790, exploded | 1840, exploded | 1840, collapsed |
+|---|---|---|
+| ![v2 1790](/prototypes/v2/v2-1790-exploded.png) | ![v2 1840](/prototypes/v2/v2-1840-exploded.png) | ![v2 1840 collapsed](/prototypes/v2/v2-1840-collapsed.png) |
 
 ## AI use
 Built with Claude Code and Claude Opus 5.5. Details are in [`AI-USE.md`](AI-USE.md): agents, approval gates and the models used.
@@ -30,13 +83,16 @@ Decisions and why: [`log/DECISIONS.md`](log/DECISIONS.md) · Prompts and agent b
 
 ## Structure
 ```
-docs/        plan, data notes
-research/    sourced research (treaties, GIS layers)
-log/         decisions, prompts, agent briefs
-diagram/     decision input/output map
-prototypes/  early sketches
-.claude/     agent and hook config
-data/        local only (git-ignored)
+web/          deck.gl viz (src/, data/)
+rx-pipeline/  data notebooks and helpers
+docs/         plan, data notes
+research/     sourced research (treaties, GIS layers, settlements)
+tasks/        agent task specs
+log/          decisions, prompts, agent briefs
+diagram/      decision input/output map
+prototypes/   sketches, v1 and v2 screenshots, sketch code
+.claude/      agent and hook config
+data/         local only (git-ignored)
 ```
 ## Progress questions (2026-11-10)
 Exploratory findings, not yet verified. Plan: [`docs/PLAN.md`](docs/PLAN.md).
@@ -62,29 +118,4 @@ Exploratory findings, not yet verified. Plan: [`docs/PLAN.md`](docs/PLAN.md).
 - Limit: they were written 1818–1850s about 1775–83, shaped by each Pension Act's proof rules.
 - Native voices are absent from these datasets. R3 ([`research/R3-native-voices.md`](research/R3-native-voices.md)) is a reading list of 30 sources and a limitations note.
 
-**What charts, graphs, or custom visualizations have you started to develop?**
-- Prototypes (D3): state flow map, top-flows table, land ads by destination; side sketches on news reprints and weather.
-- v1 (matplotlib, in progress):
-  - flow map on 1820/1832 Newberry borders, veterans and widows shown separately;
-  - top-flows table;
-  - bar chart of the share applying from another state, by file type and decade;
-  - reservation points by snapshot year.
-- Later: land-ad frequency, prominence and run time; testimony themes; treaty timeline.
 
-**How do your initial visualizations connect to the story you want to tell?**
-- Flow map: where veterans and widows moved.
-- Period borders and reservations: whose land it was, and when.
-- Land ads and testimony: how the land was sold and how people described their moves.
-- The prototype used modern borders and flagged Native land on only 99 ads, so v1 is drawn on a historical map.
-
-**What challenges have you encountered with the data or code, and what questions remain?**
-- Residence is where someone lived when they applied (1818–1850s), not where they first moved. For widows, it is the widow's own later address.
-- The ~47% and 52.8% "moved" figures conflict and need reconciling.
-- OCR quality varies. Regex gives false hits ("cession" in "concession"; Snow and Frost as surnames). Lexicon sentiment is too crude.
-- The newspapers skew to VA/DC/PA and to after 1795, with a gap in 1784–86. Maine was part of MA until 1820.
-- Royce shapes are generalised. ~30 reservations have only a probable polygon, and 6 allotment classes can't be mapped.
-- Block types and page sizes need checking before ad prominence can be measured.
-- Open:
-  - What are each signal's precision and coverage?
-  - Which model, if any, should handle themes and sentiment?
-  - Do ad peaks line up with treaty dates and arrival waves?
