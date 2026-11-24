@@ -8,9 +8,21 @@
  "bounds_order": "[west, south, east, north], degrees, cell edges",
  "crs": "EPSG:4326",
  "grid": "equirectangular lon/lat; in deck.gl set _imageCoordinateSystem: COORDINATE_SYSTEM.LNGLAT",
- "width": 4006,
- "height": 2704,
- "cell_deg": 0.008333333333333333,
+ "width": 2003,
+ "height": 1352,
+ "cell_deg": 0.016666666666666666,
+ "downsample": {
+  "factor": 2,
+  "method": "mean of land cells per block; land if >= 2 of 4 cells",
+  "source_cell_deg": 0.008333333333333333
+ },
+ "extent": [
+  -100.0,
+  24.908333333333328,
+  -66.61666666666667,
+  47.44166666666667
+ ],
+ "extent_note": "shared map extent = relief bounds; every web/data map layer is clipped to it (T-011)",
  "hillshade": {
   "azimuth": 315,
   "altitude": 45,
@@ -28,6 +40,7 @@
   }
  },
  "ocean": "transparent where z <= 0",
+ "lakes": "transparent inside the water.topojson lake polygons (T-011)",
  "elevation_m": [
   -6070.75,
   2390.353271484375
