@@ -1,9 +1,36 @@
-// C2: plane outlines, plane numbers, dotted corner guides.
+// C2: plane outlines, plane names ("01 Topography", T-023), dotted corner guides.
 import { PathLayer, ScatterplotLayer, SolidPolygonLayer, TextLayer } from '@deck.gl/layers';
 import { STACK, GAP_M, GUIDE_DOTS, COLORS } from './config.js';
-import { stack, stackProps } from './stack.js';
+import { stack, stackProps, planeZ } from './stack.js';
 
 const cornersOf = ([w, s, e, n]) => [[w, s], [e, s], [e, n], [w, n]];
+
+// B-044: a plane name ends a fixed few pixels left of the plane's SW corner (right-aligned to it). Where the
+// full name would run under the side panel or off the screen, only the number shows ("06"); if even that
+// won't fit, the number sits just inside the corner; if the corner itself is hidden, no name.
+const FONT = { size: 12, family: 'system-ui, sans-serif' };
+const LABEL_GAP = 6; // px
+const number = (index) => String(index + 1).padStart(2, '0');
+const fullName = ({ label, index }) => `${number(index)} ${label}`;
+let ctx;
+const textWidth = (text) => {
+  ctx ??= document.createElement('canvas').getContext('2d');
+  ctx.font = `${FONT.size}px ${FONT.family}`;
+  return ctx.measureText(text).width;
+};
+
+// One mode per plane: 'full', 'short', 'inside' or 'none'. viewport: the current WebMercatorViewport.
+export function labelModes(extent, viewport) {
+  const panel = document.getElementById('panel').getBoundingClientRect();
+  const [w, s] = extent;
+  return STACK.map((plane) => {
+    const [x, y] = viewport.project([w, s, planeZ(plane.index)]);
+    const left = y > panel.top - FONT.size && y < panel.bottom + FONT.size ? panel.right : 0;
+    if (x - LABEL_GAP - textWidth(fullName(plane)) >= left) return 'full';
+    if (x - LABEL_GAP - textWidth(number(plane.index)) >= left) return 'short';
+    return x >= left ? 'inside' : 'none';
+  });
+}
 
 // Invisible pickable fill of one plane, so hovering anywhere on it focuses that layer.
 // Alpha 1/255: alpha 0 would not be picked.
@@ -18,12 +45,10 @@ export function planeFill(extent, index, common) {
   });
 }
 
-export function frameLayers(extent, focus) {
+export function frameLayers(extent, focus, modes) {
   const corners = cornersOf(extent);
-  const [w, s] = corners[0];
-  const label = [w - (extent[2] - extent[0]) * 0.025, s];
 
-  const frames = STACK.flatMap(({ id, index }) => [
+  const frames = STACK.flatMap(({ id, label: name, index }) => [
     new PathLayer({
       id: `frame-${id}`,
       data: [{ path: [...corners, corners[0]] }],
@@ -36,17 +61,19 @@ export function frameLayers(extent, focus) {
     }),
     new TextLayer({
       id: `frame-number-${id}`,
-      data: [{ text: String(index + 1).padStart(2, '0'), position: label }],
+      data: [{ text: modes[index] === 'full' ? fullName({ label: name, index }) : number(index), position: corners[0] }],
       getPosition: (d) => d.position,
       getText: (d) => d.text,
-      getSize: 12,
+      getSize: FONT.size,
+      getPixelOffset: [modes[index] === 'inside' ? LABEL_GAP : -LABEL_GAP, 0],
       getColor: focus === id ? COLORS.frameFocus : COLORS.frame,
-      // Collapsed, the numbers 02–06 would sit on top of 01; they fade in as the stack opens.
+      // Collapsed, the names 02–06 would sit on top of 01; they fade in as the stack opens.
       opacity: index === 0 ? 1 : Math.min(1, stack.t * 3),
-      getTextAnchor: 'end',
+      getTextAnchor: modes[index] === 'inside' ? 'start' : 'end',
+      visible: modes[index] !== 'none',
       getAlignmentBaseline: 'center',
-      fontFamily: 'system-ui, sans-serif',
-      updateTriggers: { getColor: focus },
+      fontFamily: FONT.family,
+      updateTriggers: { getColor: focus, getPixelOffset: modes[index], getTextAnchor: modes[index] },
       ...stackProps(index),
     }),
   ]);

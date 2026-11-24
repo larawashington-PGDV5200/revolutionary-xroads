@@ -1,8 +1,9 @@
-import { Deck } from '@deck.gl/core';
+import { Deck, WebMercatorViewport } from '@deck.gl/core';
 import { INITIAL_VIEW, STACK, YEARS, STATE_NAMES } from './config.js';
 import { loadAll, loadPerson } from './data.js';
 import { stack, stackProps } from './stack.js';
-import { planeFill, frameLayers } from './frames.js';
+import { controller, getCursor, moveCamera, viewFor } from './camera.js';
+import { planeFill, frameLayers, labelModes } from './frames.js';
 import { fade, focus, hoverFrom, stackIdOf } from './focus.js';
 import { initUI } from './ui.js';
 import { topographyLayers } from './layers/L1-topography.js';
@@ -42,6 +43,12 @@ hint.hidden = true;
 // Drawn above every plane, so a hub can be hovered wherever the planes overlap on screen.
 const ON_TOP = new Set(['L4-hubs', 'L4-labels']);
 
+// B-044: the camera's current view, so the plane names can shorten where they would clip.
+let view = INITIAL_VIEW;
+let labelKey = '';
+const planeLabels = () =>
+  labelModes(data.extent, new WebMercatorViewport({ ...view, width: window.innerWidth, height: window.innerHeight }));
+
 function buildLayers() {
   const fills = [];
   const planes = STACK.flatMap(({ id, index }) => {
@@ -51,11 +58,13 @@ function buildLayers() {
     // C3: scale each layer's own opacity by its focus fade.
     return fade[id] === 1 ? layers : layers.map((l) => l.clone({ opacity: l.props.opacity * fade[id] }));
   });
+  const labels = planeLabels();
+  labelKey = labels.join();
   // Plane fills go first, so any feature (on any plane) wins the pick over an invisible fill.
   return [
     ...fills,
     ...planes.filter((l) => !ON_TOP.has(l.id)),
-    ...frameLayers(data.extent, focus.id),
+    ...frameLayers(data.extent, focus.id, labels),
     ...planes.filter((l) => ON_TOP.has(l.id)),
   ];
 }
@@ -118,10 +127,17 @@ const deck = new Deck({
   parent: document.getElementById('map'),
   initialViewState: INITIAL_VIEW,
   // C1: left-drag turns (horizontal = bearing) and tilts (vertical = pitch); right- or shift-drag pans.
-  controller: { dragMode: 'rotate' },
+  // T-023: plus inertia, smooth scroll zoom, double-click zoom, grab cursor (camera.js).
+  controller: controller(),
+  getCursor,
   getTooltip,
   onHover,
   onClick,
+  // B-044: redraw only when a plane name changes form (full, number only, inside, hidden).
+  onViewStateChange: ({ viewState }) => {
+    view = viewState;
+    if (planeLabels().join() !== labelKey) render();
+  },
   layers: buildLayers(),
 });
 
@@ -133,6 +149,27 @@ window.addEventListener('keydown', (e) => {
   render();
 });
 
+// T-023: the camera follows the stack: collapsed = fitted top-down view, exploded = INITIAL_VIEW.
+let collapsed = stack.t < 0.5;
+const frameView = (animate = true) => {
+  view = viewFor(collapsed, data.extent);
+  moveCamera(deck, view, animate);
+};
+function onStack(target) {
+  collapsed = target === 0;
+  frameView();
+}
+// While collapsed, a resize refits the extent at once. Either way the plane names are checked again.
+window.addEventListener('resize', () => {
+  if (collapsed) frameView(false);
+  render();
+});
+// Reset view: the button, or R (not while typing in a control).
+document.getElementById('reset').addEventListener('click', () => frameView());
+window.addEventListener('keydown', (e) => {
+  if ((e.key === 'r' || e.key === 'R') && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.closest?.('input, select, textarea')) frameView();
+});
+
 // C4: the drifting dots need a frame-by-frame redraw while the migration layer is on.
 const animate = () => {
   if (migrationAnimates(state)) render();
@@ -140,7 +177,7 @@ const animate = () => {
 };
 requestAnimationFrame(animate);
 
-initUI(state, data, render);
+initUI(state, data, render, onStack);
 
 state.person = await loadPerson(data, 'RI', '111524877');
 render();

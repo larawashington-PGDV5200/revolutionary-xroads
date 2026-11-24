@@ -569,6 +569,38 @@ Output: the files above.
 Report back: decision IDs added, PLAN sections changed.
 ```
 
+### B-043 Viz: camera fit, plane names, no moiré · coder · 2026-11-24 · T-023-camera-labels-moire.md
+**Status:** approved by Lara 2026-11-24 (layer 2 "Native land, as of year"; flat tints), sent 2026-11-24 · output reviewed by Lara: ☐
+```text
+Goal: smooth, self-framing camera; named planes; no moiré on layer 5.
+Context: T-017 Result (camera, frames.js, stack.js); config.js INITIAL_VIEW/NATIVE; ui.js explode button.
+Do: 1) Collapse → transition camera to pitch 0, bearing 0, fitBounds(extent) with padding, eased
+   ~800 ms, run alongside animateStack. Explode → back to INITIAL_VIEW. While collapsed, refit on resize.
+   2) Best-practice motion: controller inertia, smooth scroll zoom, zoom clamp, grab/grabbing cursor,
+   "Reset view" button + keyboard (R), double-click zooms; all transitions instant under
+   prefers-reduced-motion. 3) Plane labels: "01 Topography" etc. from STACK labels (frames.js).
+   4) Layer 2 title → "Native land, as of {year}" in legend (follows slider); plane label "Native land".
+   5) Layer 5: replace pixel hatches (ceded, before-1784 levels) with flat madder tints;
+   uncertainty = 3 alpha steps; update legend swatches.
+Don't: touch web/data or notebooks; add libraries; commit or push.
+Output: changes in web/src, index.html; Result section in T-023; screenshots in scratch.
+Report back: files changed, what each Done-when item showed, screenshot paths.
+```
+
+### B-044 Viz: set layer 5 apart from layer 2 · coder · 2026-11-24 · T-023-camera-labels-moire.md
+**Status:** approved by Lara 2026-11-24 ("outlines only"), sent 2026-11-24 · output reviewed by Lara: ☐
+```text
+Goal: layer 5 (ceded) reads clearly different from layer 2 (held) while both stay in the madder family.
+Context: T-023 Result; L5-reservations.js, config.js COLORS/NATIVE, ui.js legend.
+Do: 1) L5 ceded: thin madder outlines, no fill (keep a 1/255 fill for hover). Before-1784 zone: pale
+   warm-neutral tint, uncertainty as 3 alpha steps. 2) Legend swatches match. 3) Make the "high"
+   uncertainty level visible (map and swatch). 4) Plane names don't clip: right-align to the frame
+   corner or shorten at small zoom.
+Don't: hatches in pixel units; touch web/data; commit or push.
+Output: web/src changes; append to T-023 Result; screenshots collapsed + exploded in scratch.
+Report back: files changed, before/after screenshot paths.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

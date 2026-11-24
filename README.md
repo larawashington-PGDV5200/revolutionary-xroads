@@ -50,7 +50,7 @@ Data pipeline done for v2. The web viz is in [`web/`](web/) (deck.gl, six stacke
 - Improve tooltip function & legend
 - Map migration to counties and cities where possible (currently shows by state). 
 - Audit all agent researched data and verify sources. Write disclaimers for native land terriories lines drawn. 
-- Look at combining all native land as a single layer. Remove current moire pattern. 
+- Look at combining all native land as a single layer. 
 
 ## Prototypes
 

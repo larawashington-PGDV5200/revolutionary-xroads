@@ -1,11 +1,9 @@
 import { GeoJsonLayer, ScatterplotLayer } from '@deck.gl/layers';
-import { FillStyleExtension, PathStyleExtension } from '@deck.gl/extensions';
+import { PathStyleExtension } from '@deck.gl/extensions';
 import { COLORS, NATIVE } from '../config.js';
 import { royceLines } from './L2-not-ceded.js';
 
-const hatch = new FillStyleExtension({ proceduralPattern: true });
 const dash = new PathStyleExtension({ dash: true });
-const TAKEN_PATTERNS = Object.fromEntries(Object.entries(NATIVE.taken).map(([k, v]) => [k, v.pattern]));
 // Unknown or missing uncertainty is drawn as the least certain.
 const takenLevel = (f) => (NATIVE.taken[f.properties.uncertainty] ? f.properties.uncertainty : 'high');
 
@@ -20,21 +18,17 @@ export function reservationLayers(data, state, common) {
   const showRemoval = state.year >= 1830;
 
   return [
-    // "Taken before 1784": hatched, sparser and fainter where the bounding line is less certain (T-022).
+    // "Taken before 1784": a flat warm-neutral tint, fainter where the bounding line is less certain (T-022, B-044).
     new GeoJsonLayer({
       id: 'L5-before1784',
       data: data.before1784,
       filled: true,
       stroked: false,
       getFillColor: (f) => [...COLORS.taken.slice(0, 3), NATIVE.taken[takenLevel(f)].alpha],
-      extensions: [hatch],
-      fillPatternMapping: TAKEN_PATTERNS,
-      fillPatternSizeUnits: 'pixels',
-      getFillPattern: takenLevel,
       pickable: true,
       ...common,
     }),
-    // Left open (T-022 addendum): dashed outline, no hatch. The 1/255 fill only makes the area hoverable.
+    // Left open (T-022 addendum): dashed outline, no tint. The 1/255 fill only makes the area hoverable.
     new GeoJsonLayer({
       id: 'L5-before1784-open',
       data: data.before1784Open,
@@ -50,20 +44,17 @@ export function reservationLayers(data, state, common) {
       pickable: true,
       ...common,
     }),
-    // Ceded: the held madder, hatched, with a faint outline; no grey (D-028).
+    // Ceded: a thin madder outline, no fill, so it reads apart from the solid held land of L2 (D-028, B-044).
+    // The 1/255 fill only makes the area hoverable.
     new GeoJsonLayer({
       id: 'L5-ceded',
       data: ceded,
       filled: true,
       stroked: true,
-      getFillColor: COLORS.ceded,
+      getFillColor: [255, 255, 255, 1],
       getLineColor: COLORS.cededLine,
-      getLineWidth: 0.5,
+      getLineWidth: COLORS.cededWidth,
       lineWidthUnits: 'pixels',
-      extensions: [hatch],
-      fillPatternMapping: { ceded: NATIVE.cededHatch },
-      fillPatternSizeUnits: 'pixels',
-      getFillPattern: () => 'ceded',
       pickable: true,
       ...common,
     }),

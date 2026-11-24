@@ -9,6 +9,7 @@ html, body { margin: 0; height: 100%; background: #fff; color: #222; font: 13px/
   max-height: calc(100vh - 170px); overflow-y: auto;
 }
 #panel h1 { font-size: 14px; margin: 0; }
+#panel .buttons { display: flex; gap: 6px; }
 #panel fieldset { border: 1px solid #eee; margin: 0; padding: 6px 8px; }
 #toggles label { display: block; }
 
@@ -71,4 +72,5 @@ html, body { margin: 0; height: 100%; background: #fff; color: #222; font: 13px/
 .legend .sw i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; vertical-align: -1px; }
 .legend .sw i.dot { border-radius: 50%; vertical-align: middle; }
 .legend .sw i.line { height: 2px; vertical-align: middle; }
+.legend .sw i.outline { box-sizing: border-box; border: 1.25px solid; background: none; }
 .legend i.dash { display: inline-block; width: 14px; height: 0; border-top: 1.5px dashed; margin-right: 4px; vertical-align: middle; }

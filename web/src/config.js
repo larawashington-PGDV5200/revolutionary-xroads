@@ -11,12 +11,19 @@ export const INITIAL_VIEW = {
   bearing: -25,
   minPitch: 20,
   maxPitch: 85,
+  minZoom: 2, // T-023: zoom clamp, from the whole East to a county or two
+  maxZoom: 9,
   position: [0, 0, GAP_M * 2.5],
 };
 
+// T-023: collapsed, the camera looks straight down on plane 01, fitted to the extent. The orbit offset
+// goes to 0 (all planes sit at z = 0). Padding clears the side panel, the timeline and the plane label.
+export const COLLAPSED_VIEW = { pitch: 0, bearing: 0, minPitch: 0, position: [0, 0, 0] };
+export const FIT_PAD = { edge: 24, label: 100 };
+
 export const STACK = [
   { id: 'L1', label: 'Topography' },
-  { id: 'L2', label: 'Native land not yet ceded' },
+  { id: 'L2', label: 'Native land' },
   { id: 'L3', label: 'Land ads' },
   { id: 'L4', label: 'Migration' },
   { id: 'L5', label: 'Native land ceded' },
@@ -36,13 +43,14 @@ export const COLORS = {
   water: [120, 160, 190, 255],
   state: [60, 60, 60, 255],
   county: [170, 170, 170, 120],
-  // C5 / D-028: the Native layers are one madder family. Held = solid (L2); ceded = the same hue
-  // hatched (L5); reserves and removal routes = the dark madder.
+  // C5 / D-028: the Native layers are one madder family. Held = solid (L2); ceded = outline only, no fill
+  // (L5, B-044), in a darker madder so its edges still read over the held fill when collapsed; reserves and
+  // removal routes = the dark madder. The before-1784 zone is a warm neutral, outside the madder family.
   held: [158, 59, 46, 150], // #9E3B2E
   heldLine: [158, 59, 46, 230],
-  ceded: [158, 59, 46, 200], // hatch colour
-  cededLine: [158, 59, 46, 110],
-  taken: [158, 59, 46, 255], // before-1784 zone hatch; alpha set per uncertainty (NATIVE.taken)
+  cededLine: [122, 42, 32, 235], // #7A2A20, between held and reserve
+  cededWidth: 1.25, // px
+  taken: [176, 148, 118, 255], // #B09476 before-1784 zone tint; alpha set per uncertainty (NATIVE.taken)
   reserve: [107, 34, 25, 255], // #6B2219
   removal: [107, 34, 25, 220],
   ads: [40, 90, 160, 160],
@@ -84,19 +92,20 @@ export const FLOW = {
   particleKmPerS: 90, // drift speed
 };
 
-// C5: Native layers (T-019). Hatches are procedural (FillStyleExtension), sized in screen pixels.
+// C5: Native layers (T-019). T-023: flat tints, no screen-pixel hatches (they slid over the moving planes).
 export const NATIVE = {
+  l2Title: (year) => `Native land, as of ${year}`,
   l2Subtitle: 'Shaded until the year a treaty ceded it to the United States (Royce 1899, from 1784).',
-  cededHatch: { type: 'hatch', angle: 45, strokeWidth: 1, gap: 3 },
-  // "Taken before 1784" zone: sparser and fainter where the bounding line is less certain (T-022).
+  // "Taken before 1784" zone: fainter where the bounding line is less certain (T-022). Three alpha steps;
+  // B-044: "high" raised from 30 so it still shows on the white plane and in the swatch.
   taken: {
-    low: { pattern: { type: 'hatch', angle: 135, strokeWidth: 1.5, gap: 3 }, alpha: 210 },
-    medium: { pattern: { type: 'hatch', angle: 135, strokeWidth: 1, gap: 6 }, alpha: 150 },
-    high: { pattern: { type: 'hatch', angle: 135, strokeWidth: 1, gap: 11 }, alpha: 95 },
+    low: { alpha: 180 },
+    medium: { alpha: 120 },
+    high: { alpha: 70 },
   },
-  // R10 §3 page text. With no zone geometry, the first sentence drops "in this hatched zone".
+  // R10 §3 page text. With no zone geometry, the first sentence drops "in this shaded zone".
   pageNote: [
-    'Land in this hatched zone was taken from Native nations before 1784 by colonial governments, private deeds and ' +
+    'Land in this shaded zone was taken from Native nations before 1784 by colonial governments, private deeds and ' +
       'Crown treaties such as Fort Stanwix (1768); Royce maps only cessions to the United States from 1784, so these ' +
       'losses are not drawn here.',
     'Native communities did not leave with the land: the dots mark reserves and towns that remained, from Mashpee to ' +

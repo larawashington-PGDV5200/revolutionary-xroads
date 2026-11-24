@@ -8,7 +8,7 @@ import { officesOpen, urbanOpen } from './layers/L6-infrastructure.js';
 // Position on the slider track, 0–100 %.
 const pct = (year) => ((year - YEARS.min) / (YEARS.max - YEARS.min)) * 100;
 
-export function initUI(state, data, render) {
+export function initUI(state, data, render, onStack) {
   const toggles = document.getElementById('toggles');
   for (const { id, label, index } of [...STACK].reverse()) {
     const row = document.createElement('label');
@@ -28,13 +28,15 @@ export function initUI(state, data, render) {
     const target = stack.t < 0.5 ? 1 : 0;
     explode.textContent = target ? 'Collapse' : 'Explode';
     animateStack(target, render);
+    onStack(target); // T-023: the camera moves with the planes
   });
 
   const updateLegend = initLegend(state, data, render);
-  initNativeLegend(data);
+  const updateNative = initNativeLegend(state, data);
   const updateSettle = initSettleLegend(state, data);
   initTimeline(state, data, () => {
     updateLegend();
+    updateNative();
     updateSettle();
     render();
   });
@@ -76,30 +78,37 @@ function initLegend(state, data, render) {
 const css = (rgba) => `rgba(${rgba.slice(0, 3).join(',')},${(rgba[3] ?? 255) / 255})`;
 
 // C5 (T-019): Native layers 02 and 05, one madder family, and the "before 1784" note (R10 §3).
-function initNativeLegend(data) {
+function initNativeLegend(state, data) {
   const box = document.createElement('fieldset');
   box.className = 'legend';
-  const hatch = (angle, gap) => `background:repeating-linear-gradient(${angle}deg,${css(COLORS.ceded)} 0 1px,transparent 1px ${gap}px)`;
   const zone = data.before1784.length > 0;
   // T-022 page_note (one per piece, the same text): what the zone still leaves out.
   const extra = zone ? [...new Set(data.before1784Props.map((p) => p.page_note).filter(Boolean))] : [];
   // With the zone drawn, its note is in each piece's tooltip; without it, only the page note shows.
   const levels = zone
-    ? Object.entries(NATIVE.taken).map(([k, v]) => `<span class="sw"><i style="${hatch(-45, Math.ceil(v.pattern.gap / 2) + 1)};opacity:${v.alpha / 255}"></i>${k}</span>`).join('')
+    ? Object.entries(NATIVE.taken).map(([k, v]) => `<span class="sw"><i style="background:${css([...COLORS.taken.slice(0, 3), v.alpha])}"></i>${k}</span>`).join('')
     : '';
+  // T-023: layer 2 title follows the slider (reverses the D-028 title "Native land not yet ceded").
   box.innerHTML = `<legend>02 · 05 Native land</legend>
+    <p><strong id="l2-title"></strong></p>
     <p class="muted">${NATIVE.l2Subtitle}</p>
     <div class="keys">
       <span class="sw"><i style="background:${css(COLORS.held)}"></i>not yet ceded</span>
-      <span class="sw"><i style="${hatch(45, 4)}"></i>ceded</span>
+      <span class="sw"><i class="outline" style="border-color:${css(COLORS.cededLine)}"></i>ceded (outline)</span>
       <span class="sw"><i class="dot" style="background:${css(COLORS.reserve)}"></i>reserve</span>
       <span class="sw"><i class="line" style="background:${css(COLORS.removal)}"></i>removal route</span>
     </div>
     <p class="muted">Removal destinations show from the year a treaty assigned them.</p>
-    ${zone ? `<p class="muted">Taken before 1784; hatching thins where the line is less certain:</p><div class="keys three">${levels}</div>` : ''}
+    ${zone ? `<p class="muted">Taken before 1784; the tint fades where the line is less certain:</p><div class="keys three">${levels}</div>` : ''}
     ${data.before1784Open.length ? `<p class="muted"><i class="dash" style="border-color:${css(COLORS.taken)}"></i>left open: taken after 1784 by state treaties or never ceded; see note</p>` : ''}
     ${(zone ? [...NATIVE.pageNote, ...extra] : [NATIVE.pageNoteNoZone, NATIVE.pageNote[1]]).map((t) => `<p class="muted">${t}</p>`).join('')}`;
   document.getElementById('panel').append(box);
+  const title = box.querySelector('#l2-title');
+  const update = () => {
+    title.textContent = NATIVE.l2Title(state.year);
+  };
+  update();
+  return update;
 }
 
 // C6 (T-019): settlement dots for the decade shown.
