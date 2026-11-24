@@ -56,6 +56,8 @@ export async function loadAll() {
     stateCessions: toGeo(native, 'state_cessions'),
     before1784: before.filter((f) => f.geometry),
     before1784Props: before.map((f) => f.properties),
+    // T-022 addendum: areas left open (northern NY, Maine, Vermont), drawn as a dashed outline only.
+    before1784Open: native.objects.before_1784_open ? toGeo(native, 'before_1784_open').features : [],
     ads: ads.places,
     extent: bounds.extent,
     flows: stateFlows,

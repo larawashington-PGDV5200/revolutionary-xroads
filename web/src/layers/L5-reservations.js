@@ -1,9 +1,10 @@
 import { GeoJsonLayer, ScatterplotLayer } from '@deck.gl/layers';
-import { FillStyleExtension } from '@deck.gl/extensions';
+import { FillStyleExtension, PathStyleExtension } from '@deck.gl/extensions';
 import { COLORS, NATIVE } from '../config.js';
 import { royceLines } from './L2-not-ceded.js';
 
 const hatch = new FillStyleExtension({ proceduralPattern: true });
+const dash = new PathStyleExtension({ dash: true });
 const TAKEN_PATTERNS = Object.fromEntries(Object.entries(NATIVE.taken).map(([k, v]) => [k, v.pattern]));
 // Unknown or missing uncertainty is drawn as the least certain.
 const takenLevel = (f) => (NATIVE.taken[f.properties.uncertainty] ? f.properties.uncertainty : 'high');
@@ -30,6 +31,22 @@ export function reservationLayers(data, state, common) {
       fillPatternMapping: TAKEN_PATTERNS,
       fillPatternSizeUnits: 'pixels',
       getFillPattern: takenLevel,
+      pickable: true,
+      ...common,
+    }),
+    // Left open (T-022 addendum): dashed outline, no hatch. The 1/255 fill only makes the area hoverable.
+    new GeoJsonLayer({
+      id: 'L5-before1784-open',
+      data: data.before1784Open,
+      filled: true,
+      stroked: true,
+      getFillColor: [255, 255, 255, 1],
+      getLineColor: COLORS.taken,
+      getLineWidth: 1,
+      lineWidthUnits: 'pixels',
+      extensions: [dash],
+      getDashArray: [4, 3],
+      dashJustified: true,
       pickable: true,
       ...common,
     }),
@@ -88,6 +105,10 @@ export function reservationTooltip(layerId, object) {
     if (p.note) lines.push(p.note);
     if (p.uncertainty) lines.push(`Line position: ${p.uncertainty} uncertainty`);
     return lines.join('<br>');
+  }
+  if (layerId === 'L5-before1784-open') {
+    const flag = p.unverified ? '<br><em>unverified</em>' : '';
+    return `<strong>${p.label}</strong><br>${p.note}${flag}<br><span style="color:#777">${p.citation}</span>`;
   }
   if (layerId === 'L5-removal') {
     const route = p.TRALTNAME ? `<br>${p.TRALTNAME.replaceAll('|', ', ')}` : '';

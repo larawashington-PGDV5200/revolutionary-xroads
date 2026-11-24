@@ -536,6 +536,39 @@ Output: a "Verification" section appended to tasks/T-012-refine-master.md (pass/
 Report back: pass/fail counts, each failure in one line, screenshot folder.
 ```
 
+### B-040 C01: 1775–83 lines, northern NY open · coder · 2026-11-24 · T-022-trace-pre1784-lines.md
+**Status:** approved by Lara 2026-11-24 ("2 trace now"; northern NY "go with 2"), sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** C01_native.ipynb; web/data/native_land.topojson
+```text
+Goal: rebuild before_1784 with the 1775–83 lines and northern New York left open.
+Context: research/R11-pre1784-lines.md "Addendum (2026-11-24)" (new zone edge, segment notes, northern NY note text); pre1784_lines_R11.csv (160 rows); T-022 Result + Decision. Kernel: revx.
+Do: 1) New edge per the addendum: Fort Stanwix → Ohio to Cumberland mouth → Cumberland to Cumberland Gap → NC 1777 → Caesars Head + flagged ~14 km NC–SC join → DeWitt's Corner → augusta_1773_royce7 → Augusta 1763. Donelson, Lochaber, Hard Labour become interior lines (kept, role = interior). Drop augusta_1773 seq 4. Snap `mapped` vertices to the full-resolution Royce edges. 2) Northern NY: remove the due-north closure; zone stops at Wood Creek; add a `north_open` note feature/field with the addendum's text (cite start pages only). 3) Add a flag MAINE_VT_OPEN (default False) that, when True, removes interior Maine and Vermont the same way, with a note; don't switch it on. 4) Same uncertainty buckets, 3 km floor, notes, checks.
+Don't: write to data/raw; touch web/src or other notebooks; invent vertices; commit or push.
+Output: files in T-022; Result updated; preview PNG in scratch.
+Report back: zone area by bucket (before/after), closures still assumed, area Maine+VT would remove, preview path.
+```
+
+### B-041 Viz: show the "left open" areas · coder · 2026-11-24 · T-019-native-settlement-layers.md
+**Status:** orchestrator follow-up under master plan T-012 (Lara's option 2 for NY, Maine, Vermont), sent 2026-11-24 · output reviewed by Lara: ☐
+```text
+native_land.topojson now has `before_1784_open` (3 features: northern NY, Maine, Vermont; label, note, citation; ME/VT notes marked unverified). Draw them on layer 5 as an unfilled dashed outline (no hatch) with the note in the tooltip, and add one legend line ("left open: taken after 1784 by state treaties or never ceded; see note"). Build and take one screenshot of 1800 hovering northern NY. Only web/src; no web/data, no commit. Report: files changed, screenshot path.
+```
+
+### B-042 End-of-session log · scribe · 2026-11-24
+**Status:** required by CLAUDE.md rule 4 (end of session), sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** log/DECISIONS.md, docs/PLAN.md, docs/DATA.md, log/PROMPTS.md (statuses only)
+```text
+Goal: record this session's decisions and bring PLAN.md and DATA.md up to date.
+Context: tasks/T-012-refine-master.md (D-024–D-028 drafted there) and the Results of T-013–T-019, T-021, T-022; log/PROMPTS.md B-025–B-041; research/R9, R10, R11 and their addenda.
+Do: 1) Add to DECISIONS.md, same format: D-024 agents write viz code this pass; D-025 migration on the decade timeline (reverses D-016; decade = dated year else application year; 514 legs with no year excluded and counted on the page); D-026 settlement layer returns (reverses D-019): post offices (Blevins & Helbock, CC0) + Census urban places ≥ 2,500 (Gibson 1998), UN Degree of Urbanisation rejected; merged with routes as layer 6 "Settlement and routes"; D-027 steamboat rivers dropped from layer 6, canals kept; D-028 Native layers one madder family; layer 2 "Native land not yet ceded", layer 5 "Native land ceded" (Lara asked for "pre-Revolution Native territories"; rejected as inaccurate per R10); removal destinations dated by assignment (R10, destinations_R10.csv); D-029 data/raw stays write-protected; agents read new sources remotely (Natural Earth land, post offices); D-030 "Taken before 1784" zone traced from colonial treaty lines 1768–1777 with uncertainty hatching (Lara); northern NY, Maine and Vermont left open with notes (Lara, option 2); D-031 migration hubs at people-weighted state centres; origin colour for all flows; default = largest 40 flows per decade. Also record: master-plan approval model (Lara approves T-012 only; orchestrator dispatches sub-briefs); tester run stopped by Lara, deferred.
+2) PLAN.md: layer table (6 = Settlement and routes; 2/5 titles), §1 sources (post offices, Gibson, NE land, R10/R11), §3 Time (one decade timeline, Act markers), §4 files (settlements.json, before_1784, before_1784_open, flows/nodes shape), §6 workstreams status; "Open for Lara's Native pass": coastal Maine/older Vermont back into zone, force NC–SC join to high, 19 unverified destination rows, 1836 map check by eye, one-day-early cession dates, area 492 attribute.
+3) DATA.md: short notes on settlements caveats (geocoded offices skew long-lived; 1840 Gibson top-100 + carried; 2 unverified Philadelphia points) and migration decade caveat.
+4) PROMPTS.md: set "output reviewed by Lara: ☐" untouched; fix nothing else.
+Don't: change code, data or task files; invent decisions; keep docs short (decisions and why).
+Output: the files above.
+Report back: decision IDs added, PLAN sections changed.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

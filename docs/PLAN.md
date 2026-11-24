@@ -21,13 +21,13 @@ for detail (hover, click); toggle layers on and off.
 | # | Layer | Story it tells | Shows |
 |---|---|---|---|
 | 1 | Topography | the ground people crossed (it changes little 1763–1840) | hillshade, rivers, lakes, coast; period state borders as thin lines |
-| 2 | Land not yet ceded to the US | who held the land at the war's end | Royce areas not yet ceded, nation as the treaty names it; pre-1784 lines; NY state cessions as points; a note on what is missing |
+| 2 | Native land not yet ceded | who held the land, year by year | Royce areas not yet ceded, nation as the treaty names it; removal destinations from their assignment year; NY state cessions as points; a note on what is missing |
 | 3 | Land ads | where land was sold, and for how much | MVP: circles at the place the ad names, sized by number of ads. Later: acres, $/acre, ad image, paper + date |
 | 4 | **Migration** (main) | where veterans' households went | all-at-once flow map of every documented move: circle = people leaving a place, flow width = people moving; Pension Acts as markers/filters; click a veteran to see his path (born → enlisted/served → interim → applied from) |
-| 5 | Reservations and cessions | the countermovement | cessions by date (Royce); reservations by date established/ended; removal routes 1830s |
-| 6 | Infrastructure effect | what the movement built | roads, canals, railroads by opening year; named migration routes |
+| 5 | Native land ceded | the countermovement | the same polygons once ceded (hatched, same hue); reserves by date established/ended; removal routes 1830s; "Taken before 1784" zone (hatching by uncertainty) and areas left open (northern NY, Maine, Vermont) |
+| 6 | Settlement and routes | where people settled and what linked them | post offices and Census urban places ≥ 2,500 by year; railroads, canals, named roads by opening year (no steamboat rivers) |
 
-Order is bottom → top: ground → who was there → land offered → people moved → who was pushed out → what got built.
+Order is bottom → top: ground → who was there → land offered → people moved → who was pushed out → where people settled and what linked them.
 Each layer is a visual overlay on the same footprint. **No table joins** across layers 2, 3, 5, 6 and the
 households (D-012 still holds for joins).
 
@@ -49,12 +49,17 @@ no ML/LLM model on project data until the researcher compares options and Lara a
 | 2, 5 | R1 treaties, R4 reservations + T-002 points | labels, reserve dates and points | ours | **have** |
 | 1 | NOAA ETOPO 2022 (30″) | elevation → one hillshade image (ERDDAP subset lat 24–50, lon −100…−64) | permissive | **have** |
 | 1 | Natural Earth 10m rivers, lakes, coast | water lines (drop `featurecla = Reservoir`) | public domain | **have** |
-| 6 | Atack, Vanderbilt historical transport GIS | railroads (open by 1830–40, none west of the Mississippi), canals, steamboat rivers, by opening year ≤ 1840 | no licence stated; cite (Atack 2015; 2016; 2017). Lara emails him the finished project | **have** |
+| 6 | Atack, Vanderbilt historical transport GIS | railroads (open by 1830–40, none west of the Mississippi), canals, by opening year ≤ 1840 (steamboat rivers dropped, D-027) | no licence stated; cite (Atack 2015; 2016; 2017). Lara emails him the finished project | **have** |
 | 5, 6 | NPS National Historic Trails GIS | Trail of Tears (one route, undated); Old Natchez Trace not in NPS data → hand-trace | federal | **have** |
 | 6 | Named roads (National, Wilderness, Great Wagon, Genesee, Federal) | historian list (dates, endpoints) → hand-traced lines | ours | research |
 | 3 | McCusker (1978; 1992), currency tables | £ (state currency) → $ for $/acre; federal benchmarks ($2 in 1796, $1.25 in 1820) | citation | research |
 
-**Not used:** Native Land Digital (contemporary, approximate, no storing allowed), Whose Land (built on
+| 6 | Blevins & Helbock, US Post Offices (Harvard Dataverse) | post offices with established/discontinued years, geocoded | CC0 | **have** (read remotely, D-029) |
+| 6 | Gibson (1998), Census Working Paper 27 | urban places ≥ 2,500 by census 1790–1840 (+ hand coordinates) | public domain | **have** |
+| 1, 5 | Natural Earth 10m land | land mask for relief, borders, before-1784 zone | public domain | **have** (read remotely) |
+| 2, 5 | R10 removal destinations, R11 pre-1784 lines | assignment dates; colonial treaty lines 1768–1777 with uncertainty | ours | **have** |
+
+**Not used:** UN Degree of Urbanisation (modern grid method; R9), Native Land Digital (contemporary, approximate, no storing allowed), Whose Land (built on
 Native Land, Canada-focused, contemporary, no reuse terms; checked 2026-11-22), NHGIS (no
 redistribution), Rumsey rasters (NC licence; reference only), SI collections, NER, sentiment.
 
@@ -80,12 +85,10 @@ comes back, kept narrow:
    "unauthorized individuals at an unauthorized location."
 
 ## 3. Time
-**Migration (L4): all at once, Pension Acts as markers (Lara, 2026-11-23).** T-004 (S3) showed the
-data can't date most moves: of 5,577 moves dated at both ends the median range is 65 years, only 4.8%
-fit one decade, and 81% of moves ending 1763–1840 end at the application year. So L4 shows every
-documented move from the claims once (every consecutive pair of places in a person's file, not only origin → final), with the Acts (1818, 1820, 1832, 1836, 1848) as markers and as
-a filter by application cohort. The 1,121 moves with a dated "removed to" can be shown as dated detail.
-**Dated layers (2, 5, 6):** keep a year slider (decades), since cessions, reserves and roads have real dates.
+**One decade timeline for every layer (D-025, reverses D-016).** A leg's decade = its dated "removed to"
+year, else the application year; 514 legs with no year are excluded and counted on the page. Pension Act
+markers (1818, 1820, 1832, 1836, 1838) sit on the track with a strip of moves per decade. The 1830s/1840s
+spike is partly filing date (DATA.md). Default migration view = the largest 40 flows per decade (D-031).
 
 **Map extent:** residence places + 1°, west edge cut at −100° (ETOPO limit; drops 3 places, 4 rows:
 Clatsop OR, Butte CA, Calaveras CA; Lara, 2026-11-23). **Flow grain:** state to state on the map; click a
@@ -111,14 +114,15 @@ New, small, one file per layer for the web (GeoJSON/TopoJSON or JSON, in `web/da
 
 | File | Grain | Key fields |
 |---|---|---|
-| `flows.json` | from × to × Act cohort, over every documented leg (state; county where both known) | from, to, act_cohort, legs, people, claim_types |
+| `flows.json` | level × from × to × decade, over every documented leg (state; county where both known) | from, to, decade, legs, people, dated_legs, late_legs, served_legs, act_cohorts, claim_types |
 | `paths.json` + `paths/<state>.json` | person × stop, ordered; split by last stop's state (index + 33 files) | NAID, person, seq, place_id, state, kind (born / enlisted / served / removed_to / lived_since / married / now_resides), date, page |
-| `nodes.json` | place × Act cohort | place_id, lat, lon, people_left, people_arrived |
+| `nodes.json` | place × decade | place_id, lat, lon, people_left, people_arrived; state nodes: hub_lat, hub_lon, hub_people |
+| `settlements.json` | post office or urban place | kind (post_office / urban_2500), lat, lon, year_established, year_discontinued, pop by census, coord_source, unverified |
 | `ads_places.json` (MVP) | place × decade | n_ads, n_runs, n_ads_fallback, papers |
 | `ads.json` (after V1) | ad run | ad_id, paper, date, place_id, acres, price_as_stated, currency_as_stated, usd_per_acre, price_flag, image_url, text |
-| `native_land.topojson` | Royce polygon (every dated row, incl. after 1840) | cessnum, nation_as_named, cession_date |
+| `native_land.topojson` | Royce polygon (every dated row, incl. after 1840); `pre1784_lines`; `before_1784` zone pieces; `before_1784_open` | cessnum, nation_as_named, cession_date, assigned_year, nation_assigned, assigned_verified; zone: uncertainty (low/medium/high), note |
 | `reservations.json` | reserve | name, nation, start, end, lat, lon, coord_method |
-| `infrastructure.topojson` | line or point | kind (road/canal/rail/steamboat/route), name, year_open, year_exact, source |
+| `infrastructure.topojson` | line or point | kind (road/canal/rail/route), name, year_open, year_exact, source |
 | `removal_routes.topojson` | NPS segment, undated | all NPS columns |
 | `relief.png`, `water.topojson` | static | — |
 
@@ -153,8 +157,9 @@ Each needs a `tasks/T-NNN` before an agent writes it.
 | B-014 | L2 wording, pre-1784 lines, ad currency → $, road list | historian | done |
 | Data | T-005 V00_export, T-006 E01, T-007 C01, T-008 B01, T-009 D01 (§5a) | coder per task, Lara reviews | **done; data frozen for MVP** (2026-11-23) |
 | B-021 | currency rates check (VA, MD, DE, NC, GA, SC) | historian | done (R8) |
-| **MVP** | deck.gl stack, all six layers with real data; L4 all moves + one veteran's path; L3 circles by number of ads; decade slider for L2/5/6; explode/collapse; plain styling | Lara | **now** |
-| V1 | detail views, annotations, design pass, T-003 outlines | Lara | next |
+| **MVP** | deck.gl stack, all six layers with real data; L4 all moves + one veteran's path; L3 circles by number of ads; decade slider for L2/5/6; explode/collapse; plain styling | Lara | done |
+| Refine 1 | T-012 master plan: T-013–T-016, T-021, T-022 data; T-017–T-019 viz (agents, D-024) | orchestrator + agents | **done** (2026-11-24); tester deferred (D-033) |
+| V1 | detail views, annotations, styling pass, T-003 outlines | Lara | next |
 | Fixes | data fixes below | agents per task, Lara approves | after V1 |
 
 ### MVP: decisions applied as filters in the viz (no data rerun)
@@ -169,13 +174,21 @@ Each needs a `tasks/T-NNN` before an agent writes it.
    points (2 guessed counties); PA 1784/85 deed points; Wilderness Road wagon year (1795 or 1796).
 2. **C01:** +1 day on shifted USFS dates if confirmed; add PA 1784/85 deeds as `not_royce` points; drop the
    31 internal NPS segments; trim the web routes file to name, route, segment type, source.
-3. **D01:** clip lines to −100°; rail `year_open` rule above; tidal flag; drop R7 canal duplicates.
+3. **D01:** done in T-011/T-015 (clip, rail year rule, R7 canal duplicates; steamboat rivers dropped).
 4. **V00:** `served` as a person field, not a stop (residence-only legs).
 5. **B01 matcher:** old spellings (Culpepper, Berkley), plural "counties", "in this State" = paper's state,
    join OCR blocks that start mid-ad, town → county list (researcher finds a historical gazetteer first);
    count an ad in **every** place it names (sheriff lists explained on the page). Then choose the circle style.
 6. **B01 later:** per-ad IIIF crops (page sizes from `.chunks.json`), `ads.json`; $/acre from R8 if un-held.
 7. **Lara:** ask Atack about a licence before publishing derived lines.
+
+### Open for Lara's Native pass (2026-11-24)
+1. Coastal Maine and older Vermont back into the before-1784 zone (MAINE_VT_OPEN opens all of both).
+2. Force the assumed NC–SC join to high uncertainty.
+3. 19 unverified destination rows (destinations_R10.csv).
+4. Check the 1836 "Lands Assigned to Emigrant Indians" map by eye.
+5. One-day-early cession dates (fix 1 above).
+6. USFS area 492 attribute ("Santee Sioux" on a Cherokee polygon).
 
 ## Verification
 Assertion cells end every notebook. Each export states counts per bin. Historical claims, dates and

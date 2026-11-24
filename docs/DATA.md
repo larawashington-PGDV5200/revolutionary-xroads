@@ -74,3 +74,10 @@ R4 mapping: ~60 rows can be points; 6 dispersed allotment classes can't (Fort Ja
 - Households: served vs. final = 60,003 files, 53.7% moved (prototype 2: 59,757, 52.8%). Origin vs. final: 60,477, 54.3% moved, 11,176 moved west. Top flows: CT→NY 3,138 · MA→ME 2,671 · MA→NY 2,289 · VA→KY 1,675.
 - Moves view: 18,910 moves in 14,235 files; 5,577 dated at both ends; only 1,040 end by 1810 (964 files), which is why ads join by place × period only.
 - Reasons: "reasons for removing" statements in 2,079 transfer files (1,638 with a coded reason). Statement codes family, age_health, land_work and climate are 90–95% correct; poverty 75%, spouse 53%, pension_admin 15%. Declaration keywords near "moved" are mostly service narrative (conflict 0%, war_damage 11%, health 20%): keep them out of the viz.
+
+## Settlements (S01, 2026-11-24)
+- Post offices (Blevins and Helbock, CC0): only geocoded offices are drawn, which skews toward long-lived offices (13,469 of 20,008 established by 1840).
+- Gibson (1998) urban places ≥ 2,500: the 1840 list stops at the top 100, and 10 places are carried from 1830 (`carried_1840`). 111 places drawn, 14 on hand coordinates (`research/urban_coords_override.csv`). Moyamensing and Southwark (Philadelphia districts) are unverified landmark points.
+
+## Migration by decade (V00, 2026-11-24)
+- An undated leg takes the application year. The 1830s and 1840s spike (22,392 and 7,769 legs) is partly filing date: 9,336 and 4,609 legs there are `application`, not dated. 514 legs have no year and are excluded and counted.

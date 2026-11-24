@@ -123,3 +123,61 @@ D-001–D-003 were written after the fact (2026-10-30).
 ## D-023 OCR pin added to config.py; revx (.venv) kernel registered · 2026-11-23
 **Why:** the pin keeps remote queries reproducible; the old kernel launched a pipx Python without duckdb.
 **In → out:** B-010 findings → `rx-pipeline/config.py`, kernels
+
+## D-024 Agents write the viz code this pass · 2026-11-24
+**Why:** Lara's call, for refinement pass 1 (T-012). Exception to "Lara writes the viz code".
+**In → out:** T-012 → T-017–T-019 web changes
+**Prompt:** B-032–B-034, B-041
+
+## D-025 Migration joins the decade timeline · 2026-11-24
+**Why:** one slider for every layer; spikes after the Acts are accepted and explained by Act markers (T-012).
+**Decided:** reverses D-016. Decade = dated "removed to" year, else application year. 514 legs with no year are excluded and counted on the page. The cohort dropdown goes.
+**Rejected:** per-cohort view (dropdown removed).
+**In → out:** D-016, T-004 → T-013 flows/nodes by decade
+
+## D-026 Settlement layer returns, merged with routes as layer 6 · 2026-11-24
+**Why:** the layer needs dated points for places people moved into (T-012); the researcher compared sources in R9.
+**Decided:** reverses D-019. Post offices (Blevins & Helbock, CC0) plus Census urban places ≥ 2,500 (Gibson 1998). Layer 6 is "Settlement and routes".
+**Rejected:** UN Degree of Urbanisation (modern grid method, ≥ 50,000 people at ≥ 1,500/km², would leave almost no 1790–1840 cities).
+**In → out:** D-019, R9 → T-016 `settlements.json`
+**Prompt:** B-028, B-030
+
+## D-027 Steamboat rivers dropped from layer 6; canals kept · 2026-11-24
+**Why:** Lara: "keep railroads and traderoutes, remove all the rivers". Canals count as trade routes.
+**Decided:** layer 1 keeps its rivers and coast. Railroads, canals and named roads stay.
+**In → out:** D-020 → T-015 `infrastructure.topojson` (253 features)
+
+## D-028 Native layers in one madder family · 2026-11-24
+**Why:** Royce shows land not yet ceded, not original territory (R10).
+**Decided:** layer 2 "Native land not yet ceded"; layer 5 "Native land ceded". Removal destinations are dated by assignment (R10, destinations_R10.csv).
+**Rejected:** "pre-Revolution Native territories" (Lara's ask; inaccurate, Royce starts in 1784); "homelands" (some polygons are removal destinations).
+**In → out:** D-015, R10 → T-021 C01, T-019 styling
+**Prompt:** B-029, B-031
+
+## D-029 data/raw stays write-protected; new sources read remotely · 2026-11-24
+**Why:** protected by design (CLAUDE.md, never edit raw). Consistent with D-008.
+**Decided:** Natural Earth land and the post-office file are read remotely.
+**Rejected:** saving the post-office file to data/raw (T-016's original step 1).
+**In → out:** T-016 step 1 → B-030a, T-014, T-021
+
+## D-030 "Taken before 1784" zone from colonial treaty lines, with uncertainty hatching · 2026-11-24
+**Why:** the east has no Royce data, so the zone must be traced; Lara asked for hatching that varies to show uncertainty, plus a note on extrapolated stretches.
+**Decided:** zone traced from colonial treaty lines 1768–1777 (R11), with a 3 km uncertainty floor and low/medium/high buckets. Northern NY, Maine and Vermont are left open with notes (Lara, option 2; Maine/VT notes unverified). The 1775–83 cessions are added.
+**Rejected:** a due-north closure through northern NY; the Proclamation line as an edge (reference only).
+**In → out:** R10, R11 → T-022 `before_1784`, `before_1784_open`
+**Prompt:** B-035, B-036, B-038, B-040, B-041
+
+## D-031 Migration hubs and default view · 2026-11-24
+**Why:** hubs were plain state centroids, not where veterans lived (T-013). Origin colour for all flows so inbound flows to a hovered hub show where people came from; largest-40 default because a fixed ≥ 25 threshold left the 1770s–1800s empty. Both orchestrator calls under T-012.
+**Decided:** hubs at people-weighted state centres. Origin colour for all flows. Default view = the largest 40 flows per decade.
+**In → out:** T-013, T-018 → L4 migration layer
+**Prompt:** B-025, B-033
+
+## D-032 Master-plan approval model · 2026-11-24
+**Why:** Lara: "i only want to approve the master brief/plan of orchestrator agent who i trust to oversee all subagent tasks."
+**Decided:** Lara approves T-012 only. The orchestrator writes and dispatches sub-briefs and logs each in PROMPTS.md. Lara still commits and pushes.
+**In → out:** D-007 gates → B-025–B-041
+
+## D-033 Tester run stopped, deferred · 2026-11-24
+**Why:** Lara stopped B-039 before it reported. She will do a full pass of the Native zones herself (T-022).
+**In → out:** T-012 workstream D → deferred

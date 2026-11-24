@@ -71,3 +71,4 @@ html, body { margin: 0; height: 100%; background: #fff; color: #222; font: 13px/
 .legend .sw i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; vertical-align: -1px; }
 .legend .sw i.dot { border-radius: 50%; vertical-align: middle; }
 .legend .sw i.line { height: 2px; vertical-align: middle; }
+.legend i.dash { display: inline-block; width: 14px; height: 0; border-top: 1.5px dashed; margin-right: 4px; vertical-align: middle; }

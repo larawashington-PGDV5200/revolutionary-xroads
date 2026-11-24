@@ -97,6 +97,7 @@ function initNativeLegend(data) {
     </div>
     <p class="muted">Removal destinations show from the year a treaty assigned them.</p>
     ${zone ? `<p class="muted">Taken before 1784; hatching thins where the line is less certain:</p><div class="keys three">${levels}</div>` : ''}
+    ${data.before1784Open.length ? `<p class="muted"><i class="dash" style="border-color:${css(COLORS.taken)}"></i>left open: taken after 1784 by state treaties or never ceded; see note</p>` : ''}
     ${(zone ? [...NATIVE.pageNote, ...extra] : [NATIVE.pageNoteNoZone, NATIVE.pageNote[1]]).map((t) => `<p class="muted">${t}</p>`).join('')}`;
   document.getElementById('panel').append(box);
 }
