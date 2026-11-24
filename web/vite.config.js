@@ -1,11 +1,9 @@
 import { cpSync } from 'node:fs';
 import { defineConfig } from 'vite';
 
-// web/data/ is written by the rx-pipeline notebooks. Dev serves it at /data/...;
-// the build copies it to dist/data/ so the same fetch('data/...') paths work on GitHub Pages.
 export default defineConfig({
-  base: './',            // relative paths: works at /revolutionary-xroads/ on Pages
-  publicDir: false,      // no public/ folder; data/ is handled below
+  base: './',
+  publicDir: false,
   plugins: [
     {
       name: 'copy-data',
@@ -15,6 +13,6 @@ export default defineConfig({
       },
     },
   ],
-  build: { chunkSizeWarningLimit: 2000 },  // deck.gl alone is ~600 kB; expected
+  build: { chunkSizeWarningLimit: 2000 },
   server: { open: true },
 });

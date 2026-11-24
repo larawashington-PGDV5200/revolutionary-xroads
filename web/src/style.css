@@ -1,4 +1,3 @@
-/* Plain on purpose: white ground, small type. The design pass is V1. */
 html, body { margin: 0; height: 100%; background: #fff; color: #222; font: 13px/1.4 system-ui, sans-serif; }
 #map { position: absolute; inset: 0; }
 

@@ -325,6 +325,103 @@ Output: files in T-011; T-011 Result section filled in; relief preview PNG in yo
 Report back: feature counts before/after per object, relief.png size and dimensions, the check result, preview path.
 ```
 
+### B-025 V00 decade + hubs · coder · 2026-11-24 · T-013-v00-decade-hubs.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** V00_export.ipynb; web/data/flows.json, nodes.json
+```text
+Goal: give every migration leg a decade and every state a people-weighted hub position.
+Context: tasks/T-013-v00-decade-hubs.md; T-005 for the current export; docs/DATA.md. Kernel: revx (.venv).
+Do: per T-013. Re-run V00 top to bottom; assertion cells as listed.
+Don't: touch web/src or other web/ code; edit A*, B01, C01, D01, E01 notebooks, rx/, config.py, data/raw or data/processed; use any ML/LLM model; commit or push. Markdown only to describe the data.
+Output: files in T-013; T-013 Result section filled in.
+Report back: moves per decade (dated vs application), file sizes, totals check, any hub outside its state.
+```
+
+### B-026 E01 land mask + earth relief · coder · 2026-11-24 · T-014-e01-land-mask-earth.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** E01_base.ipynb; web/data/relief.png, relief_bounds.json, borders.topojson
+```text
+Goal: gap-free earth-toned relief and borders clipped to the coast.
+Context: tasks/T-014-e01-land-mask-earth.md; T-006, T-010, T-011 for the current notebook. Kernel: revx.
+Do: per T-014. Download only Natural Earth 10m land. Re-run E01 top to bottom.
+Don't: touch web/src; edit other notebooks, rx/, config.py or data/processed; change water.topojson geometry; use any ML/LLM model; commit or push.
+Output: files in T-014; Result section filled in; preview PNG (relief + borders) in your scratch folder.
+Report back: transparent-pixel counts before/after on land, relief.png size, border feature counts before/after, preview path.
+```
+
+### B-027 D01 routes only · coder · 2026-11-24 · T-015-d01-routes-only.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** D01_infrastructure.ipynb; web/data/infrastructure.topojson
+```text
+Goal: drop the steamboat rivers from layer 6 data and bake in the MVP filters.
+Context: tasks/T-015-d01-routes-only.md; T-009, T-011. Kernel: revx.
+Do: per T-015. Re-run D01 top to bottom.
+Don't: touch web/src; edit other notebooks, rx/, config.py, data/raw or data/processed; commit or push.
+Output: files in T-015; Result section filled in.
+Report back: counts by kind × decade before/after.
+```
+
+### B-028 Settlement source comparison · researcher · 2026-11-24
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** research/R9-settlements.md
+```text
+Goal: pick the source for dated settlements (post offices) and a "city" tier, 1763–1840.
+Context: tasks/T-012-refine-master.md (B1, D-026); map extent in web/data/relief_bounds.json (`extent`). Lara's leaning: post offices for settled places, period Census urban threshold (≥ 2,500) for cities; UN Degree of Urbanisation is a modern grid method.
+Do: 1) Blevins & Helbock "US Post Offices" (Harvard Dataverse): licence, fields (established/discontinued dates, coordinates, geocode precision), rows with established ≤ 1840 inside the extent, file size, download URL. 2) Census urban places ≥ 2,500 by decade 1790–1840 (e.g. Gibson 1998, Census working paper 27; or another public-domain table): licence, coverage, whether coordinates exist or must be geocoded. 3) One paragraph on the UN Degree of Urbanisation and why/why not. 4) Recommend one combination and how it maps to fields: place, lat, lon, year_established, year_discontinued, kind (post_office / urban_2500), population by decade.
+Don't: download more than metadata and a small sample (≤ 5 MB) to the scratch folder; write outside research/; use Native Land or NHGIS (no redistribution).
+Output: research/R9-settlements.md (short: table + recommendation + Chicago author-date citations).
+Report back: recommendation in 3 lines, row counts, licence of each.
+```
+
+### B-029 Native layers: name, removal destinations, the east · historian · 2026-11-24
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** research/R10-native-gaps.md
+```text
+Goal: close three gaps in the Native layers so they read honestly.
+Context: tasks/T-012-refine-master.md (B2, D-028); docs/PLAN.md §2; research/R1, R4, R7; web/data/reservations.json (66 rows, 17 end 1831–40). Royce starts at 1784 federal treaties; no New England, no NY state cessions.
+Do: 1) Layer 2 name: Lara wants something like "pre-Revolution Native territories" but Royce shows land not yet ceded, by year. Propose 3 accurate titles + one-line subtitles; recommend one. 2) Indian Territory removal destinations 1830–40 (Cherokee, Creek, Choctaw, Chickasaw, Seminole, plus northern removals to KS/IA): dates assigned, nations, and any public GIS/boundary source (licence) so the layer shows relocation, not only loss. 3) The east: is there any reusable dataset of colonial-era (pre-1784) Native land cessions? If not, draft 2 sentences of page text for a zone east of the 1763 Proclamation / 1768 Fort Stanwix lines marked "taken before 1784, not mapped by Royce".
+Don't: use Native Land Digital or Whose Land; paraphrase Native voices; write outside research/.
+Output: research/R10-native-gaps.md with Chicago author-date citations.
+Report back: recommended title, removal-destination source (or none), east wording.
+```
+
+### B-030 S01 settlements · coder · 2026-11-24 · T-016-s01-settlements.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012 (source per R9), sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** S01_settlements.ipynb; web/data/settlements.json; research/urban_places_gibson.csv
+```text
+Goal: build the dated settlements file (post offices + Census urban places ≥ 2,500), 1763–1840.
+Context: tasks/T-016-s01-settlements.md; research/R9-settlements.md; extent in web/data/relief_bounds.json. Kernel: revx.
+Do: per T-016. Download only the post-office file and the Gibson tables.
+Don't: touch web/src or any other notebook, rx/, config.py, data/processed; use a web geocoder or any ML/LLM model; commit or push.
+Output: files in T-016; Result section filled in.
+Report back: counts by kind × decade, file size, unmatched urban names.
+```
+
+### B-026a E01 follow-up: border holes · coder · 2026-11-24 · T-014-e01-land-mask-earth.md
+**Status:** orchestrator decision under master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+```text
+Clip borders only to the ocean and the five Great Lakes, not small inland lakes (avoids ~550 lake holes). Relief transparency unchanged. Re-run E01, keep every check, update T-014 Result and the preview. No web/src, no commit.
+```
+
+### B-029a Removal-destination hand table · historian · 2026-11-24
+**Status:** orchestrator follow-up under master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** research/destinations_R10.csv
+```text
+Build research/destinations_R10.csv: one row per Royce polygon used as a removal destination 1828–1840 (486, 487, 404, 489, 490, 492, 144, 498–505, Kansas/Iowa areas): cessnum, nation_assigned, assigned_date (as Kappler states), treaty, kappler_vol_page, prior_occupants, verified, note. Check against Kappler and the 1836 "Lands Assigned to Emigrant Indians" map. Write only that CSV + a short R10 addendum. Report row count and unverified rows.
+```
+
+### B-031 C01 destinations + before-1784 zone · coder · 2026-11-24 · T-021-c01-destinations-east.md
+**Status:** approved by Lara 2026-11-24 via master plan T-012, sent 2026-11-24 · output reviewed by Lara: ☐
+**Output:** C01_native.ipynb; web/data/native_land.topojson
+```text
+Goal: date removal-destination polygons as assignments and add a "Taken before 1784" zone.
+Context: tasks/T-021-c01-destinations-east.md; research/R10-native-gaps.md, destinations_R10.csv; T-007, T-010, T-011. Kernel: revx.
+Do: per T-021. Re-run C01 top to bottom.
+Don't: touch web/src or other notebooks, rx/, config.py; write to data/raw (read NE land remotely as E01 does); use any ML/LLM model; commit or push.
+Output: files in T-021; Result filled in; preview PNG in scratch.
+Report back: re-dated counts, overlap report, before-1784 area, preview path.
+```
+
 ## Sample prompts
 
 ### P-001 Set up the sandbox · 2026-10-29 · D-004

@@ -13,7 +13,7 @@
  "cell_deg": 0.016666666666666666,
  "downsample": {
   "factor": 2,
-  "method": "mean of land cells per block; land if >= 2 of 4 cells",
+  "method": "mean of all cells per block (T-014)",
   "source_cell_deg": 0.008333333333333333
  },
  "extent": [
@@ -28,18 +28,19 @@
   "altitude": 45,
   "z_factor": 5,
   "stretch": {
-   "method": "linear, land cells",
+   "method": "linear, land cells (z > 0)",
    "percentiles": [
     1,
     99
    ],
    "shade_range": [
-    0.471,
-    0.858
+    0.4713,
+    0.8579
    ]
-  }
+  },
+  "below_sea_level": "z < 0 set to 0 before shading (T-014)"
  },
- "ocean": "transparent where z <= 0",
+ "ocean": "transparent outside the Natural Earth 10m land polygons (T-014)",
  "lakes": "transparent inside the water.topojson lake polygons (T-011)",
  "elevation_m": [
   -6070.75,
@@ -63,5 +64,16 @@
    "bScaler": 0.00390625,
    "offset": -32768
   }
+ },
+ "colour": {
+  "lit": "#CDBB9A",
+  "shade": "#5E4A33",
+  "method": "linear in sRGB on the stretched shade (T-014)",
+  "mode": "RGBA"
+ },
+ "land_mask": {
+  "source": "Natural Earth 10m physical land v5 (Kelso and Patterson, n.d.), public domain, https://naciscdn.org/naturalearth/10m/physical/ne_10m_land.zip",
+  "minus": "water.topojson lakes",
+  "rule": "pixel opaque when its centre lies in the mask (T-014)"
  }
 }

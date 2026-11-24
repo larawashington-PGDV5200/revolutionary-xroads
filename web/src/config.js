@@ -1,9 +1,3 @@
-// Every constant the page uses lives here, so you can tune the look without touching layer code.
-import { ___ } from './blank.js';
-
-// Data extent from data/relief_bounds.json: [west, south, east, north] in degrees.
-export const BOUNDS = [-100.0, 24.908, -66.617, 47.442];
-
 export const INITIAL_VIEW = {
   longitude: -88,
   latitude: 32,
@@ -14,7 +8,6 @@ export const INITIAL_VIEW = {
   maxPitch: 60,
 };
 
-// The stack, bottom → top (PLAN.md). `index` decides each layer's height when exploded.
 export const STACK = [
   { id: 'L1', label: 'Topography' },
   { id: 'L2', label: 'Land not yet ceded' },
@@ -24,19 +17,13 @@ export const STACK = [
   { id: 'L6', label: 'Infrastructure' },
 ].map((d, index) => ({ ...d, index }));
 
-// Explode/collapse (step d).
-export const GAP_M = 120_000;   // metres between layers when fully exploded (tune by eye)
-export const EXPLODE_MS = 900;  // animation length
+export const GAP_M = 120_000;
+export const EXPLODE_MS = 900;
 
-// Time slider (step e). Applies to the dated layers 2, 5, 6 (and borders, ads).
 export const YEARS = { min: 1770, max: 1840, step: 10, start: 1790 };
-// Border snapshots that exist in borders.topojson (each shape has a `years` list).
 export const BORDER_SNAPSHOTS = [1784, 1790, 1800, 1810, 1820, 1830, 1840];
-
-// Pension Act cohorts in flows.json / nodes.json (`act_cohort`). 'all' = no filter.
 export const COHORTS = ['all', '1818-19', '1820-31', '1832-35', '1836-47', '1848+', 'unknown'];
 
-// Colours as [r, g, b, alpha 0–255]. Plain on purpose; the design pass comes in V1.
 export const COLORS = {
   water: [120, 160, 190, 255],
   state: [60, 60, 60, 255],

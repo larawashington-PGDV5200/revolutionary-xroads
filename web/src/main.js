@@ -1,13 +1,7 @@
-// Entry point. The pattern deck.gl uses (and this file follows):
-//   1. keep all app state in one object (`state`)
-//   2. a function turns state → a fresh list of layers (`buildLayers`)
-//   3. whenever state changes, hand deck.gl the new list (`render`)
-// Building new layer objects every time is cheap: deck.gl compares props with the last
-// frame and only re-uploads to the GPU what actually changed.
 import { Deck } from '@deck.gl/core';
 import { INITIAL_VIEW, STACK, YEARS } from './config.js';
 import { loadAll, loadPerson } from './data.js';
-import { stack, stackProps } from './stack.js';
+import { stackProps } from './stack.js';
 import { initUI } from './ui.js';
 import { topographyLayers } from './layers/L1-topography.js';
 import { notCededLayers } from './layers/L2-not-ceded.js';
@@ -28,24 +22,16 @@ const BUILDERS = {
 const state = {
   year: YEARS.start,
   cohort: 'all',
-  person: null,                                           // one veteran's path (L4)
+  person: null,
   visible: Object.fromEntries(STACK.map((l) => [l.id, true])),
 };
 
 const hint = document.getElementById('hint');
-const say = (msg) => { hint.textContent = msg; hint.hidden = !msg; };
-
-// Stop early with a readable message while the camera blanks (a1) are empty.
-if (Object.values(INITIAL_VIEW).some((v) => v === undefined)) {
-  say('Fill the ✏️ a1 blanks in src/config.js (INITIAL_VIEW) to see the map.');
-  throw new Error('INITIAL_VIEW has blanks');
-}
-
-say('Loading data…');
+hint.textContent = 'Loading data…';
+hint.hidden = false;
 const data = await loadAll();
-say('');
+hint.hidden = true;
 
-// Every layer of stack level L gets the same "common" props: its height and whether it's on.
 function buildLayers() {
   return STACK.flatMap(({ id, index }) => {
     const common = { ...stackProps(index), visible: state.visible[id] };
@@ -53,8 +39,6 @@ function buildLayers() {
   });
 }
 
-// Hover text. `object` is the picked data row (a GeoJSON feature, a CSV-like row, or a
-// flowmap object with type 'flow' or 'location'). Only layers with pickable: true are picked.
 function getTooltip({ object }) {
   if (!object) return null;
   if (object.type === 'flow') return `${object.origin.id} → ${object.dest.id}: ${object.count} people`;
@@ -66,21 +50,16 @@ function getTooltip({ object }) {
 const deck = new Deck({
   parent: document.getElementById('map'),
   initialViewState: INITIAL_VIEW,
-  controller: { dragMode: 'rotate' },       // drag = pan, ctrl/right-drag = rotate and tilt, scroll = zoom
+  controller: { dragMode: 'rotate' },
   getTooltip,
   layers: buildLayers(),
 });
 
-export function render() {
+function render() {
   deck.setProps({ layers: buildLayers() });
 }
 
 initUI(state, render);
 
-// Demo for step b3: one veteran with a long path (RI → CT → MA → CT → RI).
-// Later you'll set state.person from a click instead.
 state.person = await loadPerson(data, 'RI', '111524877');
 render();
-
-// Handy in the browser console while learning: type `rx.state`, `rx.data`, `rx.stack`.
-window.rx = { state, data, stack, deck, render };
